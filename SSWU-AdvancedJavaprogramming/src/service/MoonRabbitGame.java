@@ -25,7 +25,7 @@ public class MoonRabbitGame extends JFrame {
 	}
 	
 	private void initObject() {
-	    this.frontMap = new JLabel(new ImageIcon("image/Map1.png"));
+	    this.frontMap = new JLabel(new ImageIcon("image/stage1.png"));
 	    this.setContentPane(this.frontMap);
 	    this.setLayout((LayoutManager)null);
 	    this.player = new PlayerRabbit();
