@@ -1,5 +1,6 @@
 package component;
 
+import javax.annotation.processing.Generated;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
@@ -12,13 +13,14 @@ public class Turtle extends JLabel implements Moveable {
    private boolean left;
    private boolean right;
    private boolean startLeft;
+   private int state;	// 공격 당했는지 확인, 0은 공격 X, 1은 공격 당함
    private EnemyDirection enemyDirection;
    private boolean leftCrash;
    private boolean rightCrash;
    private static final int SPEED = 2;
    
-   private ImageIcon enemyR;
-   private ImageIcon enemyL;
+   private ImageIcon turtleR;
+   private ImageIcon turtleL;
 
    public Turtle() {
       this.initObject();
@@ -30,13 +32,14 @@ public class Turtle extends JLabel implements Moveable {
    }
    
    public void start() {
+	   this.state = 0;
 	   if (startLeft) this.left();
 	   else this.right();
    }
 
    public void initObject() {
-      this.enemyL = new ImageIcon("image/turtleL.png");
-      this.enemyR = new ImageIcon("image/turtleR.png");
+      this.turtleR = new ImageIcon("image/turtleL.png");
+      this.turtleR = new ImageIcon("image/turtleR.png");
    }
    
    // y 좌표를 토끼보다 5 크게 설정하면 토끼와 동일한 위치에 있음
@@ -45,9 +48,9 @@ public class Turtle extends JLabel implements Moveable {
       this.y = y;
       this.startLeft = left;
       if (startLeft) {
-         this.setIcon(this.enemyL);
+         this.setIcon(this.turtleL);
       } else {
-         this.setIcon(this.enemyR);
+         this.setIcon(this.turtleR);
       }
 
       this.setSize(50, 50);
@@ -63,7 +66,7 @@ public class Turtle extends JLabel implements Moveable {
    public void left() {
 	   System.out.println("LEFT");
 	   this.enemyDirection = EnemyDirection.LEFT;
-	   this.setIcon(this.enemyL);
+	   this.setIcon(this.turtleL);
 	   this.left = true;
 	   Thread t = new Thread(() -> {
 		   while (this.left) {
@@ -84,7 +87,7 @@ public class Turtle extends JLabel implements Moveable {
    public void right() {
 	   System.out.println("RIGHT");
 	   this.enemyDirection = EnemyDirection.RIGHT;
-	   this.setIcon(enemyR);
+	   this.setIcon(turtleR);
 	   this.right = true;
 	   Thread t = new Thread(() -> {
 		   while(this.right) {
@@ -99,5 +102,93 @@ public class Turtle extends JLabel implements Moveable {
 		   }
 	   });
 	   t.start();
+   }
+   
+   public int getX() {
+      return this.x;
+   }
+
+   public int getY() {
+      return this.y;
+   }
+
+   public boolean isLeft() {
+      return this.left;
+   }
+
+   public boolean isRight() {
+      return this.right;
+   }
+   
+   public boolean isstartLeft() {
+	   return this.startLeft;
+   }
+
+   public int getState() {
+      return this.state;
+   }
+
+   public EnemyDirection getEnemyDirection() {
+      return this.enemyDirection;
+   }
+
+   public boolean isLeftCrash() {
+      return this.leftCrash;
+   }
+
+   public boolean isRightCrash() {
+      return this.rightCrash;
+   }
+
+   public ImageIcon getTurtleR() {
+      return this.turtleR;
+   }
+
+   public ImageIcon getTurtleL() {
+      return this.turtleL;
+   }
+
+   public void setX(int x) {
+      this.x = x;
+   }
+
+   public void setY(int y) {
+      this.y = y;
+   }
+
+   public void setLeft(boolean left) {
+      this.left = left;
+   }
+
+   public void setRight(boolean right) {
+      this.right = right;
+   }
+   
+   public void setstartLeft(boolean startLeft) {
+	   this.startLeft = startLeft;
+   }
+
+   public void setState(int state) {
+      this.state = state;
+   }
+
+   public void setEnemyDirection(EnemyDirection enemyDirection) {
+      this.enemyDirection = enemyDirection;
+   }
+
+   public void setLeftCrash(boolean leftCrash) {
+      this.leftCrash = leftCrash;
+   }
+
+   public void setRightCrash(boolean rightCrash) {
+      this.rightCrash = rightCrash;
+   }
+
+   public void setTurtleR(ImageIcon turtleR) {
+      this.turtleR = turtleR;
+   }
+
+   public void setTurtleL(ImageIcon turtleL) {
+      this.turtleL = turtleL;
    }
 }
