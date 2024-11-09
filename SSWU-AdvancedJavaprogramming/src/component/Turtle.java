@@ -32,6 +32,8 @@ public class Turtle extends JLabel implements Moveable {
    }
    
    public void start() {
+	   System.out.println("start() 호출됨");
+	   this.initBackgroundTurtleService();
 	   this.state = 0;
 	   if (startLeft) this.left();
 	   else this.right();
@@ -57,9 +59,10 @@ public class Turtle extends JLabel implements Moveable {
       this.setLocation(this.x, this.y);
    }
    
-   private void initBackgroundEnemyService() {
-	      (new Thread(new BackgroundTurtleService(this))).start();
-	   }
+   private void initBackgroundTurtleService() {
+	   System.out.println("스레드 시작");
+	   (new Thread(new BackgroundTurtleService(this))).start();
+   }
 
    public void up() {
    }

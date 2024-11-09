@@ -28,12 +28,12 @@ public class MoonRabbitGame extends JFrame {
 	}
 	
 	private void initObject() {
-	    this.frontMap = new JLabel(new ImageIcon("image/stage1.png"));
+	    this.frontMap = new JLabel(new ImageIcon("image/background1.png"));
 	    this.setContentPane(this.frontMap);
 	    this.setLayout((LayoutManager)null);
 	    this.player = new PlayerRabbit();
-	    this.turtle = new Turtle(30, 560, true);
-	    this.frontMap.add(this.player);
+	    this.turtle = new Turtle(100, 560, true);
+	    //this.frontMap.add(this.player);
 	    this.frontMap.add(this.turtle);
 	}
 

@@ -25,15 +25,13 @@ public class BackgroundTurtleService implements Runnable {
 		// 살아 있으면 (= 공격 당하지 않았으면)
 		while (turtle.getState() == 0) {
 			try {
-				
 				Color leftColor = new Color(img.getRGB(turtle.getX() - 10, turtle.getY() + 25));
 				Color rightColor = new Color(img.getRGB(turtle.getX() + 50 + 10, turtle.getY() + 25));
-				System.out.println(leftColor);
-				System.out.println(rightColor);
 				
 				int bottomColor = img.getRGB(turtle.getX() + 10, turtle.getY() + 50 + 5)
 						+ img.getRGB(turtle.getX() + 50 - 10, turtle.getY() + 50 + 5);
-
+				
+				// 벽에 막힘
 				if (leftColor.getRed() == 255 && leftColor.getBlue() == 0 && leftColor.getGreen() == 0) {
 					System.out.println("왼쪽충돌");
 					turtle.setLeft(false);
@@ -48,6 +46,9 @@ public class BackgroundTurtleService implements Runnable {
 						turtle.left();
 					}
 				}
+				
+				// 바닥 없음
+				// if (bottomColor == )
 
 				Thread.sleep(10);
 			} catch (Exception e) {
