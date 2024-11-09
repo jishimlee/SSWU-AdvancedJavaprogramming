@@ -2,13 +2,14 @@ package component;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.xml.stream.events.StartDocument;
+import direction.PlayerDirection;
+import service.Moveable;
 
 public class PlayerRabbit extends JLabel implements Moveable {
 	// 위치 상태
 	private int x;
 	private int y;
-	playerDirection direction;
+	PlayerDirection direction;
 	// 움직임 상태
 	private boolean left;
 	private boolean right;
@@ -80,6 +81,7 @@ public class PlayerRabbit extends JLabel implements Moveable {
 		}).start();
 		
 	}
+	
 	@Override
 	public void left() {
 		left = true;
