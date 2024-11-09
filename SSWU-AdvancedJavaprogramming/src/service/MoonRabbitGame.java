@@ -1,41 +1,94 @@
 package service;
+// = bubblegame.class
+//import component.Frame1;
 
-import component.Turtle;
 import java.awt.Component;
 import java.awt.LayoutManager;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import component.PlayerRabbit;
+
 public class MoonRabbitGame extends JFrame {
-	// ** 여기부터 main 위까지 캐릭터 잘 뜨는지 확인용 코드 작성해뒀습니다!! **
-	   private JLabel stage1Map;
-	   private Turtle enemy;
-
-	   public MoonRabbitGame() {
-	      this.initObject();
-	      this.initSetting();
-	      this.setVisible(true);
-	   }
-
-	   private void initObject() {
-	      this.enemy = new Turtle(35, 558, false);
-	      this.stage1Map = new JLabel(new ImageIcon("image/stage1.png"));
-	   }
-
-	   private void initSetting() {
-	      this.setTitle("MoonRabbitGame");
-	      this.setSize(1010, 670);
-	      this.setLayout((LayoutManager)null);
-	      this.setDefaultCloseOperation(3);
-	      this.setLocationRelativeTo((Component)null);
-	      this.setContentPane(this.stage1Map);
-	      this.add(this.enemy);
-	   }
-	// ** 여기까지 지우셔도 괜찮습니다! **
+	private JLabel frontMap;
+	private PlayerRabbit player;
 	
-	public static void main(String[] args) {
-		new MoonRabbitGame();
+	public MoonRabbitGame() {
+		this.initObject();
+	    this.initSetting();
+	    this.initListener();
+	    this.setVisible(true);
+	}
+	
+	private void initObject() {
+	    this.frontMap = new JLabel(new ImageIcon("image/Map1.png"));
+	    this.setContentPane(this.frontMap);
+	    this.setLayout((LayoutManager)null);
+	    this.player = new PlayerRabbit();
+	    this.frontMap.add(this.player);
 	}
 
-}
+	private void initSetting() {
+	    this.setSize(1010, 670);
+	    this.setLayout(null);
+	    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    this.setLocationRelativeTo((Component)null);
+	}
+	
+	private void initListener() {
+	    addKeyListener(new KeyAdapter() {
+	        @Override
+	        public void keyPressed(KeyEvent e) {
+	            System.out.println(e.getKeyCode());
+	            
+	            switch(e.getKeyCode()) {
+	                case KeyEvent.VK_LEFT: 
+	                	if(!player.isLeft()) {
+	                		player.left();
+	                	}
+	                    break;
+	                case KeyEvent.VK_RIGHT: 
+	                	if(!player.isRight()) {
+	                		player.right();
+	                	}
+	                    break;
+	                case KeyEvent.VK_UP: 
+	                	if(!player.isUp()) {
+	                		player.up();
+	                	}
+	                    break;
+	                case KeyEvent.VK_DOWN: 
+	                	if(!player.isDown()) {
+	                		player.down();
+	                	}
+	                    break;
+	            }
+	        }
+	        
+	        @Override
+	        public void keyReleased(KeyEvent e) {  // 메서드 이름 수정
+	            
+	        	int keyCode = e.getKeyCode();
+                if (keyCode == KeyEvent.VK_LEFT) {
+                	player.setLeft(false); // 왼쪽 이동 멈추기
+                } else if (keyCode == KeyEvent.VK_RIGHT) {
+                	player.setRight(false);  // 오른쪽 이동 멈추기
+                } else if (keyCode == KeyEvent.VK_UP) {
+                    //up = false;  // 점프 멈추기
+                } else if (keyCode == KeyEvent.VK_DOWN) {
+                    //down = false;  // 내려가기 멈추기
+                }
+	        }
+	    });
+	}
+
+
+	
+	public static void main(String[] args) {
+	      new MoonRabbitGame();
+	 }
+} 
