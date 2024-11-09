@@ -2,7 +2,7 @@ package service;
 // = bubblegame.class
 //import component.Frame1;
 
-import java.awt.Component;
+import java.awt.Component; 
 import java.awt.LayoutManager;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -32,7 +32,7 @@ public class MoonRabbitGame extends JFrame {
 	    this.setContentPane(this.frontMap);
 	    this.setLayout((LayoutManager)null);
 	    this.player = new PlayerRabbit();
-	    this.turtle = new Turtle(700, 560, true);
+	    this.turtle = new Turtle(30, 560, true);
 	    this.frontMap.add(this.player);
 	    this.frontMap.add(this.turtle);
 	}

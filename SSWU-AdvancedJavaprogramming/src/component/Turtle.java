@@ -1,10 +1,10 @@
 package component;
 
-import javax.annotation.processing.Generated;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import direction.EnemyDirection;
+import service.BackgroundTurtleService;
 import service.Moveable;
 
 public class Turtle extends JLabel implements Moveable {
@@ -38,7 +38,7 @@ public class Turtle extends JLabel implements Moveable {
    }
 
    public void initObject() {
-      this.turtleR = new ImageIcon("image/turtleL.png");
+      this.turtleL = new ImageIcon("image/turtleL.png");
       this.turtleR = new ImageIcon("image/turtleR.png");
    }
    
@@ -56,6 +56,10 @@ public class Turtle extends JLabel implements Moveable {
       this.setSize(50, 50);
       this.setLocation(this.x, this.y);
    }
+   
+   private void initBackgroundEnemyService() {
+	      (new Thread(new BackgroundTurtleService(this))).start();
+	   }
 
    public void up() {
    }
