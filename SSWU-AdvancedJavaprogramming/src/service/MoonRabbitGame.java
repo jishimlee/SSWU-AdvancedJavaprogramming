@@ -12,10 +12,12 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import component.PlayerRabbit;
+import component.Turtle;
 
 public class MoonRabbitGame extends JFrame {
 	private JLabel frontMap;
 	private PlayerRabbit player;
+	private Turtle turtle;
 	
 	public MoonRabbitGame() {
 		this.initObject();
@@ -25,11 +27,13 @@ public class MoonRabbitGame extends JFrame {
 	}
 	
 	private void initObject() {
-	    this.frontMap = new JLabel(new ImageIcon("image/Map1.png"));
+	    this.frontMap = new JLabel(new ImageIcon("image/stage1.png"));
 	    this.setContentPane(this.frontMap);
 	    this.setLayout((LayoutManager)null);
 	    this.player = new PlayerRabbit();
+	    this.turtle = new Turtle(150, 560, true);
 	    this.frontMap.add(this.player);
+	    this.frontMap.add(this.turtle);
 	}
 
 	private void initSetting() {
@@ -86,7 +90,11 @@ public class MoonRabbitGame extends JFrame {
 	    });
 	}
 
-
+	private void initThread() {
+		new Thread(()->{
+			turtle.start();
+		}).start();
+	}
 	
 	public static void main(String[] args) {
 	      new MoonRabbitGame();

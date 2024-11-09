@@ -1,6 +1,6 @@
 package direction;
 
-enum EnemyDirection {
+public enum EnemyDirection {
    LEFT,
    RIGHT,
    UP,
