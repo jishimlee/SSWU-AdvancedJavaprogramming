@@ -67,7 +67,7 @@ public class Turtle extends JLabel implements Moveable {
 	   this.left = true;
 	   Thread t = new Thread(() -> {
 		   while (this.left) {
-			   this.x -= 3;
+			   this.x -= SPEED;
 			   this.setLocation(this.x, this.y);
 			   
 			   try {
@@ -88,7 +88,7 @@ public class Turtle extends JLabel implements Moveable {
 	   this.right = true;
 	   Thread t = new Thread(() -> {
 		   while(this.right) {
-			   this.x += 3;
+			   this.x += SPEED;
 			   this.setLocation(this.x, this.y);
 			   
 			   try {

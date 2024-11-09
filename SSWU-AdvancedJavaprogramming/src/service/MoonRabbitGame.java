@@ -23,6 +23,7 @@ public class MoonRabbitGame extends JFrame {
 		this.initObject();
 	    this.initSetting();
 	    this.initListener();
+	    this.initThread();
 	    this.setVisible(true);
 	}
 	
@@ -31,7 +32,7 @@ public class MoonRabbitGame extends JFrame {
 	    this.setContentPane(this.frontMap);
 	    this.setLayout((LayoutManager)null);
 	    this.player = new PlayerRabbit();
-	    this.turtle = new Turtle(150, 560, true);
+	    this.turtle = new Turtle(700, 560, true);
 	    this.frontMap.add(this.player);
 	    this.frontMap.add(this.turtle);
 	}
