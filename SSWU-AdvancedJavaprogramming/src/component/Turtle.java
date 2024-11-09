@@ -10,6 +10,13 @@ import service.Moveable;
 public class Turtle extends JLabel implements Moveable {
    private int x;
    private int y;
+   /*
+    * 1층: y = 560
+    * 2층: y = 455
+    * 3층: y = 340
+    * 4층: y = 232
+    * 5층: y = 128
+    */
    private boolean left;
    private boolean right;
    private boolean startLeft;

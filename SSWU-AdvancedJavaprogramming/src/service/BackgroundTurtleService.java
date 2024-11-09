@@ -25,12 +25,14 @@ public class BackgroundTurtleService implements Runnable {
 		// 살아 있으면 (= 공격 당하지 않았으면)
 		while (turtle.getState() == 0) {
 			try {
-				Color leftColor = new Color(img.getRGB(turtle.getX() - 10, turtle.getY() + 25));
-				Color rightColor = new Color(img.getRGB(turtle.getX() + 50 + 10, turtle.getY() + 25));
+				Color leftColor = new Color(img.getRGB(turtle.getX() - 7, turtle.getY() + 25));
+				Color rightColor = new Color(img.getRGB(turtle.getX() + 50 + 7, turtle.getY() + 25));
 				
-				int bottomColor = img.getRGB(turtle.getX() + 10, turtle.getY() + 50 + 5)
-						+ img.getRGB(turtle.getX() + 50 - 10, turtle.getY() + 50 + 5);
-				
+				Color leftBottom = new Color(img.getRGB(turtle.getX() - 10, turtle.getY() + 50));
+				Color rightBottom = new Color(img.getRGB(turtle.getX() + 50 + 7, turtle.getY() + 50));
+				int bottomColor = img.getRGB(turtle.getX() - 10, turtle.getY() + 50)
+						+ img.getRGB(turtle.getX() + 50 + 7, turtle.getY() + 50);
+								
 				// 벽에 막힘
 				if (leftColor.getRed() == 255 && leftColor.getBlue() == 0 && leftColor.getGreen() == 0) {
 					System.out.println("왼쪽충돌");
@@ -48,7 +50,23 @@ public class BackgroundTurtleService implements Runnable {
 				}
 				
 				// 바닥 없음
-				// if (bottomColor == )
+				if (bottomColor == -2) {
+					if (turtle.isLeft()) {
+						System.out.println("왼쪽 바닥 없음");
+						turtle.setLeft(false);
+						if (!turtle.isRight()) {
+							turtle.right();
+						}
+					}
+					else {
+						System.out.println("오른쪽 바닥 없음");
+						turtle.setRight(false);
+						if (!turtle.isLeft()) {
+							turtle.left();
+						}
+					}
+				}
+				
 
 				Thread.sleep(10);
 			} catch (Exception e) {
