@@ -40,7 +40,7 @@ public class Turtle extends JLabel implements Moveable {
    
    public void start() {
 	   System.out.println("start() 호출됨");
-	   this.initBackgroundTurtleService();
+	   //this.initBackgroundTurtleService();
 	   this.state = 0;
 	   if (startLeft) this.left();
 	   else this.right();

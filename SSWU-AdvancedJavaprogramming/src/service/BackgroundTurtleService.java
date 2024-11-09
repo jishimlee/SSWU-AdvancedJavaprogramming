@@ -30,8 +30,8 @@ public class BackgroundTurtleService implements Runnable {
 				
 				Color leftBottom = new Color(img.getRGB(turtle.getX() - 10, turtle.getY() + 50));
 				Color rightBottom = new Color(img.getRGB(turtle.getX() + 50 + 7, turtle.getY() + 50));
-				int bottomColor = img.getRGB(turtle.getX() - 10, turtle.getY() + 50)
-						+ img.getRGB(turtle.getX() + 50 + 7, turtle.getY() + 50);
+				/* int bottomColor = img.getRGB(turtle.getX() - 10, turtle.getY() + 50)
+						+ img.getRGB(turtle.getX() + 50 + 7, turtle.getY() + 50); */
 								
 				// 벽에 막힘
 				if (leftColor.getRed() == 255 && leftColor.getBlue() == 0 && leftColor.getGreen() == 0) {
@@ -49,8 +49,10 @@ public class BackgroundTurtleService implements Runnable {
 					}
 				}
 				
-				// 바닥 없음
-				if (bottomColor == -2) {
+				// 바닥 없으면
+				// 왼쪽 바닥의 RGB 값이 RGB(0, 0, 255)가 아니면
+				if (leftBottom.getRed() != 0 || leftBottom.getBlue() != 255 || leftBottom.getGreen() == 0) {
+					System.out.println("Left Bottom Color: " + leftBottom);
 					if (turtle.isLeft()) {
 						System.out.println("왼쪽 바닥 없음");
 						turtle.setLeft(false);
@@ -58,7 +60,7 @@ public class BackgroundTurtleService implements Runnable {
 							turtle.right();
 						}
 					}
-					else {
+					else if (rightBottom.getRed() != 0 || rightBottom.getBlue() != 255 || rightBottom.getGreen() == 0)  {
 						System.out.println("오른쪽 바닥 없음");
 						turtle.setRight(false);
 						if (!turtle.isLeft()) {
