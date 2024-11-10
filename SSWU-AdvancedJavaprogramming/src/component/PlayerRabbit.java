@@ -25,6 +25,7 @@ public class PlayerRabbit extends JLabel implements Moveable {
 	public PlayerRabbit() {
 	      this.initObject();
 	      this.initSetting();
+		this.initBackgroundRabbitService();
 	}
 
 	private void initObject() {
@@ -43,7 +44,9 @@ public class PlayerRabbit extends JLabel implements Moveable {
 	      this.setSize(30, 50);
 	      this.setLocation(this.x, this.y);
 	}
-	
+	private void initBackgroundRabbitService() {
+		new Thread(new BackgroundRabbitService(this)).start();
+	}
 	@Override
 	public void up() {
 		up =true;
