@@ -18,6 +18,8 @@ public class MoonRabbitGame extends JFrame {
 	private JLabel frontMap;
 	private PlayerRabbit player;
 	private Turtle turtle;
+	//private JLabel moonLabel;
+	//private JLabel heartLabel;
 	
 	public MoonRabbitGame() {
 		this.initObject();
@@ -33,6 +35,19 @@ public class MoonRabbitGame extends JFrame {
 	    this.setLayout((LayoutManager)null);
 	    this.player = new PlayerRabbit();
 	    this.turtle = new Turtle(200, 232, false);
+	    
+	    /*
+	     * this.moonLabel = new JLabel(new ImageIcon("image/moon1.png"));
+	     * this.moonLabel.setLocation(480, 40);
+	     * this.frontMap.add(this.moonLabel);
+	     */
+	    /*
+	     * this.heartLabel = new JLabel(new ImageIcon("image/heart.png"));
+	     * this.moonLabel.setLocation(100, 40);
+	     * this.frontMap.add(this.heartLabel);
+	     */
+	    
+	    
 	    this.frontMap.add(this.player);
 	    this.frontMap.add(this.turtle);
 	}
