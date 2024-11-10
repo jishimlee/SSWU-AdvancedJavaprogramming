@@ -28,8 +28,8 @@ public class BackgroundTurtleService implements Runnable {
 				Color leftColor = new Color(img.getRGB(turtle.getX() - 7, turtle.getY() + 25));
 				Color rightColor = new Color(img.getRGB(turtle.getX() + 50 + 7, turtle.getY() + 25));
 				
-				Color leftBottom = new Color(img.getRGB(turtle.getX() - 10, turtle.getY() + 50));
-				Color rightBottom = new Color(img.getRGB(turtle.getX() + 50 + 7, turtle.getY() + 50));
+				Color leftBottom = new Color(img.getRGB(turtle.getX() - 5, turtle.getY() + 50 + 10));
+				Color rightBottom = new Color(img.getRGB(turtle.getX() + 50 + 5, turtle.getY() + 50 + 10));
 				/* int bottomColor = img.getRGB(turtle.getX() - 10, turtle.getY() + 50)
 						+ img.getRGB(turtle.getX() + 50 + 7, turtle.getY() + 50); */
 								
@@ -49,25 +49,25 @@ public class BackgroundTurtleService implements Runnable {
 					}
 				}
 				
+				boolean leftBottomMissing = leftBottom.getRed() != 0 || leftBottom.getGreen() != 0 || leftBottom.getBlue() != 255;
+	            boolean rightBottomMissing = rightBottom.getRed() != 0 || rightBottom.getGreen() != 0 || rightBottom.getBlue() != 255;
+				
 				// 바닥 없으면
 				// 왼쪽 바닥의 RGB 값이 RGB(0, 0, 255)가 아니면
-				if (leftBottom.getRed() != 0 || leftBottom.getBlue() != 255 || leftBottom.getGreen() == 0) {
+				if (leftBottomMissing && turtle.isLeft()) {
 					System.out.println("Left Bottom Color: " + leftBottom);
-					if (turtle.isLeft()) {
-						System.out.println("왼쪽 바닥 없음");
-						turtle.setLeft(false);
-						if (!turtle.isRight()) {
-							turtle.right();
-						}
+					System.out.println("왼쪽 바닥 없음");
+					turtle.setLeft(false);
+					if (!turtle.isRight()) {
+						turtle.right();
 					}
-					else if (rightBottom.getRed() != 0 || rightBottom.getBlue() != 255 || rightBottom.getGreen() == 0)  {
-						System.out.println("오른쪽 바닥 없음");
-						turtle.setRight(false);
-						if (!turtle.isLeft()) {
-							turtle.left();
-						}
-					}
-				}
+				} else if (rightBottomMissing && turtle.isRight()) {
+	                System.out.println("오른쪽 바닥 없음");
+	                turtle.setRight(false);
+	                if (!turtle.isLeft()) {
+	                    turtle.left(); // 왼쪽으로 회전
+	                }
+	            }
 				
 
 				Thread.sleep(10);
