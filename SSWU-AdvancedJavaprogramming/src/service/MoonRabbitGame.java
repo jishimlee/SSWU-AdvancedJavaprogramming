@@ -39,6 +39,7 @@ public class MoonRabbitGame extends JFrame {
 
 	private void initSetting() {
 	    this.setSize(1010, 670);
+	    this.setResizable(false);	// 사이즈 변경 불가
 	    this.setLayout(null);
 	    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    this.setLocationRelativeTo((Component)null);
