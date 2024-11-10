@@ -11,6 +11,7 @@ public class Turtle extends JLabel implements Moveable {
    private int x;
    private int y;
    /*
+    * stage1 층별 y 좌표 값
     * 1층: y = 560
     * 2층: y = 455
     * 3층: y = 340
@@ -90,7 +91,7 @@ public class Turtle extends JLabel implements Moveable {
 			   try {
 				   Thread.sleep(10L);
 			   } catch (Exception e2) {
-				   System.out.println("\uc67c\ucabd \uc774\ub3d9\uc911 \uc778\ud130\ub7fd\ud2b8 \ubc1c\uc0dd : " + e2.getMessage());
+				   System.out.println("왼쪽 이동 중 인터럽트 발생: " + e2.getMessage());
 			   }
 			   
 		   }
@@ -111,7 +112,7 @@ public class Turtle extends JLabel implements Moveable {
 			   try {
 				   Thread.sleep(10L);
 			   } catch (Exception e2) {
-	               System.out.println("\uc624\ub978\ucabd \uc774\ub3d9\uc911 \uc778\ud130\ub7fd\ud2b8 \ubc1c\uc0dd : " + e2.getMessage());
+	               System.out.println("오른쪽 이동 중 인터럽트 발생: " + e2.getMessage());
 			   }
 		   }
 	   });
