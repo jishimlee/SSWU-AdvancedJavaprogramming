@@ -49,8 +49,11 @@ public class BackgroundTurtleService implements Runnable {
 					}
 				}
 				
-				boolean leftBottomMissing = leftBottom.getRed() != 0 || leftBottom.getGreen() != 0 || leftBottom.getBlue() != 255;
-	            boolean rightBottomMissing = rightBottom.getRed() != 0 || rightBottom.getGreen() != 0 || rightBottom.getBlue() != 255;
+				// 빨간색도 파란색도 아니면
+				boolean leftBottomMissing = (leftBottom.getRed() != 0 || leftBottom.getGreen() != 0 || leftBottom.getBlue() != 255) 
+                        && (leftBottom.getRed() != 255 || leftBottom.getGreen() != 0 || leftBottom.getBlue() != 0);
+	            boolean rightBottomMissing = (rightBottom.getRed() != 0 || rightBottom.getGreen() != 0 || rightBottom.getBlue() != 255) 
+                        && (rightBottom.getRed() != 255 || rightBottom.getGreen() != 0 || rightBottom.getBlue() != 0);
 				
 				// 바닥 없으면
 				// 왼쪽 바닥의 RGB 값이 RGB(0, 0, 255)가 아니면
