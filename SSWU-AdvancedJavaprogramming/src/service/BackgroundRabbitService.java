@@ -13,6 +13,7 @@ public class BackgroundRabbitService implements Runnable {
 	private PlayerRabbit player;
 	
 	public BackgroundRabbitService(PlayerRabbit player) {
+		this.player = player;
 		try {
 			image = ImageIO.read(new File("image/background1.png"));
 		}catch (Exception e) {
@@ -22,7 +23,7 @@ public class BackgroundRabbitService implements Runnable {
 	
 	@Override
 	public void run() {
-		/*Color color = new Color(image.getRGB(player.getX(), player.getY()));
-		System.out.println("색상: " + color);*/
+		Color color = new Color(image.getRGB(player.getX(), player.getY()));
+		System.out.println("색상: " + color);
 	}
 }

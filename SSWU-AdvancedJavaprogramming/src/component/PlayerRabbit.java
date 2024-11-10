@@ -4,6 +4,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import direction.PlayerDirection;
+import service.BackgroundRabbitService;
 import service.Moveable;
 
 public class PlayerRabbit extends JLabel implements Moveable {
@@ -25,7 +26,7 @@ public class PlayerRabbit extends JLabel implements Moveable {
 	public PlayerRabbit() {
 	      this.initObject();
 	      this.initSetting();
-		this.initBackgroundRabbitService();
+	      this.initBackgroundRabbitService();
 	}
 
 	private void initObject() {
