@@ -1,11 +1,11 @@
 package service;
 
 import java.awt.Color;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 
 import javax.imageio.ImageIO;
-
 import component.Turtle;
 
 public class BackgroundTurtleService implements Runnable {
@@ -30,8 +30,6 @@ public class BackgroundTurtleService implements Runnable {
 				
 				Color leftBottom = new Color(img.getRGB(turtle.getX() - 5, turtle.getY() + 50 + 10));
 				Color rightBottom = new Color(img.getRGB(turtle.getX() + 50 + 5, turtle.getY() + 50 + 10));
-				/* int bottomColor = img.getRGB(turtle.getX() - 10, turtle.getY() + 50)
-						+ img.getRGB(turtle.getX() + 50 + 7, turtle.getY() + 50); */
 								
 				// 벽에 막힘
 				if (leftColor.getRed() == 255 && leftColor.getBlue() == 0 && leftColor.getGreen() == 0) {
