@@ -49,11 +49,18 @@ public class MoonRabbitGame extends JFrame {
 	     * this.frontMap.add(this.heartLabel);
 	     */    
 	    
+	    /* moon1_30, moon1_40, moon5_40 변경하면서 크기 확인해보세요! */
+	    this.moonLabel = new JLabel(new ImageIcon("image/moon5_40.png"));
+	    this.moonLabel.setLocation(480, 40);
+		this.moonLabel.setSize(50, 50);
+		this.frontMap.add(this.moonLabel);
+	    
 	    this.frontMap.add(this.player);
 	    this.frontMap.add(this.turtle);
 	}
 
 	private void initSetting() {
+		this.setTitle("달토끼전");
 	    this.setSize(1010, 670);
 	    this.setResizable(false);	// 사이즈 변경 불가
 	    this.setLayout(null);
