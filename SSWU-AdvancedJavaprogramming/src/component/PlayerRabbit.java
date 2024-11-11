@@ -103,6 +103,7 @@ public class PlayerRabbit extends JLabel implements Moveable {
 			}
 		}).start();
 	}
+	
 	@Override
 	public void right() {
 		right = true;
@@ -120,6 +121,7 @@ public class PlayerRabbit extends JLabel implements Moveable {
 			}
 		}).start();
 	}
+	
 	public int getX() {
 		return x;
 	}
