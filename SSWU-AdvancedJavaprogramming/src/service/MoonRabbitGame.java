@@ -90,11 +90,11 @@ public class MoonRabbitGame extends JFrame {
 	                		player.up();
 	                	}
 	                    break;
-	                case KeyEvent.VK_DOWN: 
+	                /*case KeyEvent.VK_DOWN: 
 	                	if(!player.isDown()) {
 	                		player.down();
 	                	}
-	                    break;
+	                    break;*/
 	            }
 	        }
 	        
