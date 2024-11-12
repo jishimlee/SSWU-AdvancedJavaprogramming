@@ -34,7 +34,7 @@ public class PlayerRabbit extends JLabel implements Moveable {
 	     this.playerL = new ImageIcon("image/rabbitL.png");
 	 }
 	private void initSetting() {
-	      this.x = 35;
+	      this.x = 45;
 	      this.y = 555;
 	      this.left = false;
 	      this.right = false;
