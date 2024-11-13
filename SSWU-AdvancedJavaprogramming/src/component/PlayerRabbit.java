@@ -2,26 +2,28 @@ package component;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-
-import direction.PlayerDirection;
-import service.BackgroundRabbitService;
-import service.Moveable;
+import javax.xml.stream.events.StartDocument;
 
 public class PlayerRabbit extends JLabel implements Moveable {
 	// 위치 상태
 	private int x;
 	private int y;
-	private PlayerDirection direction;
+	playerDirection direction;
 	// 움직임 상태
 	private boolean left;
 	private boolean right;
 	private boolean up;
 	private boolean down;
+	// 벽에 충돌한 상태
+	private boolean leftWallCrash;
+	private boolean rightWallCrash;
+	// 속도 상태
 	private final int SPEED = 4;
 	private final int JUMPSPEED = 4;
+	
 	private ImageIcon playerR;
 	private ImageIcon playerL;
-	
+	private boolean isThreadRunning = false;
 	
 	public PlayerRabbit() {
 	      this.initObject();
@@ -34,17 +36,61 @@ public class PlayerRabbit extends JLabel implements Moveable {
 	     this.playerL = new ImageIcon("image/rabbitL.png");
 	 }
 	private void initSetting() {
-	      this.x = 35;
+	      this.x = 45;
 	      this.y = 555;
+	      
 	      this.left = false;
 	      this.right = false;
 	      this.up = false;
 	      this.down = false;
 	      
+	      this.leftWallCrash = false;
+	      this.rightWallCrash = false;
+	   
 	      this.setIcon(this.playerR);
 	      this.setSize(30, 50);
 	      this.setLocation(this.x, this.y);
 	}
+	public playerDirection getDirection() {
+		return direction;
+	}
+
+	public void setDirection(playerDirection direction) {
+		this.direction = direction;
+	}
+
+	public boolean isLeftWallCrash() {
+		return leftWallCrash;
+	}
+
+	public void setLeftWallCrash(boolean leftWallCrash) {
+		this.leftWallCrash = leftWallCrash;
+	}
+
+	public boolean isRightWallCrash() {
+		return rightWallCrash;
+	}
+
+	public void setRightWallCrash(boolean rightWallCrash) {
+		this.rightWallCrash = rightWallCrash;
+	}
+
+	public boolean isThreadRunning() {
+		return isThreadRunning;
+	}
+
+	public void setThreadRunning(boolean isThreadRunning) {
+		this.isThreadRunning = isThreadRunning;
+	}
+
+	public int getSPEED() {
+		return SPEED;
+	}
+
+	public int getJUMPSPEED() {
+		return JUMPSPEED;
+	}
+
 	private void initBackgroundRabbitService() {
 		new Thread(new BackgroundRabbitService(this)).start();
 	}
@@ -72,7 +118,7 @@ public class PlayerRabbit extends JLabel implements Moveable {
 		down =true;
 		
 		new Thread(() -> {
-			for(int i= 0; i<130/JUMPSPEED;i++) {
+			while(down) {
 				y += JUMPSPEED;
 				setLocation(x,y);
 				try {
@@ -89,11 +135,10 @@ public class PlayerRabbit extends JLabel implements Moveable {
 	@Override
 	public void left() {
 		left = true;
-		
 		new Thread(()-> {
 			while(left) {
 				setIcon(playerL);
-				x -=SPEED;
+				x = x - SPEED;
 				setLocation(x,y);
 				try {
 					Thread.sleep(10);
@@ -101,9 +146,8 @@ public class PlayerRabbit extends JLabel implements Moveable {
 						e.printStackTrace();
 				}
 			}
-		}).start();
+		}).start(); 
 	}
-	
 	@Override
 	public void right() {
 		right = true;
@@ -121,7 +165,6 @@ public class PlayerRabbit extends JLabel implements Moveable {
 			}
 		}).start();
 	}
-	
 	public int getX() {
 		return x;
 	}
