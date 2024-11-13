@@ -5,6 +5,7 @@ import javax.swing.JLabel;
 
 import direction.EnemyDirection;
 import service.BackgroundTurtleService;
+import service.MoonRabbitGame;
 import service.Moveable;
 
 public class Turtle extends JLabel implements Moveable {
@@ -26,6 +27,7 @@ public class Turtle extends JLabel implements Moveable {
    private boolean leftCrash;
    private boolean rightCrash;
    private static final int SPEED = 1;
+   private MoonRabbitGame game;
    
    private ImageIcon turtleR;
    private ImageIcon turtleL;
@@ -37,6 +39,7 @@ public class Turtle extends JLabel implements Moveable {
    public Turtle(int x, int y, boolean left) {
       this.initObject();
       this.initSetting(x, y, left);
+      this.game = game;
    }
    
    public void start() {
@@ -69,7 +72,7 @@ public class Turtle extends JLabel implements Moveable {
    
    private void initBackgroundTurtleService() {
 	   System.out.println("스레드 시작");
-	   (new Thread(new BackgroundTurtleService(this))).start();
+	   (new Thread(new BackgroundTurtleService(this, game))).start();
    }
 
    public void up() {

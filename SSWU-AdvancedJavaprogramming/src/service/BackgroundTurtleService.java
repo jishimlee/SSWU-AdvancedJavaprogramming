@@ -17,7 +17,7 @@ public class BackgroundTurtleService implements Runnable {
 	private MoonRabbitGame game;
 	private String backgroundPath;
 	
-	public BackgroundTurtleService(Turtle turtle) {
+	public BackgroundTurtleService(Turtle turtle, MoonRabbitGame game) {
 		this.turtle = turtle;
 		this.game = game;	// 현재 실행 중인 stage 값 받아오기 위함
 		stage = game.getStageNumber();

@@ -1,10 +1,11 @@
 package service;
 
 import java.awt.image.BufferedImage;
+
 import java.io.*;
 import javax.imageio.ImageIO;
 import component.PlayerRabbit;
-import component.GameFrame1;
+import service.MoonRabbitGame;
 import javax.swing.*;
 import java.awt.*;
 
