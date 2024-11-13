@@ -4,10 +4,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import direction.EnemyDirection;
+import main.MoonRabbitGame;
 import service.BackgroundWildBoarService;
-import service.MoonRabbitGame;
 import service.Moveable;
-import service.MoonRabbitGame;
 
 public class WildBoar  extends JLabel implements Moveable {
 	   private int x;

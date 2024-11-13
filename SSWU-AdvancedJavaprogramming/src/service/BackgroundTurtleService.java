@@ -8,7 +8,7 @@ import java.io.File;
 
 import javax.imageio.ImageIO;
 import component.Turtle;
-import service.MoonRabbitGame;
+import main.MoonRabbitGame;
 
 public class BackgroundTurtleService implements Runnable {
 	private BufferedImage img;

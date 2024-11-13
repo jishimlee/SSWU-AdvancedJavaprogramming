@@ -5,7 +5,8 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import javax.imageio.ImageIO;
 import component.PlayerRabbit;
-import service.MoonRabbitGame;
+import main.MoonRabbitGame;
+
 import javax.swing.*;
 import java.awt.*;
 

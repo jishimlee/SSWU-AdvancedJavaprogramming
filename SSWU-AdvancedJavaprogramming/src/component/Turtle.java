@@ -4,8 +4,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import direction.EnemyDirection;
+import main.MoonRabbitGame;
 import service.BackgroundTurtleService;
-import service.MoonRabbitGame;
 import service.Moveable;
 
 public class Turtle extends JLabel implements Moveable {
@@ -36,7 +36,7 @@ public class Turtle extends JLabel implements Moveable {
       this.initObject();
    }
 
-   public Turtle(int x, int y, boolean left) {
+   public Turtle(int x, int y, boolean left, MoonRabbitGame game) {
       this.initObject();
       this.initSetting(x, y, left);
       this.game = game;

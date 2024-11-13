@@ -1,4 +1,4 @@
-package service;
+package main;
 // = bubblegame.class
 //import component.Frame1;
 
@@ -12,13 +12,14 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import component.PlayerRabbit;
+import component.Turtle;
 import component.WildBoar;
 
 public class MoonRabbitGame extends JFrame {
 	private int stageNumber;	// 1~5, 시작 전후 화면은 별도의 번호로 설정하도록 함 -> 다음 스테이지로 넘어갈 때 이 Number도 업데이트 해줘야 됨
 	private JLabel frontMap;
 	private PlayerRabbit player;
-	private WildBoar wildboar;
+	private Turtle turtle;
 	private JLabel moonLabel;
 	//private JLabel heartLabel;
 	
@@ -35,7 +36,7 @@ public class MoonRabbitGame extends JFrame {
 	    this.setContentPane(this.frontMap);
 	    this.setLayout((LayoutManager)null);
 	    this.player = new PlayerRabbit();
-	    this.wildboar = new WildBoar(200, 230, false, this);
+	    this.turtle = new Turtle(200, 230, false, this);
 	    
 	    /*
 	     * this.moonLabel = new JLabel(new ImageIcon("image/moon1.png"));
@@ -57,7 +58,7 @@ public class MoonRabbitGame extends JFrame {
 		this.frontMap.add(this.moonLabel);
 	    
 	    this.frontMap.add(this.player);
-	    this.frontMap.add(this.wildboar);
+	    this.frontMap.add(this.turtle);
 	}
 
 	private void initSetting() {
@@ -119,7 +120,7 @@ public class MoonRabbitGame extends JFrame {
 
 	private void initThread() {
 		new Thread(()->{
-			wildboar.start();
+			turtle.start();
 		}).start();
 	}
 	

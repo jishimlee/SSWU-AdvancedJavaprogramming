@@ -7,6 +7,7 @@ import java.io.File;
 import javax.imageio.ImageIO;
 
 import component.Monkey;
+import main.MoonRabbitGame;
 
 public class BackgroundMonkeyService implements Runnable {
 	private BufferedImage img;

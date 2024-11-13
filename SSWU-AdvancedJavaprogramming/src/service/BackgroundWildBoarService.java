@@ -7,7 +7,7 @@ import java.io.File;
 import javax.imageio.ImageIO;
 
 import component.WildBoar;
-import service.MoonRabbitGame;
+import main.MoonRabbitGame;
 
 public class BackgroundWildBoarService implements Runnable {
 	private BufferedImage img;

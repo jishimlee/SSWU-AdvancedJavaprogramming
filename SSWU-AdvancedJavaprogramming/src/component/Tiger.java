@@ -4,9 +4,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import direction.EnemyDirection;
+import main.MoonRabbitGame;
 import service.BackgroundTigerService;
 import service.Moveable;
-import service.MoonRabbitGame;
 
 public class Tiger extends JLabel implements Moveable {
 	   private int x;
