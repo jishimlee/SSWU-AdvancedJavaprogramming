@@ -2,7 +2,7 @@ package service;
 // = bubblegame.class
 //import component.Frame1;
 
-import java.awt.Component; 
+import java.awt.Component;
 import java.awt.LayoutManager;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -12,12 +12,13 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import component.PlayerRabbit;
-import component.Turtle;
+import component.WildBoar;
 
 public class MoonRabbitGame extends JFrame {
+	private int stageNumber;	// 1~5, 시작 전후 화면은 별도의 번호로 설정하도록 함 -> 다음 스테이지로 넘어갈 때 이 Number도 업데이트 해줘야 됨
 	private JLabel frontMap;
 	private PlayerRabbit player;
-	private Turtle turtle;
+	private WildBoar wildboar;
 	private JLabel moonLabel;
 	//private JLabel heartLabel;
 	
@@ -34,7 +35,7 @@ public class MoonRabbitGame extends JFrame {
 	    this.setContentPane(this.frontMap);
 	    this.setLayout((LayoutManager)null);
 	    this.player = new PlayerRabbit();
-	    this.turtle = new Turtle(200, 232, false);
+	    this.wildboar = new WildBoar(200, 230, false, this);
 	    
 	    /*
 	     * this.moonLabel = new JLabel(new ImageIcon("image/moon1.png"));
@@ -50,16 +51,17 @@ public class MoonRabbitGame extends JFrame {
 	     */    
 	    
 	    /* moon1_30, moon1_40, moon5_40 변경하면서 크기 확인해보세요! */
-	    this.moonLabel = new JLabel(new ImageIcon("image/moon5_40.png"));
+	    this.moonLabel = new JLabel(new ImageIcon("image/moon5.png"));
 	    this.moonLabel.setLocation(480, 40);
 		this.moonLabel.setSize(50, 50);
 		this.frontMap.add(this.moonLabel);
 	    
 	    this.frontMap.add(this.player);
-	    this.frontMap.add(this.turtle);
+	    this.frontMap.add(this.wildboar);
 	}
 
 	private void initSetting() {
+		this.stageNumber = 1;
 		this.setTitle("달토끼전");
 	    this.setSize(1010, 670);
 	    this.setResizable(false);	// 사이즈 변경 불가
@@ -117,8 +119,16 @@ public class MoonRabbitGame extends JFrame {
 
 	private void initThread() {
 		new Thread(()->{
-			turtle.start();
+			wildboar.start();
 		}).start();
+	}
+	
+	public int getStageNumber() {
+		return stageNumber;
+	}
+
+	public void setStageNumber(int stageNumber) {
+		this.stageNumber = stageNumber;
 	}
 	
 	public static void main(String[] args) {

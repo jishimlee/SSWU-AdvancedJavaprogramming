@@ -1,27 +1,25 @@
 package service;
 
 import java.awt.Color;
-
-
 import java.awt.image.BufferedImage;
 import java.io.File;
 
 import javax.imageio.ImageIO;
-import component.Turtle;
+
+import component.Tiger;
 import service.MoonRabbitGame;
 
-public class BackgroundTurtleService implements Runnable {
+public class BackgroundTigerService implements Runnable {
 	private BufferedImage img;
-	private Turtle turtle;
+	private Tiger tiger;
 	private int stage;
 	private MoonRabbitGame game;
 	private String backgroundPath;
 	
-	public BackgroundTurtleService(Turtle turtle) {
-		this.turtle = turtle;
+	public BackgroundTigerService(Tiger tiger, MoonRabbitGame game) {
+		this.tiger = tiger;
 		this.game = game;	// 현재 실행 중인 stage 값 받아오기 위함
 		stage = game.getStageNumber();
-		System.out.println("현재 스테이지는 stage " + stage + "입니다.");
 		try {
 			if (stage == 1)	backgroundPath = "background1.png";
 			else if (stage == 2) backgroundPath = "background2.png";
@@ -37,27 +35,27 @@ public class BackgroundTurtleService implements Runnable {
 	
 	public void run() {
 		// 살아 있으면 (= 공격 당하지 않았으면)
-		while (turtle.getState() == 0) {
+		while (tiger.getState() == 0) {
 			try {
-				Color leftColor = new Color(img.getRGB(turtle.getX() - 7, turtle.getY() + 25));
-				Color rightColor = new Color(img.getRGB(turtle.getX() + 50 + 7, turtle.getY() + 25));
+				Color leftColor = new Color(img.getRGB(tiger.getX() - 7, tiger.getY() + 25));
+				Color rightColor = new Color(img.getRGB(tiger.getX() + 50 + 7, tiger.getY() + 25));
 				
-				Color leftBottom = new Color(img.getRGB(turtle.getX() - 5, turtle.getY() + 50 + 10));
-				Color rightBottom = new Color(img.getRGB(turtle.getX() + 50 + 5, turtle.getY() + 50 + 10));
+				Color leftBottom = new Color(img.getRGB(tiger.getX() - 5, tiger.getY() + 50 + 10));
+				Color rightBottom = new Color(img.getRGB(tiger.getX() + 50 + 5, tiger.getY() + 50 + 10));
 								
 				// 벽에 막힘
 				if (leftColor.getRed() == 255 && leftColor.getBlue() == 0 && leftColor.getGreen() == 0) {
 					System.out.println("왼쪽충돌");
-					turtle.setLeft(false);
-					if (!turtle.isRight()) {
-						turtle.right();
+					tiger.setLeft(false);
+					if (!tiger.isRight()) {
+						tiger.right();
 					}
 
 				} else if (rightColor.getRed() == 255 && rightColor.getBlue() == 0 && rightColor.getGreen() == 0) {
 					System.out.println("오른쪽충돌");
-					turtle.setRight(false);
-					if (!turtle.isLeft()) {
-						turtle.left();
+					tiger.setRight(false);
+					if (!tiger.isLeft()) {
+						tiger.left();
 					}
 				}
 				
@@ -69,18 +67,18 @@ public class BackgroundTurtleService implements Runnable {
 				
 				// 바닥 없으면
 				// 왼쪽 바닥의 RGB 값이 RGB(0, 0, 255)가 아니면
-				if (leftBottomMissing && turtle.isLeft()) {
+				if (leftBottomMissing && tiger.isLeft()) {
 					System.out.println("Left Bottom Color: " + leftBottom);
 					System.out.println("왼쪽 바닥 없음");
-					turtle.setLeft(false);
-					if (!turtle.isRight()) {
-						turtle.right();
+					tiger.setLeft(false);
+					if (!tiger.isRight()) {
+						tiger.right();
 					}
-				} else if (rightBottomMissing && turtle.isRight()) {
+				} else if (rightBottomMissing && tiger.isRight()) {
 	                System.out.println("오른쪽 바닥 없음");
-	                turtle.setRight(false);
-	                if (!turtle.isLeft()) {
-	                    turtle.left(); // 왼쪽으로 회전
+	                tiger.setRight(false);
+	                if (!tiger.isLeft()) {
+	                	tiger.left(); // 왼쪽으로 회전
 	                }
 	            }
 				
