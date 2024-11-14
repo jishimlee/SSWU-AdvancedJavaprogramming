@@ -23,11 +23,11 @@ public class BackgroundTurtleService implements Runnable {
 		stage = game.getStageNumber();
 		System.out.println("현재 스테이지는 stage " + stage + "입니다.");
 		try {
-			if (stage == 1)	backgroundPath = "background1.png";
-			else if (stage == 2) backgroundPath = "background2.png";
-			else if (stage == 3) backgroundPath = "background3.png";
-			else if (stage == 4) backgroundPath = "background4.png";
-			else if (stage == 5) backgroundPath = "background5.png";
+			if (stage == 1)	backgroundPath = "image/background1.png";
+			else if (stage == 2) backgroundPath = "image/background2.png";
+			else if (stage == 3) backgroundPath = "image/background3.png";
+			else if (stage == 4) backgroundPath = "image/background4.png";
+			else if (stage == 5) backgroundPath = "image/background5.png";
 			
 			img = ImageIO.read(new File(backgroundPath));
 		} catch (Exception e) {
