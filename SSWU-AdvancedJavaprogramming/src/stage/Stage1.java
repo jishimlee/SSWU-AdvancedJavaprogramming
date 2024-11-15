@@ -14,7 +14,6 @@ public class Stage1 extends JPanel {
     private JLabel heartLabel;
     private PlayerRabbit player;
     private Turtle turtle;
-    private Toad toad;
 
     public Stage1(MoonRabbitGame game) {
         this.game = game;
