@@ -38,52 +38,53 @@ public class BackgroundToadService implements Runnable {
 		// 살아 있으면 (= 공격 당하지 않았으면)
 		while (toad.getState() == 0) {
 			try {
+				// 1번 점프당 x 기준 80 이동
 				Color leftColor = new Color(img.getRGB(toad.getX() - 7, toad.getY() + 25));
 				Color rightColor = new Color(img.getRGB(toad.getX() + 50 + 7, toad.getY() + 25));
 				
-				Color leftBottom = new Color(img.getRGB(toad.getX() - 5, toad.getY() + 50 + 10));
-				Color rightBottom = new Color(img.getRGB(toad.getX() + 50 + 5, toad.getY() + 50 + 10));
-								
-				// 벽에 막힘
-				if (leftColor.getRed() == 255 && leftColor.getBlue() == 0 && leftColor.getGreen() == 0) {
-					System.out.println("왼쪽충돌");
-					toad.setLeft(false);
-					if (!toad.isRight()) {
-						toad.right();
+				if (!toad.isJumping()) {
+					Color leftBottom = new Color(img.getRGB(toad.getX() - 5 - 80, toad.getY() + 50 + 10));
+					Color rightBottom = new Color(img.getRGB(toad.getX() + 50 + 5 - 80, toad.getY() + 50 + 10));
+									
+					// 벽에 막힘
+					if (leftColor.getRed() == 255 && leftColor.getBlue() == 0 && leftColor.getGreen() == 0) {
+						System.out.println("왼쪽충돌");
+						toad.setLeft(false);
+						if (!toad.isRight()) {
+							toad.right();
+						}
+	
+					} else if (rightColor.getRed() == 255 && rightColor.getBlue() == 0 && rightColor.getGreen() == 0) {
+						System.out.println("오른쪽충돌");
+						toad.setRight(false);
+						if (!toad.isLeft()) {
+							toad.left();
+						}
 					}
-
-				} else if (rightColor.getRed() == 255 && rightColor.getBlue() == 0 && rightColor.getGreen() == 0) {
-					System.out.println("오른쪽충돌");
-					toad.setRight(false);
-					if (!toad.isLeft()) {
-						toad.left();
-					}
+					
+					// 빨간색도 파란색도 아니면
+					boolean leftBottomMissing = (leftBottom.getRed() != 0 || leftBottom.getGreen() != 0 || leftBottom.getBlue() != 255) 
+	                        && (leftBottom.getRed() != 255 || leftBottom.getGreen() != 0 || leftBottom.getBlue() != 0);
+		            boolean rightBottomMissing = (rightBottom.getRed() != 0 || rightBottom.getGreen() != 0 || rightBottom.getBlue() != 255) 
+	                        && (rightBottom.getRed() != 255 || rightBottom.getGreen() != 0 || rightBottom.getBlue() != 0);
+					
+					// 바닥 없으면
+					// 왼쪽 바닥의 RGB 값이 RGB(0, 0, 255)가 아니면
+					if (leftBottomMissing && toad.isLeft()) {
+						System.out.println("Left Bottom Color: " + leftBottom);
+						System.out.println("왼쪽 바닥 없음");
+						toad.setLeft(false);
+						if (!toad.isRight()) {
+							toad.right();
+						}
+					} else if (rightBottomMissing && toad.isRight()) {
+		                System.out.println("오른쪽 바닥 없음");
+		                toad.setRight(false);
+		                if (!toad.isLeft()) {
+		                	toad.left(); // 왼쪽으로 회전
+		                }
+		            }
 				}
-				
-				// 빨간색도 파란색도 아니면
-				boolean leftBottomMissing = (leftBottom.getRed() != 0 || leftBottom.getGreen() != 0 || leftBottom.getBlue() != 255) 
-                        && (leftBottom.getRed() != 255 || leftBottom.getGreen() != 0 || leftBottom.getBlue() != 0);
-	            boolean rightBottomMissing = (rightBottom.getRed() != 0 || rightBottom.getGreen() != 0 || rightBottom.getBlue() != 255) 
-                        && (rightBottom.getRed() != 255 || rightBottom.getGreen() != 0 || rightBottom.getBlue() != 0);
-				
-				// 바닥 없으면
-				// 왼쪽 바닥의 RGB 값이 RGB(0, 0, 255)가 아니면
-				if (leftBottomMissing && toad.isLeft()) {
-					System.out.println("Left Bottom Color: " + leftBottom);
-					System.out.println("왼쪽 바닥 없음");
-					toad.setLeft(false);
-					if (!toad.isRight()) {
-						toad.right();
-					}
-				} else if (rightBottomMissing && toad.isRight()) {
-	                System.out.println("오른쪽 바닥 없음");
-	                toad.setRight(false);
-	                if (!toad.isLeft()) {
-	                	toad.left(); // 왼쪽으로 회전
-	                }
-	            }
-				
-
 				Thread.sleep(10);
 			} catch (Exception e) {
 				System.out.println("Error : " + e.getMessage());

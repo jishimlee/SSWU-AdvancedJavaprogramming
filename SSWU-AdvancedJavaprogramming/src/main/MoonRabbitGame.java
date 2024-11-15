@@ -4,6 +4,7 @@ package main;
 
 
 import java.awt.CardLayout;
+
 import java.awt.Component;
 
 import java.awt.LayoutManager;
@@ -21,7 +22,7 @@ import component.Turtle;
 import component.WildBoar;
 
 import stage.Stage1;
-import stage.Stage2;
+// import stage.Stage2;
 
 public class MoonRabbitGame extends JFrame {
 	private int stageNumber;	// 1~5, 시작 전후 화면은 별도의 번호로 설정하도록 함 -> 다음 스테이지로 넘어갈 때 이 Number도 업데이트 해줘야 됨
@@ -62,7 +63,7 @@ public class MoonRabbitGame extends JFrame {
 	private void loadStage(int stageNumber) {
 	    switch (stageNumber) {
 	        case 1:
-	            Stage2 stage2 = new Stage2(this); // Stage2 로드, 실험위해 stage2로 함
+	            Stage1 stage2 = new Stage1(this); // Stage2 로드, 실험위해 stage2로 함
 	            this.player = stage2.getPlayer(); // player를 가져옴
 	            stagePanel.add(stage2, "Stage2");
 	            break;
