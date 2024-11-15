@@ -1,6 +1,7 @@
 package component;
 
 import javax.swing.ImageIcon;
+
 import javax.swing.JLabel;
 
 import direction.EnemyDirection;
