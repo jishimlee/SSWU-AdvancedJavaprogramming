@@ -8,6 +8,7 @@ import direction.EnemyDirection;
 import main.MoonRabbitGame;
 import service.BackgroundTurtleService;
 import service.Moveable;
+import stage.Stage1;
 
 public class Turtle extends JLabel implements Moveable {
    private int x;
@@ -37,11 +38,16 @@ public class Turtle extends JLabel implements Moveable {
       this.initObject();
    }
 
-   public Turtle(int x, int y, boolean left, MoonRabbitGame game) {
+   public Turtle(int x, int y, boolean left, Object game) {
       this.initObject();
       this.initSetting(x, y, left);
-      this.game = game;
-   }
+      //일단 해놈. 수정해야함!
+      if (game instanceof MoonRabbitGame) {
+          this.game = (MoonRabbitGame) game;
+      } else if (game instanceof Stage1) {
+          this.game = ((Stage1) game).getGame(); // Stage1이 MoonRabbitGame 반환 가능
+      }
+  }
    
    public void start() {
 	   System.out.println("start() 호출됨");

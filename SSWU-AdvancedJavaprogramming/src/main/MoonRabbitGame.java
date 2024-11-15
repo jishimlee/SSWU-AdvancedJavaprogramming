@@ -2,7 +2,10 @@ package main;
 // = bubblegame.class
 //import component.Frame1;
 
+
+import java.awt.CardLayout;
 import java.awt.Component;
+
 import java.awt.LayoutManager;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -10,33 +13,72 @@ import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import component.PlayerRabbit;
 import component.Turtle;
 import component.WildBoar;
 
+import stage.Stage1;
+
 public class MoonRabbitGame extends JFrame {
 	private int stageNumber;	// 1~5, 시작 전후 화면은 별도의 번호로 설정하도록 함 -> 다음 스테이지로 넘어갈 때 이 Number도 업데이트 해줘야 됨
-	private JLabel frontMap;
+	//private JLabel frontMap;
+	private CardLayout cardLayout;
+	private JPanel stagePanel;
 	private PlayerRabbit player;
-	private Turtle turtle;
-	private JLabel moonLabel;
+	//private Turtle turtle;
+	//private JLabel moonLabel;
 	//private JLabel heartLabel;
 	
 	public MoonRabbitGame() {
-		this.initObject();
+		this.stageNumber = 1;
+		initLayout();
+        loadStage(stageNumber);
+        initListener();
+        this.setVisible(true);
+		
+		/*this.initObject();
 	    this.initSetting();
 	    this.initListener();
 	    this.initThread();
-	    this.setVisible(true);
+	    this.setVisible(true);*/
 	}
 	
-	private void initObject() {
+	private void initLayout() {
+        this.setTitle("달토끼전");
+        this.setSize(1010, 670);
+        this.setResizable(false);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setLocationRelativeTo(null);
+
+        cardLayout = new CardLayout();
+        stagePanel = new JPanel(cardLayout);
+        this.setContentPane(stagePanel);
+    }
+	
+	private void loadStage(int stageNumber) {
+	    switch (stageNumber) {
+	        case 1:
+	            Stage1 stage1 = new Stage1(this); // Stage1 로드
+	            this.player = stage1.getPlayer(); // player를 가져옴
+	            stagePanel.add(stage1, "Stage1");
+	            break;
+	        // 이후 다른 스테이지 추가
+	        default:
+	            JOptionPane.showMessageDialog(null, "준비된 스테이지가 없습니다!");
+	            break;
+	    }
+	    cardLayout.show(stagePanel, "Stage" + stageNumber);
+	}
+	
+		/*private void initObject() {
 	    this.frontMap = new JLabel(new ImageIcon("image/stage1.png"));
 	    this.setContentPane(this.frontMap);
 	    this.setLayout((LayoutManager)null);
 	    this.player = new PlayerRabbit();
-	    this.turtle = new Turtle(200, 230, false, this);
+	    this.turtle = new Turtle(200, 230, false, this);*/
 	    
 	    /*
 	     * this.moonLabel = new JLabel(new ImageIcon("image/moon1.png"));
@@ -44,24 +86,24 @@ public class MoonRabbitGame extends JFrame {
 	     * this.moonLabel.setSize(50, 50);
 	     * this.frontMap.add(this.moonLabel);
 	     */
-	    /*
-	     * this.heartLabel = new JLabel(new ImageIcon("image/heart.png"));
-	     * this.moonLabel.setLocation(100, 40);
-	     * this.moonLabel.setSize(50, 50);
-	     * this.frontMap.add(this.heartLabel);
-	     */    
+	    
+	     /*this.heartLabel = new JLabel(new ImageIcon("image/heart.png"));
+	     this.heartLabel.setLocation(50, 40);
+	     this.heartLabel.setSize(50, 50);
+	     this.frontMap.add(this.heartLabel);*/
+	      
 	    
 	    /* moon1_30, moon1_40, moon5_40 변경하면서 크기 확인해보세요! */
-	    this.moonLabel = new JLabel(new ImageIcon("image/moon5.png"));
+	    /*this.moonLabel = new JLabel(new ImageIcon("image/moon5.png"));
 	    this.moonLabel.setLocation(480, 40);
 		this.moonLabel.setSize(50, 50);
 		this.frontMap.add(this.moonLabel);
 	    
 	    this.frontMap.add(this.player);
 	    this.frontMap.add(this.turtle);
-	}
+	}*/
 
-	private void initSetting() {
+	/*private void initSetting() {
 		this.stageNumber = 1;
 		this.setTitle("달토끼전");
 	    this.setSize(1010, 670);
@@ -69,7 +111,7 @@ public class MoonRabbitGame extends JFrame {
 	    this.setLayout(null);
 	    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    this.setLocationRelativeTo((Component)null);
-	}
+	}*/
 	
 	private void initListener() {
 	    addKeyListener(new KeyAdapter() {
@@ -118,19 +160,20 @@ public class MoonRabbitGame extends JFrame {
 	    });
 	}
 
-	private void initThread() {
+	/*private void initThread() {
 		new Thread(()->{
 			turtle.start();
 		}).start();
-	}
+	}*/
 	
 	public int getStageNumber() {
 		return stageNumber;
 	}
 
-	public void setStageNumber(int stageNumber) {
-		this.stageNumber = stageNumber;
-	}
+	public void nextStage() {
+        stageNumber++;
+        loadStage(stageNumber);
+    }
 	
 	public static void main(String[] args) {
 	      new MoonRabbitGame();
