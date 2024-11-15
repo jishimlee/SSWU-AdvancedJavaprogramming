@@ -14,6 +14,7 @@ public class Stage1 extends JPanel {
     private JLabel heartLabel;
     private PlayerRabbit player;
     private Turtle turtle;
+    private Toad toad;
 
     public Stage1(MoonRabbitGame game) {
         this.game = game;
@@ -40,6 +41,7 @@ public class Stage1 extends JPanel {
         this.player.setBounds(100, 300, 50, 50); // 플레이어 위치 및 크기 설정
         this.turtle = new Turtle(200, 230, false, this.game);
         this.turtle.setBounds(200, 230, 50, 50); // Turtle 위치 및 크기 설정
+        
 
         this.heartLabel = new JLabel(new ImageIcon("image/heart.png"));
         this.heartLabel.setBounds(50, 40, 50, 50); // setLocation + setSize

@@ -26,7 +26,7 @@ public class Toad extends JLabel implements Moveable {
 	   private EnemyDirection enemyDirection;
 	   private boolean leftCrash;
 	   private boolean rightCrash;
-	   private static final int SPEED = 1;
+	   private static final int SPEED = 2;
 	   private MoonRabbitGame game;
 	   
 	   private ImageIcon toadR;
