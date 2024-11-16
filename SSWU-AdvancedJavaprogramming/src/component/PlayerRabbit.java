@@ -87,7 +87,7 @@ public class PlayerRabbit extends JLabel implements Moveable {
    public void hitAttackThread() {
       spacePressed = true;
       
-      if(left) {
+      if(this.getDirection() == direction.LEFT) {
          setIcon(hitplayerL);
          this.setSize(39, 50);
       }
@@ -100,7 +100,7 @@ public class PlayerRabbit extends JLabel implements Moveable {
    
    public void throwAttack() {
       APressed = true;
-      if(left) {
+      if(this.getDirection() == direction.LEFT) {
          setIcon(rabbitThrowL);
       }
       else {

@@ -58,7 +58,7 @@ public class Stage2 extends JPanel {
     private void initThread() {
         SwingUtilities.invokeLater(() -> {
             // Stage1 초기화가 완료된 후에 Turtle 생성
-            this.turtle = new Turtle(200, 230, false, this.game, this.player);
+            this.turtle = new Turtle(100, 255, false, this.game, this.player);
             this.frontMap.add(this.turtle);
             new Thread(() -> turtle.start()).start(); // Turtle 실행
         });

@@ -22,14 +22,13 @@ import stage.Stage4;
 import stage.Stage5;
 
 public class MoonRabbitGame extends JFrame {
-	private int stageNumber;	// 1~5, 시작 전후 화면은 별도의 번호로 설정하도록 함 -> 다음 스테이지로 넘어갈 때 이 Number도 업데이트 해줘야 됨
+	private int stageNumber = 2;	// 1~5, 시작 전후 화면은 별도의 번호로 설정하도록 함 -> 다음 스테이지로 넘어갈 때 이 Number도 업데이트 해줘야 됨
 	private CardLayout cardLayout;
 	private JPanel stagePanel;
 	private PlayerRabbit player;
 	private JPanel currentStage;
 	
 	public MoonRabbitGame() {
-		this.stageNumber = 1;
 		initLayout();
         loadStage(stageNumber);
         initListener();
@@ -51,16 +50,19 @@ public class MoonRabbitGame extends JFrame {
 	private void loadStage(int stageNumber) {
 	    switch (stageNumber) {
 	        case 1:
+	        	this.stageNumber = 1;
 	            Stage1 stage1 = new Stage1(this); // Stage1 로드, 실험위해 stage2로 함
 	            this.player = stage1.getPlayer(); // player를 가져옴
 	            stagePanel.add(stage1, "Stage1");
 	            this.currentStage = stage1;
 	            break;
 	        case 2:
+	        	this.stageNumber = 2;
 	            Stage2 stage2 = new Stage2(this); // Stage2 로드, 실험위해 stage2로 함
 	            this.player = stage2.getPlayer(); // player를 가져옴
 	            stagePanel.add(stage2, "Stage2");
 	            this.currentStage = stage2;
+	            break;
 	        case 3:
 	            Stage3 stage3 = new Stage3(this); // Stage3 로드, 실험위해 stage3로 함
 	            this.player = stage3.getPlayer(); // player를 가져옴
