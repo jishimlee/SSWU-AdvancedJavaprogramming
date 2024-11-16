@@ -1,5 +1,4 @@
 package service;
-// = bubblegame.class
 //import component.Frame1;
 
 import java.awt.Component; 
@@ -13,6 +12,7 @@ import javax.swing.JLabel;
 
 import component.PlayerRabbit;
 import component.Turtle;
+import direction.PlayerDirection;
 
 public class MoonRabbitGame extends JFrame {
 	private JLabel frontMap;
@@ -85,16 +85,19 @@ public class MoonRabbitGame extends JFrame {
 	                		player.right();
 	                	}
 	                    break;
-	                case KeyEvent.VK_UP: 
+	                case KeyEvent.VK_UP : 
 	                	if(!player.isUp()&&!player.isDown()) {
 	                		player.up();
 	                	}
 	                    break;
-	                /*case KeyEvent.VK_DOWN: 
-	                	if(!player.isDown()) {
-	                		player.down();
-	                	}
-	                    break;*/
+	                case KeyEvent.VK_SPACE :
+	                	player.spacePressed = true;
+		            	player.hitAttack();
+		            	break;
+	                case KeyEvent.VK_A :
+	                	player.setAPressed(true);
+	                	player.throwAttack();
+		            	break;
 	            }
 	        }
 	        
@@ -106,10 +109,8 @@ public class MoonRabbitGame extends JFrame {
                 	player.setLeft(false); // 왼쪽 이동 멈추기
                 } else if (keyCode == KeyEvent.VK_RIGHT) {
                 	player.setRight(false);  // 오른쪽 이동 멈추기
-                } else if (keyCode == KeyEvent.VK_UP) {
-                    //up = false;  // 점프 멈추기
-                } else if (keyCode == KeyEvent.VK_DOWN) {
-                    //down = false;  // 내려가기 멈추기
+                } else if (keyCode == KeyEvent.VK_A) {
+                	
                 }
 	        }
 	    });

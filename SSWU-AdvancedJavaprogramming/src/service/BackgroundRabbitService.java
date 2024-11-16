@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import javax.imageio.ImageIO;
 import component.PlayerRabbit;
-import component.GameFrame1;
+//import component.GameFrame1;
 import javax.swing.*;
 import java.awt.*;
 
