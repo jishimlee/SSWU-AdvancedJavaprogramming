@@ -19,10 +19,16 @@ import javax.swing.JPanel;
 
 import component.PlayerRabbit;
 import component.Turtle;
+import component.Toad;
 import component.WildBoar;
+import component.Monkey;
+
 
 import stage.Stage1;
-// import stage.Stage2;
+import stage.Stage2;
+import stage.Stage3;
+import stage.Stage4;
+import stage.Stage5;
 
 public class MoonRabbitGame extends JFrame {
 	private int stageNumber;	// 1~5, 시작 전후 화면은 별도의 번호로 설정하도록 함 -> 다음 스테이지로 넘어갈 때 이 Number도 업데이트 해줘야 됨
@@ -63,9 +69,9 @@ public class MoonRabbitGame extends JFrame {
 	private void loadStage(int stageNumber) {
 	    switch (stageNumber) {
 	        case 1:
-	            Stage1 stage2 = new Stage1(this); // Stage2 로드, 실험위해 stage2로 함
-	            this.player = stage2.getPlayer(); // player를 가져옴
-	            stagePanel.add(stage2, "Stage2");
+	            Stage3 stage3 = new Stage3(this); // Stage3 로드, 실험위해 stage3로 함
+	            this.player = stage3.getPlayer(); // player를 가져옴
+	            stagePanel.add(stage3, "Stage3");
 	            break;
 	        // 이후 다른 스테이지 추가
 	        default:
