@@ -50,10 +50,10 @@ public class BackgroundTurtleService implements Runnable {
 		while (true) {
 			// 토끼랑 닿았는지 계속 확인 (한 번 닿았으면 
 			try {
-				if ((turtle.getX() == player.getX() + 50) && (turtle.getY() == player.getY() + 50) ||
-						(turtle.getX() + 50 == player.getX()) && (turtle.getY() == player.getY() + 50) ||
-						(turtle.getX() == player.getX() + 50) && (turtle.getY() + 50 == player.getY()) ||
-						(turtle.getX() + 50 == player.getX()) && (turtle.getY() + 50 == player.getY())) {
+				if ((turtle.getX() == this.player.getX() + 50) && (turtle.getY() == this.player.getY() + 50) ||
+						(turtle.getX() + 50 == this.player.getX()) && (turtle.getY() == this.player.getY() + 50) ||
+						(turtle.getX() == this.player.getX() + 50) && (turtle.getY() + 50 == this.player.getY()) ||
+						(turtle.getX() + 50 == this.player.getX()) && (turtle.getY() + 50 == this.player.getY())) {
 					handleEnemy();
 					Thread.sleep(100);	// 0.1초 동안 확인 멈춤
 					touchingRabbit = false; // 다시 false로 초기화
