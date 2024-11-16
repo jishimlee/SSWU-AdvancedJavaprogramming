@@ -43,7 +43,7 @@ public class Stage1 extends JPanel {
         // 캐릭터 및 오브젝트 초기화
         this.player = new PlayerRabbit();
         this.player.setBounds(100, 300, 50, 50); // 플레이어 위치 및 크기 설정
-        this.turtle = new Turtle(200, 230, false, this.game);
+        this.turtle = new Turtle(200, 230, false, this.game, this.player);
         this.toad = new Toad(700, 230, true, this.game);
 
         this.heartLabel = new JLabel(new ImageIcon("image/heart.png"));

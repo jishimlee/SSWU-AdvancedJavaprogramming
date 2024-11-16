@@ -26,7 +26,7 @@ public class Tiger extends JLabel implements Moveable {
 	   private EnemyDirection enemyDirection;
 	   private boolean leftCrash;
 	   private boolean rightCrash;
-	   private static final int SPEED = 1;
+	   private static final int SPEED = 4;
 	   private MoonRabbitGame game;
 	   
 	   private ImageIcon tigerR;

@@ -4,35 +4,23 @@ package main;
 
 
 import java.awt.CardLayout;
-
-import java.awt.Component;
-
-import java.awt.LayoutManager;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import component.PlayerRabbit;
-import component.Turtle;
-import component.WildBoar;
-
 import stage.Stage1;
-// import stage.Stage2;
+import stage.Stage2;
 
 public class MoonRabbitGame extends JFrame {
 	private int stageNumber;	// 1~5, 시작 전후 화면은 별도의 번호로 설정하도록 함 -> 다음 스테이지로 넘어갈 때 이 Number도 업데이트 해줘야 됨
-	//private JLabel frontMap;
 	private CardLayout cardLayout;
 	private JPanel stagePanel;
 	private PlayerRabbit player;
-	//private Turtle turtle;
-	//private JLabel moonLabel;
-	//private JLabel heartLabel;
+	private JPanel currentStage;
 	
 	public MoonRabbitGame() {
 		this.stageNumber = 1;
@@ -40,12 +28,6 @@ public class MoonRabbitGame extends JFrame {
         loadStage(stageNumber);
         initListener();
         this.setVisible(true);
-		
-		/*this.initObject();
-	    this.initSetting();
-	    this.initListener();
-	    this.initThread();
-	    this.setVisible(true);*/
 	}
 	
 	private void initLayout() {
@@ -63,9 +45,16 @@ public class MoonRabbitGame extends JFrame {
 	private void loadStage(int stageNumber) {
 	    switch (stageNumber) {
 	        case 1:
-	            Stage1 stage2 = new Stage1(this); // Stage2 로드, 실험위해 stage2로 함
+	            Stage1 stage1 = new Stage1(this); // Stage1 로드, 실험위해 stage2로 함
+	            this.player = stage1.getPlayer(); // player를 가져옴
+	            stagePanel.add(stage1, "Stage1");
+	            this.currentStage = stage1;
+	            break;
+	        case 2:
+	            Stage2 stage2 = new Stage2(this); // Stage2 로드, 실험위해 stage2로 함
 	            this.player = stage2.getPlayer(); // player를 가져옴
 	            stagePanel.add(stage2, "Stage2");
+	            this.currentStage = stage2;
 	            break;
 	        // 이후 다른 스테이지 추가
 	        default:
@@ -167,6 +156,10 @@ public class MoonRabbitGame extends JFrame {
 			turtle.start();
 		}).start();
 	}*/
+	
+	public JPanel getCurrentStage() {
+	    return this.currentStage;
+	}
 	
 	public int getStageNumber() {
 		return stageNumber;
