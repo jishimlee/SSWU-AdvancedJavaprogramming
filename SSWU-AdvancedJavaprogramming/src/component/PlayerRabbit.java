@@ -34,7 +34,7 @@ public class PlayerRabbit extends JLabel implements Moveable {
    private ImageIcon hitplayerL;
    private boolean isThreadRunning = false;
    public boolean spacePressed = false;
-   private int high;
+   private int height;
    public boolean isSpacePressed() {
       return spacePressed;
    }
@@ -43,12 +43,12 @@ public class PlayerRabbit extends JLabel implements Moveable {
       this.spacePressed = spacePressed;
    }
 
-   public int getHigh() {
-      return high;
+   public int getHeight() {
+      return height;
    }
 
-   public void setHigh(int high) { // 높이를 입력하는 코드 
-      this.high = high;
+   public void setHeight(int height) { // 높이를 입력하는 코드 
+      this.height = height;
    }
 
    public PlayerRabbit() {
@@ -115,7 +115,7 @@ public class PlayerRabbit extends JLabel implements Moveable {
       up =true;
       
       new Thread(() -> {
-         for(int i= 0; i<high/JUMPSPEED;i++) {
+         for(int i= 0; i<height/JUMPSPEED;i++) {
             y -= JUMPSPEED;
             setLocation(x,y);
             try {

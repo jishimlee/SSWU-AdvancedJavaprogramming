@@ -29,6 +29,7 @@ public class BackgroundTurtleService implements Runnable {
 	public BackgroundTurtleService(Turtle turtle, MoonRabbitGame game, PlayerRabbit player) {
 		this.turtle = turtle;
 		this.game = game;
+		this.player = player;
 		this.stage = game.getCurrentStage();	// 현재 실행 중인 stage 값 받아오기 위함
 		this.stageNumber = game.getStageNumber();
 		System.out.println("현재 스테이지는 stage " + stage + "입니다.");
