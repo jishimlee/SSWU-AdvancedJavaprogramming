@@ -19,7 +19,6 @@ public class Stage1 extends JPanel {
     private JLabel heartLabel;
     private PlayerRabbit player;
     private Turtle turtle;
-    private Toad toad;
 
     public Stage1(MoonRabbitGame game) {
         this.game = game;
@@ -38,12 +37,12 @@ public class Stage1 extends JPanel {
         // 배경 이미지 설정
         this.frontMap = new JLabel(new ImageIcon("image/stage1.png"));
         this.frontMap.setBounds(0, 0, 1000, 630); // 배경 이미지 크기 설정
-        this.setLayout(null); 
+        this.setLayout(null);
         this.add(this.frontMap); 
         this.setVisible(true);
 
         // 캐릭터 및 오브젝트 초기화
-        this.player.setHeight(130);	// 플레이어 점프 높이 설정
+        this.player.setHigh(130);	// 플레이어 점프 높이 설정
         this.player.setBounds(100, 300, 50, 50); // 플레이어 위치 및 크기 설정
 
         this.heartLabel = new JLabel(new ImageIcon("image/heart.png"));

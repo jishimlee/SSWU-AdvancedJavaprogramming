@@ -19,7 +19,7 @@ public class BackgroundRabbitService implements Runnable {
 		this.player = player;
 		try {
 			image = ImageIO.read(new File("image/background1.png"));
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

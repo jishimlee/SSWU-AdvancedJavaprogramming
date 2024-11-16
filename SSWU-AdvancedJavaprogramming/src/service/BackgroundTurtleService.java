@@ -48,7 +48,7 @@ public class BackgroundTurtleService implements Runnable {
 	
 	public void run() {
 		while (true) {
-			// 토끼랑 닿았는지 계속 확인 (한 번 닿았으면 
+
 			try {
 				if ((turtle.getX() == this.player.getX() + 50) && (turtle.getY() == this.player.getY() + 50) ||
 						(turtle.getX() + 50 == this.player.getX()) && (turtle.getY() == this.player.getY() + 50) ||
@@ -61,7 +61,7 @@ public class BackgroundTurtleService implements Runnable {
 				Thread.sleep(10);
 			} catch (Exception e2) {
 				System.out.println("Error : " + e2.getMessage());
-			}
+			} 
 			
 			// 살아 있으면 (= 공격 당하지 않았으면)
 			while (turtle.getState() == 0) {
@@ -135,24 +135,24 @@ public class BackgroundTurtleService implements Runnable {
 		}
 	}
 
-	// 적 상태 (stage == 0) && 토끼의 몸체와 닿았을 때
+	// 적 상태 (state == 0) && 토끼의 몸체와 닿았을 때
 	private void handleEnemy() {
 		touchingRabbit = true;
 		System.out.println("토끼와 닿았습니다");
 		// 토끼 상태 변경해주는 변수 변경
 	}
 	
-	// 적 상태 (stage == 0) && 토끼의 공격을 당했을 때
+	// 적 상태 (state == 0) && 토끼의 공격을 당했을 때
 	private void handleAttacked() {
 		System.out.println("공격 당했습니다!");
 		this.turtle.setState(1);	// 떡으로 변해야댕
 	}
 	
-	// 떡 상태 (stage == 1) && 토끼의 몸체와 닿았을 때
+	// 떡 상태 (state == 1) && 토끼의 몸체와 닿았을 때
 	private void handleTtoek() {
 		System.out.println("토끼가 떡을 획득했습니다.");
 	    this.stage.remove(this.turtle);
-	    this.stage.repaint();
+	    // this.stage.repaint();
 		// 점수 알고리즘에 사용할 변수
 	}
 }
