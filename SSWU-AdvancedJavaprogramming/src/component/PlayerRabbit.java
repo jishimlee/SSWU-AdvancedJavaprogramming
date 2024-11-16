@@ -8,6 +8,7 @@ import javax.xml.stream.events.StartDocument;
 import direction.PlayerDirection;
 import service.Moveable;
 import service.BackgroundRabbitService;
+import component.Turtle;
 
 public class PlayerRabbit extends JLabel implements Moveable {
    // 위치 상태
@@ -44,8 +45,10 @@ public class PlayerRabbit extends JLabel implements Moveable {
    // 목숨 
    private int life;
    private boolean rabbitAttacked;
-
-
+   private Turtle turtle;
+   // 상태
+   private int state;
+   private int attackedState;
 
    public PlayerRabbit() {
          this.initObject();
@@ -81,13 +84,15 @@ public class PlayerRabbit extends JLabel implements Moveable {
          this.setIcon(this.playerR);
          this.setSize(30, 50);
          this.setLocation(this.x, this.y);
+         
+         this.state = 0;
+         this.attackedState =0;
    }
-   
    
    public void hitAttackThread() {
       spacePressed = true;
-      
-      if(left) {
+      state = 1;
+      if(this.getDirection() == direction.LEFT) {
          setIcon(hitplayerL);
          this.setSize(39, 50);
       }
@@ -96,17 +101,40 @@ public class PlayerRabbit extends JLabel implements Moveable {
          this.setSize(39, 50);
       }
       spacePressed = false;
+      state =0;
    }
    
    public void throwAttack() {
       APressed = true;
-      if(left) {
+      state = 1; 
+      if(this.getDirection() == direction.LEFT) {
          setIcon(rabbitThrowL);
       }
       else {
          setIcon(rabbitThrowR);
       }
       APressed = false;
+      state = 0;
+   }
+   
+   public void hitAttackSucceed() {
+      // 공격 했음을 표현
+      if (state == 1 && Math.abs(this.x - this.turtle.getX())<10) {
+         turtle.setState(1);
+      }
+   }
+   
+   public void attacked() {
+      if (state == 0 && Math.abs(this.x - this.turtle.getX())<10) attackedState = 1;
+      if (state == 1 && Math.abs(this.x - this.turtle.getX())>=10) {
+         attackedState = 1;
+      }
+      life--;
+   }
+   
+   public boolean dead() {
+      if (life == 0) return true; // 죽었다는 뜻
+      else return false;
    }
    
    @Override
