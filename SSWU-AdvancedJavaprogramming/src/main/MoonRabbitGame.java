@@ -98,18 +98,17 @@ public class MoonRabbitGame extends JFrame {
 	                		player.up();
 	                	}
 	                	break;
-	                	/*
-	                case KeyEvent.VK_SPACE :
-	                      player.hitAttackThread();
-	                      break;
-	                   case KeyEvent.VK_A:
-	                      player.throwAttack();
-	                      break;
-	                case KeyEvent.VK_DOWN: 
-	                	if(!player.isDown()) {
-	                		player.down();
-	                	}
-	                    break;*/
+	                	
+	                case KeyEvent.VK_SPACE:
+	                	player.spacePressed = true;
+	                    player.updateAttackState();
+	                    break;
+	                case KeyEvent.VK_A:
+	                	player.setAPressed(true);
+	                    player.updateThrowAttackState();
+	                    ThrowHammer throwhammer = new ThrowHammer(player);
+	                    add(throwhammer);
+	                    break;
 	            }
 	        }
 	        
