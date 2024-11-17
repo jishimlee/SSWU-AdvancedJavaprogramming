@@ -4,8 +4,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import direction.EnemyDirection;
+import main.MoonRabbitGame;
 import service.BackgroundTurtleService;
 import service.Moveable;
+import stage.Stage1;
+import stage.Stage2;
 
 public class Turtle extends JLabel implements Moveable {
    private int x;
@@ -21,23 +24,39 @@ public class Turtle extends JLabel implements Moveable {
    private boolean left;
    private boolean right;
    private boolean startLeft;
-   private int state;	// 공격 당했는지 확인, 0은 공격 X, 1은 공격 당함
+   private int state;	// 공격 당했는지 확인, 0은 공격 X, 1은 공격 당함 (떡으로 변함)
    private EnemyDirection enemyDirection;
    private boolean leftCrash;
    private boolean rightCrash;
    private static final int SPEED = 1;
+   private MoonRabbitGame game;
+   private PlayerRabbit player;
    
    private ImageIcon turtleR;
    private ImageIcon turtleL;
+   private ImageIcon songpyeon;
 
    public Turtle() {
       this.initObject();
    }
 
-   public Turtle(int x, int y, boolean left) {
+   public Turtle(int x, int y, boolean left, Object game, PlayerRabbit player) {
       this.initObject();
       this.initSetting(x, y, left);
-   }
+      //일단 해놈. 수정해야함!
+      if (game instanceof MoonRabbitGame) {
+          this.game = (MoonRabbitGame) game;
+          // this.player = ((MoonRabbitGame) game).getPlayer();
+          // 이 부분 MoonRabbitGame에 getPlayer 없어서 오류 뜨는데 사실 없어두 되는 거 아닌가요??
+      } else if (game instanceof Stage1) {
+          this.game = ((Stage1) game).getGame(); // Stage1이 MoonRabbitGame 반환 가능
+          this.player = ((Stage1) game).getPlayer();
+      } else if (game instanceof Stage2) {
+          this.game = ((Stage2) game).getGame();
+          this.player = ((Stage2) game).getPlayer();
+      }
+      
+  }
    
    public void start() {
 	   System.out.println("start() 호출됨");
@@ -50,6 +69,7 @@ public class Turtle extends JLabel implements Moveable {
    public void initObject() {
       this.turtleL = new ImageIcon("image/turtleL.png");
       this.turtleR = new ImageIcon("image/turtleR.png");
+      this.songpyeon = new ImageIcon("image/songpyeon.png");
    }
    
    // y 좌표를 토끼보다 5 크게 설정하면 토끼와 동일한 위치에 있음
@@ -58,18 +78,17 @@ public class Turtle extends JLabel implements Moveable {
       this.y = y;
       this.startLeft = left;
       if (startLeft) {
-         this.setIcon(this.turtleL);
+    	  this.setIcon(this.turtleL);
       } else {
-         this.setIcon(this.turtleR);
+    	  this.setIcon(this.turtleR);
       }
-
       this.setSize(50, 50);
       this.setLocation(this.x, this.y);
    }
    
    private void initBackgroundTurtleService() {
 	   System.out.println("스레드 시작");
-	   (new Thread(new BackgroundTurtleService(this))).start();
+	   (new Thread(new BackgroundTurtleService(this, game, this.player))).start();
    }
 
    public void up() {
@@ -185,6 +204,10 @@ public class Turtle extends JLabel implements Moveable {
 
    public void setState(int state) {
       this.state = state;
+      if (state == 1) {
+    	  this.setIcon(this.songpyeon);
+    	  this.game.repaint();
+      }
    }
 
    public void setEnemyDirection(EnemyDirection enemyDirection) {

@@ -1,4 +1,4 @@
-package service;
+package main;
 
 import java.awt.CardLayout;
 
@@ -56,11 +56,11 @@ public class MoonRabbitGame extends JFrame {
 	            stagePanel.add(stage1, "Stage1");
 	            this.currentStage = stage1;
 	            break;
-	        /*case 2:
+	        case 2:
 	            Stage2 stage2 = new Stage2(this); // Stage2 로드, 실험위해 stage2로 함
 	            this.player = stage2.getPlayer(); // player를 가져옴
 	            stagePanel.add(stage2, "Stage2");
-	            this.currentStage = stage2;*/
+	            this.currentStage = stage2;
 	        /* case 3:
 	            Stage3 stage3 = new Stage3(this); // Stage3 로드, 실험위해 stage3로 함
 	            this.player = stage3.getPlayer(); // player를 가져옴
@@ -97,12 +97,11 @@ public class MoonRabbitGame extends JFrame {
 	                		player.up();
 	                	}
 	                    break;
-	                case KeyEvent.VK_SPACE :
-	                	player.hitAttackThread();
-	                	break;
-	                case KeyEvent.VK_A:
-	                	player.throwAttack();
-	                	break;
+	                /*case KeyEvent.VK_DOWN: 
+	                	if(!player.isDown()) {
+	                		player.down();
+	                	}
+	                    break;*/
 	            }
 	        }
 	        
@@ -123,7 +122,7 @@ public class MoonRabbitGame extends JFrame {
 	    });
 	}
 	
-	/*public JPanel getCurrentStage() {
+	public JPanel getCurrentStage() {
 	    return this.currentStage;
 	}
 	
@@ -134,7 +133,7 @@ public class MoonRabbitGame extends JFrame {
 	public void nextStage() {
         stageNumber++;
         loadStage(stageNumber);
-    }*/
+    }
 	
 	public static void main(String[] args) {
 	      new MoonRabbitGame();

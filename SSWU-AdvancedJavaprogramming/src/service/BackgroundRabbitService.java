@@ -1,22 +1,39 @@
 package service;
 
 import java.awt.image.BufferedImage;
+
 import java.io.*;
 import javax.imageio.ImageIO;
 import component.PlayerRabbit;
-//import component.GameFrame1;
+import main.MoonRabbitGame;
 import javax.swing.*;
 import java.awt.*;
 
 public class BackgroundRabbitService implements Runnable {
 	private BufferedImage image;
 	private PlayerRabbit player;
-	
+	private JPanel stage;
+	private int stageNum;
+	private String backgroundPath;
+	private MoonRabbitGame game;
+
+
 	public BackgroundRabbitService(PlayerRabbit player) {
 		
 		this.player = player;
+		this.game = game;
+		this.player = player;
+		this.stage = game.getCurrentStage();
+		this.stageNum = game.getStageNumber();
+		
 		try {
-			image = ImageIO.read(new File("image/background1.png"));
+			switch(stageNum) {
+			/*case 1: image = ImageIO.read(new File("image/background1.png"));
+			case 2: image = ImageIO.read(new File("image/background2.png"));
+			case 3: image = ImageIO.read(new File("image/background3.png"));
+			case 4: image = ImageIO.read(new File("image/background1.png"));
+			case 1: image = ImageIO.read(new File("image/background1.png"));*/
+			}
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -27,7 +44,7 @@ public class BackgroundRabbitService implements Runnable {
 		// 색상 확인
 		 while (true) {
 			 	Color leftcolor = new Color(image.getRGB(player.getX() - 7, player.getY()+25));
-	            Color rightcolor = new Color(image.getRGB(player.getX() + 50 + 7, player.getY()+25));
+	            Color rightcolor = new Color(image.getRGB(player.getX() + 40 + 7, player.getY()+25));
 	            int bottomcolor = image.getRGB(player.getX()+7, player.getY()+50+5) +
 	            		image.getRGB(player.getX()+50, player.getY()+50+5);
 	         
