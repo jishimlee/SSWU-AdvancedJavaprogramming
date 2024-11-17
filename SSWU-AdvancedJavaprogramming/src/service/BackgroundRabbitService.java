@@ -18,7 +18,7 @@ public class BackgroundRabbitService implements Runnable {
 		
 		this.player = player;
 		try {
-			image = ImageIO.read(new File("image/background1.png"));
+			image = ImageIO.read(new File("image/background2.png"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -31,7 +31,7 @@ public class BackgroundRabbitService implements Runnable {
 			 	Color leftcolor = new Color(image.getRGB(player.getX() - 7, player.getY()+25));
 	            Color rightcolor = new Color(image.getRGB(player.getX() + 50 + 7, player.getY()+25));
 	            int bottomcolor = image.getRGB(player.getX()+7, player.getY()+50+5) +
-	            		image.getRGB(player.getX()+50, player.getY()+50+5);
+	            		image.getRGB(player.getX()+35, player.getY()+50+5);
 	         
 	            if(bottomcolor != -2) { // 바닥 색이 하얀색이라는 것이다. 
 	            	player.setDown(false);
