@@ -2,13 +2,13 @@ package component;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import direction.EnemyDirection;
 import main.MoonRabbitGame;
 import service.BackgroundTurtleService;
 import service.Moveable;
-import stage.Stage1;
-import stage.Stage2;
+import stage.*;
 
 public class Turtle extends JLabel implements Moveable {
    private int x;
@@ -31,6 +31,8 @@ public class Turtle extends JLabel implements Moveable {
    private static final int SPEED = 1;
    private MoonRabbitGame game;
    private PlayerRabbit player;
+   private int stageNumber;
+   private JPanel stage;
    
    private ImageIcon turtleR;
    private ImageIcon turtleL;
@@ -40,22 +42,13 @@ public class Turtle extends JLabel implements Moveable {
       this.initObject();
    }
 
-   public Turtle(int x, int y, boolean left, Object game, PlayerRabbit player) {
+   public Turtle(int x, int y, boolean left, MoonRabbitGame game, PlayerRabbit player) {
       this.initObject();
       this.initSetting(x, y, left);
-      //일단 해놈. 수정해야함!
-      if (game instanceof MoonRabbitGame) {
-          this.game = (MoonRabbitGame) game;
-          // this.player = ((MoonRabbitGame) game).getPlayer();
-          // 이 부분 MoonRabbitGame에 getPlayer 없어서 오류 뜨는데 사실 없어두 되는 거 아닌가요??
-      } else if (game instanceof Stage1) {
-          this.game = ((Stage1) game).getGame(); // Stage1이 MoonRabbitGame 반환 가능
-          this.player = ((Stage1) game).getPlayer();
-      } else if (game instanceof Stage2) {
-          this.game = ((Stage2) game).getGame();
-          this.player = ((Stage2) game).getPlayer();
-      }
-      
+      this.game = game;
+      this.stage = game.getCurrentStage();	// 현재 실행 중인 stage 값 받아오기 위함
+      this.player = player; // PlayerRabbit 객체를 직접 전달받음
+      this.stageNumber = game.getStageNumber();     
   }
    
    public void start() {

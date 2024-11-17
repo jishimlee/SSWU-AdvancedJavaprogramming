@@ -2,9 +2,11 @@ package stage;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import component.PlayerRabbit;
-import component.Toad;
+//import component.Toad;
 import component.Turtle;
 import main.MoonRabbitGame;
 
@@ -13,15 +15,21 @@ public class Stage2 extends JPanel {
     private JLabel frontMap;
     private JLabel moonLabel;
     private JLabel heartLabel;
+    private JLabel timerLabel;
     private PlayerRabbit player;
     private Turtle turtle;
-    private Toad toad;
+    //private Toad toad;
 
+    private javax.swing.Timer timer; // 게임 타이머
+    private int timeRemaining = 60; // 남은 시간 (초 단위)
+    
     public Stage2(MoonRabbitGame game) {
         this.game = game;
+        this.player = new PlayerRabbit();
         initObject();
         initSetting();
         initThread();
+        initTimer(); 
     }
     
     public PlayerRabbit getPlayer() {
@@ -35,12 +43,6 @@ public class Stage2 extends JPanel {
         this.setLayout(null); 
         this.add(this.frontMap); 
         this.setVisible(true);
-
-        // 캐릭터 및 오브젝트 초기화
-        this.player = new PlayerRabbit();
-        this.player.setBounds(100, 300, 50, 50); // 플레이어 위치 및 크기 설정
-        this.turtle = new Turtle(200, 230, false, this.game, this.player);
-        this.toad = new Toad(400, 230, false, this.game);
         
 
         this.heartLabel = new JLabel(new ImageIcon("image/heart.png"));
@@ -50,11 +52,16 @@ public class Stage2 extends JPanel {
         this.moonLabel = new JLabel(new ImageIcon("image/moon2.png"));
         this.moonLabel.setBounds(480, 40, 50, 50);
         this.frontMap.add(this.moonLabel);
+        
+     // 남은 시간 표시 라벨
+        this.timerLabel = new JLabel("Time Left: " + timeRemaining + "s");
+        this.timerLabel.setBounds(850, 40, 150, 50); // 위치 조정
+        this.timerLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        this.timerLabel.setForeground(Color.RED);
+        this.frontMap.add(this.timerLabel);
 
         // 오브젝트 추가
         this.frontMap.add(this.player);
-        this.frontMap.add(this.turtle);
-        this.frontMap.add(this.toad);
     }
     
     private void initSetting() {
@@ -63,8 +70,29 @@ public class Stage2 extends JPanel {
     }
 
     private void initThread() {
-        new Thread(() -> turtle.start()).start();
-        new Thread(() -> toad.start()).start();
+        SwingUtilities.invokeLater(() -> {
+            // Stage1 초기화가 완료된 후에 Turtle 생성
+            this.turtle = new Turtle(100, 255, false, this.game, this.player);
+            this.frontMap.add(this.turtle);
+            new Thread(() -> turtle.start()).start(); // Turtle 실행
+        });
+    }
+    
+    private void initTimer() {
+       timer = new javax.swing.Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (timeRemaining > 0) {
+                    timeRemaining--;
+                    timerLabel.setText("Time Left: " + timeRemaining + "s");
+                } else {
+                    timer.stop();
+                    JOptionPane.showMessageDialog(Stage2.this, "Time's up! Game over.");
+                    game.dispose(); // 게임 창 닫기
+                }
+            }
+        });
+        timer.start();
     }
     
     public MoonRabbitGame getGame() {

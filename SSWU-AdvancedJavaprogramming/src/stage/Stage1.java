@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import component.PlayerRabbit;
 import component.Toad;
@@ -18,10 +19,10 @@ public class Stage1 extends JPanel {
     private JLabel heartLabel;
     private PlayerRabbit player;
     private Turtle turtle;
-    private Toad toad;
 
     public Stage1(MoonRabbitGame game) {
         this.game = game;
+        this.player = new PlayerRabbit();
         initObject();
         initSetting();
         initThread();
@@ -40,16 +41,18 @@ public class Stage1 extends JPanel {
         // 배경 이미지 설정
         this.frontMap = new JLabel(new ImageIcon("image/stage1.png"));
         this.frontMap.setBounds(0, 0, 1000, 630); // 배경 이미지 크기 설정
-        this.setLayout(null); 
+        this.setLayout(null);
         this.add(this.frontMap); 
         this.setVisible(true);
 
         // 캐릭터 및 오브젝트 초기화
+<<<<<<< HEAD
         this.player = new PlayerRabbit();
         // this.player.setHeight(130);	// 플레이어 점프 높이 설정
+=======
+        this.player.setHigh(130);	// 플레이어 점프 높이 설정
+>>>>>>> branch 'main' of https://github.com/jishimlee/SSWU-AdvancedJavaprogramming.git
         this.player.setBounds(100, 300, 50, 50); // 플레이어 위치 및 크기 설정
-        this.turtle = new Turtle(200, 230, false, this.game, this.player);
-        // this.toad = new Toad(700, 230, true, this.game);
 
         this.heartLabel = new JLabel(new ImageIcon("image/heart.png"));
         this.heartLabel.setBounds(50, 40, 50, 50); // setLocation + setSize
@@ -61,8 +64,6 @@ public class Stage1 extends JPanel {
 
         // 오브젝트 추가
         this.frontMap.add(this.player);
-        this.frontMap.add(this.turtle);
-        // this.frontMap.add(this.toad);
     }
 
     private void initSetting() {
@@ -71,8 +72,12 @@ public class Stage1 extends JPanel {
     }
 
     private void initThread() {
-        new Thread(() -> turtle.start()).start();
-        // new Thread(() -> toad.start()).start();
+        SwingUtilities.invokeLater(() -> {
+            // Stage1 초기화가 완료된 후에 Turtle 생성
+            this.turtle = new Turtle(200, 230, false, this.game, this.player);
+            this.frontMap.add(this.turtle);
+            new Thread(() -> turtle.start()).start(); // Turtle 실행
+        });
     }
     
     public MoonRabbitGame getGame() {

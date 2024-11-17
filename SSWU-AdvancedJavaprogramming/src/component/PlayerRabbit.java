@@ -30,7 +30,11 @@ public class PlayerRabbit extends JLabel implements Moveable {
    // 이미지
    private ImageIcon playerR;
    private ImageIcon playerL;
+<<<<<<< HEAD
 
+=======
+
+>>>>>>> branch 'main' of https://github.com/jishimlee/SSWU-AdvancedJavaprogramming.git
    private ImageIcon rabbitThrowL;
    private ImageIcon rabbitThrowR;
    // 공격 이미지
@@ -49,7 +53,11 @@ public class PlayerRabbit extends JLabel implements Moveable {
    // 상태
    private int state;
    private int attackedState;
+<<<<<<< HEAD
 
+=======
+
+>>>>>>> branch 'main' of https://github.com/jishimlee/SSWU-AdvancedJavaprogramming.git
    public PlayerRabbit() {
          this.initObject();
          this.initSetting();
@@ -90,6 +98,7 @@ public class PlayerRabbit extends JLabel implements Moveable {
    }
    
    public void hitAttackThread() {
+<<<<<<< HEAD
 	   spacePressed = true;
 	   state = 1;
 	   if(this.getDirection() == direction.LEFT) {
@@ -137,6 +146,53 @@ public class PlayerRabbit extends JLabel implements Moveable {
    public boolean dead() {
 	   if (life == 0) return true; // 죽었다는 뜻
 	   else return false;
+=======
+      spacePressed = true;
+      state = 1;
+      if(this.getDirection() == direction.LEFT) {
+         setIcon(hitplayerL);
+         this.setSize(39, 50);
+      }
+      else {
+         setIcon(hitplayerR);
+         this.setSize(39, 50);
+      }
+      spacePressed = false;
+      state =0;
+   }
+   
+   public void throwAttack() {
+      APressed = true;
+      state = 1; 
+      if(this.getDirection() == direction.LEFT) {
+         setIcon(rabbitThrowL);
+      }
+      else {
+         setIcon(rabbitThrowR);
+      }
+      APressed = false;
+      state = 0;
+   }
+   
+   public void hitAttackSucceed() {
+      // 공격 했음을 표현
+      if (state == 1 && Math.abs(this.x - this.turtle.getX())<10) {
+         turtle.setState(1);
+      }
+   }
+   
+   public void attacked() {
+      if (state == 0 && Math.abs(this.x - this.turtle.getX())<10) attackedState = 1;
+      if (state == 1 && Math.abs(this.x - this.turtle.getX())>=10) {
+         attackedState = 1;
+      }
+      life--;
+   }
+   
+   public boolean dead() {
+      if (life == 0) return true; // 죽었다는 뜻
+      else return false;
+>>>>>>> branch 'main' of https://github.com/jishimlee/SSWU-AdvancedJavaprogramming.git
    }
    
    @Override
@@ -213,6 +269,25 @@ public class PlayerRabbit extends JLabel implements Moveable {
       }).start();
    }
    
+<<<<<<< HEAD
+=======
+   public void RabbitAttacked() {
+      // 공격 상태가 아닐 때 적과 부딫히거나 바나나를 밟으면 목숨을 잃는다. 
+      // 적의 색깔은 어떻게 처리할지가 필요한 거 같음 
+      // 토끼가 공격당했을 때, 목숨을 하나 깎는다. 
+      if (rabbitAttacked) {
+         life--;
+      }
+   }
+   
+   public boolean RabbitDead() {
+      // 목숨이 0이면 토끼가 죽었다는 뜻이므로 true를 return 한다. 
+      if(life == 0) {
+         return true;
+      }
+      else return false;
+   }
+>>>>>>> branch 'main' of https://github.com/jishimlee/SSWU-AdvancedJavaprogramming.git
    
 
    private void initBackgroundRabbitService() {
@@ -220,8 +295,13 @@ public class PlayerRabbit extends JLabel implements Moveable {
    }
    
    public boolean isSpacePressed() {
+<<<<<<< HEAD
 	      return spacePressed;
 	   }
+=======
+         return spacePressed;
+      }
+>>>>>>> branch 'main' of https://github.com/jishimlee/SSWU-AdvancedJavaprogramming.git
 
    public int getX() {
 	   return x;
@@ -244,12 +324,21 @@ public class PlayerRabbit extends JLabel implements Moveable {
 
 
    public PlayerDirection getDirection() {
+<<<<<<< HEAD
 	   return direction;
    }
 
 
    public void setDirection(PlayerDirection direction) {
 	   this.direction = direction;
+=======
+      return direction;
+   }
+
+
+   public void setDirection(PlayerDirection direction) {
+      this.direction = direction;
+>>>>>>> branch 'main' of https://github.com/jishimlee/SSWU-AdvancedJavaprogramming.git
    }
 
 
@@ -273,6 +362,7 @@ public class PlayerRabbit extends JLabel implements Moveable {
    }
 
 
+<<<<<<< HEAD
 	public boolean isUp() {
 		return up;
 	}
@@ -458,3 +548,190 @@ public class PlayerRabbit extends JLabel implements Moveable {
 	}
 
 }
+=======
+   public boolean isUp() {
+      return up;
+   }
+   
+   
+   public void setUp(boolean up) {
+      this.up = up;
+   }
+   
+   
+   public boolean isDown() {
+      return down;
+   }
+   
+   
+   public void setDown(boolean down) {
+      this.down = down;
+   }
+   
+   
+   public boolean isLeftWallCrash() {
+      return leftWallCrash;
+   }
+   
+   
+   public void setLeftWallCrash(boolean leftWallCrash) {
+      this.leftWallCrash = leftWallCrash;
+   }
+   
+   
+   public boolean isRightWallCrash() {
+      return rightWallCrash;
+   }
+   
+   
+   public void setRightWallCrash(boolean rightWallCrash) {
+      this.rightWallCrash = rightWallCrash;
+   }
+   
+   
+   public ImageIcon getPlayerR() {
+      return playerR;
+   }
+   
+   
+   public void setPlayerR(ImageIcon playerR) {
+      this.playerR = playerR;
+   }
+   
+   
+   public ImageIcon getPlayerL() {
+      return playerL;
+   }
+   
+   
+   public void setPlayerL(ImageIcon playerL) {
+      this.playerL = playerL;
+   }
+   
+   
+   public ImageIcon getRabbitThrowL() {
+      return rabbitThrowL;
+   }
+   
+   
+   public void setRabbitThrowL(ImageIcon rabbitThrowL) {
+      this.rabbitThrowL = rabbitThrowL;
+   }
+   
+   
+   public ImageIcon getRabbitThrowR() {
+      return rabbitThrowR;
+   }
+   
+   
+   public void setRabbitThrowR(ImageIcon rabbitThrowR) {
+      this.rabbitThrowR = rabbitThrowR;
+   }
+   
+   
+   public ImageIcon getHitplayerR() {
+      return hitplayerR;
+   }
+   
+   
+   public void setHitplayerR(ImageIcon hitplayerR) {
+      this.hitplayerR = hitplayerR;
+   }
+   
+   
+   public ImageIcon getHitplayerL() {
+      return hitplayerL;
+   }
+   
+   
+   public void setHitplayerL(ImageIcon hitplayerL) {
+      this.hitplayerL = hitplayerL;
+   }
+   
+   
+   public ImageIcon getHammerL() {
+      return hammerL;
+   }
+   
+   
+   public void setHammerL(ImageIcon hammerL) {
+      this.hammerL = hammerL;
+   }
+   
+   
+   public ImageIcon getHammerR() {
+      return hammerR;
+   }
+   
+   
+   public void setHammerR(ImageIcon hammerR) {
+      this.hammerR = hammerR;
+   }
+   
+   
+   public boolean isThreadRunning() {
+      return isThreadRunning;
+   }
+   
+   
+   public void setThreadRunning(boolean isThreadRunning) {
+      this.isThreadRunning = isThreadRunning;
+   }
+   
+   
+   public boolean isAPressed() {
+      return APressed;
+   }
+   
+   
+   public void setAPressed(boolean aPressed) {
+      APressed = aPressed;
+   }
+   
+   
+   public int getHigh() {
+      return high;
+   }
+   
+   
+   public void setHigh(int high) {
+      this.high = high;
+   }
+   
+   
+   public int getLife() {
+      return life;
+   }
+   
+   
+   public void setLife(int life) {
+      this.life = life;
+   }
+   
+   
+   public boolean isRabbitAttacked() {
+      return rabbitAttacked;
+   }
+   
+   
+   public void setRabbitAttacked(boolean rabbitAttacked) {
+      this.rabbitAttacked = rabbitAttacked;
+   }
+   
+   
+   public int getSPEED() {
+      return SPEED;
+   }
+   
+   
+   public int getJUMPSPEED() {
+      return JUMPSPEED;
+   }
+   
+   
+   public void setSpacePressed(boolean spacePressed) {
+      this.spacePressed = spacePressed;
+   }
+
+}
+>>>>>>> branch 'main' of https://github.com/jishimlee/SSWU-AdvancedJavaprogramming.git
