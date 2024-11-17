@@ -45,13 +45,8 @@ public class Stage1 extends JPanel {
         this.add(this.frontMap); 
         this.setVisible(true);
 
-        // 캐릭터 및 오브젝트 초기화
-<<<<<<< HEAD
         this.player = new PlayerRabbit();
-        // this.player.setHeight(130);	// 플레이어 점프 높이 설정
-=======
         this.player.setHigh(130);	// 플레이어 점프 높이 설정
->>>>>>> branch 'main' of https://github.com/jishimlee/SSWU-AdvancedJavaprogramming.git
         this.player.setBounds(100, 300, 50, 50); // 플레이어 위치 및 크기 설정
 
         this.heartLabel = new JLabel(new ImageIcon("image/heart.png"));
