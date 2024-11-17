@@ -21,27 +21,21 @@ public class BackgroundRabbitService implements Runnable {
 	public BackgroundRabbitService(PlayerRabbit player) {
 		
 		this.player = player;
-		this.game = game;
-		this.player = player;
 		this.stage = game.getCurrentStage();
 		this.stageNum = game.getStageNumber();
 		
-		try {
-<<<<<<< HEAD
-			switch(stageNum) {
-			/*case 1: image = ImageIO.read(new File("image/background1.png"));
-			case 2: image = ImageIO.read(new File("image/background2.png"));
-			case 3: image = ImageIO.read(new File("image/background3.png"));
-			case 4: image = ImageIO.read(new File("image/background1.png"));
-			case 1: image = ImageIO.read(new File("image/background1.png"));*/
-			}
-		}catch (Exception e) {
-=======
-			image = ImageIO.read(new File("image/background2.png"));
-		} catch (Exception e) {
->>>>>>> branch 'main' of https://github.com/jishimlee/SSWU-AdvancedJavaprogramming.git
-			e.printStackTrace();
-		}
+	      try {
+	          switch(stageNum) {
+	          case 1 : image = ImageIO.read(new File("image/background1.png"));
+	          case 2 : image = ImageIO.read(new File("image/background2.png"));
+	          case 3 : image = ImageIO.read(new File("image/background3.png"));
+	          case 4 : image = ImageIO.read(new File("image/background4.png"));
+	          case 5 : image = ImageIO.read(new File("image/background5.png"));
+	          }
+	       } catch (Exception e) {
+	          e.printStackTrace();
+	       }
+
 	}
 	
 	@Override
