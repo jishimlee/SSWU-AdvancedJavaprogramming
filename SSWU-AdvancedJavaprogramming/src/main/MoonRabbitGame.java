@@ -103,14 +103,20 @@ public class MoonRabbitGame extends JFrame {
 	                	player.spacePressed = true;
 	                    player.updateAttackState();
 	                    break;
-	                    /*
 	                case KeyEvent.VK_A:
-	                	player.setAPressed(true);
-	                    player.updateThrowAttackState();
-	                    ThrowHammer throwhammer = new ThrowHammer(player);
-	                    add(throwhammer);
-	                    break;
-	                    */
+	                       player.setAPressed(true);
+	                       player.updateThrowAttackState();
+	                       ThrowHammer throwHammer = new ThrowHammer(player);
+
+	                       // 방향에 따라 던지기 로직 호출
+	                       if (player.isLeft()) {
+	                           throwHammer.throwLeft();  // 왼쪽으로 던지기
+	                       } else if (player.isRight()) {
+	                           throwHammer.throwRight();  // 오른쪽으로 던지기
+	                       }
+
+	                       add(throwHammer);  // 망치 UI 추가
+	                       break;
 	            }
 	        }
 	        
