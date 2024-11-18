@@ -1,13 +1,12 @@
 package stage;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import component.PlayerRabbit;
-//import component.Toad;
-import component.Turtle;
+import component.*;
 import main.MoonRabbitGame;
 
 public class Stage2 extends JPanel {
@@ -19,6 +18,7 @@ public class Stage2 extends JPanel {
     private PlayerRabbit player;
     private Turtle turtle;
     //private Toad toad;
+    private Tiger tiger;
 
     private javax.swing.Timer timer; // 게임 타이머
     private int timeRemaining = 60; // 남은 시간 (초 단위)
@@ -73,8 +73,11 @@ public class Stage2 extends JPanel {
         SwingUtilities.invokeLater(() -> {
             // Stage1 초기화가 완료된 후에 Turtle 생성
             this.turtle = new Turtle(100, 255, false, this.game, this.player);
+            this.tiger = new Tiger(750, 250, false, this.game);
             this.frontMap.add(this.turtle);
+            this.frontMap.add(this.tiger);
             new Thread(() -> turtle.start()).start(); // Turtle 실행
+            new Thread(() -> tiger.start()).start();
         });
     }
     

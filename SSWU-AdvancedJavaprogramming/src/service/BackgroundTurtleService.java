@@ -2,6 +2,7 @@ package service;
 
 import java.awt.Color;
 
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 
@@ -23,8 +24,10 @@ public class BackgroundTurtleService implements Runnable {
 	private MoonRabbitGame game;
 	private String backgroundPath;
 	PlayerRabbit currentPlayer;
-	boolean isColliding;
-	boolean isAttacked;
+	private boolean isColliding;
+	private boolean isAttacked;
+	// 무적 상태를 관리하는 플래그
+	private boolean isInvincible;
 	
 	// 토끼 상태 확인
 	private boolean touchingRabbit = false;
@@ -86,34 +89,36 @@ public class BackgroundTurtleService implements Runnable {
 	        	                      (turtleY < playerY + 50) && (turtleY + 50 > playerY);
 
 	        	// 떡방아에 닿았을 때
-	        	isAttacked = (turtleX < playerX + 50) && (turtleX + 50 > playerX) && 
-	                      (turtleY < playerY + 50) && (turtleY + 50 > playerY);
+	        	// 이 인식하는 걸 icon 방향에 따라서 왼쪽 공격은 왼쪽만 공격 당하게... 설정해야 함
+	        	// !isColliding 넣은 이유는 공격 때 isColliding 범위에 닿으면 몸에 닿은 거라서
+	        	isAttacked = player.isSpacePressed() && !isColliding && ((turtleX < playerX + 80) && (turtleX + 80 > playerX) && 
+	                      (turtleY < playerY + 80) && (turtleY + 80 > playerY));
 	        	
 		        // 살아 있으면 (= 공격 당하지 않았으면)
 		        if (turtle.getState() == 0) {
 		            try {
 			            try {
-			                // 충돌 확인 로직 -> 몸이랑 닿은 거
-			                if (isColliding) {
-			                    handleEnemy();
-			                    // 토끼 무적 시간 2초
-			                    Thread.sleep(2000);
-			                }
-			                // 공격에 닿았을 때
-			                else if (isAttacked) {
-			                	handleAttacked();
-			                	Thread.sleep(100);
-			                }
+			            	// 충돌 확인 로직 -> 몸이랑 닿은 거
+			            	if (!isInvincible) {
+				            	if(isColliding) {
+				                    handleEnemy();
+				                    startInvincibilityTimer();
+				                }
+				                // 공격에 닿았을 때
+				                else if (isAttacked) {
+				                	handleAttacked();
+				                }
+			            	}
 			                Thread.sleep(10);
 			            } catch (Exception e2) {
 			                System.out.println("Error : " + e2.getMessage());
 			            }
 			            
 		                // 바닥 없는 곳 확인
-		                Color leftColor = new Color(img.getRGB(turtle.getX() - 7, turtle.getY() + 25));
-		                Color rightColor = new Color(img.getRGB(turtle.getX() + 50 + 7, turtle.getY() + 25));
-		                Color leftBottom = new Color(img.getRGB(turtle.getX() - 2, turtle.getY() + 55));
-		                Color rightBottom = new Color(img.getRGB(turtle.getX() + 50 + 2, turtle.getY() + 55));
+		                Color leftColor = new Color(img.getRGB(turtleX - 7, turtleY + 25));
+		                Color rightColor = new Color(img.getRGB(turtleX + 50 + 7, turtleY + 25));
+		                Color leftBottom = new Color(img.getRGB(turtleX - 2, turtleY + 55));
+		                Color rightBottom = new Color(img.getRGB(turtleX + 50 + 2, turtleY + 55));
 	
 		                // 좌측 및 우측 벽 충돌 검사
 		                if (leftColor.getRed() == 255 && leftColor.getBlue() == 0 && leftColor.getGreen() == 0) {
@@ -182,10 +187,33 @@ public class BackgroundTurtleService implements Runnable {
 		// 토끼 상태 변경해주는 변수 변경 - 닿았으면 true로 하고 목숨을 깎는 것 
 	}
 	
+	// 부딪혔을 때 무적 시간 타이머 (비동기로!!!!)
+	private void startInvincibilityTimer() {
+	    isInvincible = true; // 무적 상태 시작
+	    new Thread(() -> {
+	        try {
+	            Thread.sleep(2000); // 무적 시간
+	        } catch (InterruptedException e) {
+	            e.printStackTrace();
+	        }
+	        isInvincible = false; // 무적 상태 해제
+	    }).start();
+	}
+
+	
 	// 적 상태 (state == 0) && 토끼의 공격을 당했을 때
 	private void handleAttacked() {
 		System.out.println("공격 당했습니다!");
-		this.turtle.setState(1);	// 떡으로 변해야댕
+		new Thread(() -> {
+			try {
+				Thread.sleep(100);
+				this.turtle.setState(1);	// 100ms 뒤에 떡으로 변해야 됨
+	            this.turtle.repaint(); // 상태 변경 후 UI 업데이트
+	            this.stage.repaint(); // 상위 컴포넌트도 업데이트
+			} catch (Exception e) {
+				
+			}
+		});
 	}
 	
 	// 떡 상태 (state == 1) && 토끼의 몸체와 닿았을 때

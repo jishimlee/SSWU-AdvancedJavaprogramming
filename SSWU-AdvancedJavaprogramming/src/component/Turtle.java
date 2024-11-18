@@ -62,7 +62,6 @@ public class Turtle extends JLabel implements Moveable {
    public void initObject() {
       this.turtleL = new ImageIcon("image/turtleL.png");
       this.turtleR = new ImageIcon("image/turtleR.png");
-      this.songpyeon = new ImageIcon("image/songpyeon.png");
    }
    
    // y 좌표를 토끼보다 5 크게 설정하면 토끼와 동일한 위치에 있음
@@ -198,6 +197,7 @@ public class Turtle extends JLabel implements Moveable {
    public void setState(int state) {
       this.state = state;
       if (state == 1) {
+    	  this.songpyeon = new ImageIcon("image/songpyeon.png");
     	  this.setIcon(this.songpyeon);
     	  this.game.repaint();
       }

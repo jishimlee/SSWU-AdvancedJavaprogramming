@@ -38,10 +38,10 @@ public class BackgroundTigerService implements Runnable {
 		while (tiger.getState() == 0) {
 			try {
 				Color leftColor = new Color(img.getRGB(tiger.getX() - 7, tiger.getY() + 25));
-				Color rightColor = new Color(img.getRGB(tiger.getX() + 50 + 7, tiger.getY() + 25));
+				Color rightColor = new Color(img.getRGB(tiger.getX() + 69 + 7, tiger.getY() + 25));
 				
-				Color leftBottom = new Color(img.getRGB(tiger.getX() - 5, tiger.getY() + 50 + 10));
-				Color rightBottom = new Color(img.getRGB(tiger.getX() + 50 + 5, tiger.getY() + 50 + 10));
+				Color leftBottom = new Color(img.getRGB(tiger.getX(), tiger.getY() + 50));
+				Color rightBottom = new Color(img.getRGB(tiger.getX() + 69, tiger.getY() + 50));
 								
 				// 벽에 막힘
 				if (leftColor.getRed() == 255 && leftColor.getBlue() == 0 && leftColor.getGreen() == 0) {
