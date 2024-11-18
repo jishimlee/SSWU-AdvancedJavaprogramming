@@ -1,6 +1,7 @@
 package component;
 
 import javax.swing.Icon;
+
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.xml.stream.events.StartDocument;
@@ -12,6 +13,8 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.awt.*;
 import javax.imageio.ImageIO;
+
+import main.MoonRabbitGame;
 
 public class PlayerRabbit extends JLabel {
 	// 위치 상태
@@ -46,6 +49,7 @@ public class PlayerRabbit extends JLabel {
 	// private ThrowHammer hammer;
 	private ImageIcon hammerL;
 	private ImageIcon hammerR;
+	private MoonRabbitGame game;
 	
 	public ImageIcon getThrowplayerL() {
 		return throwplayerL;
@@ -99,6 +103,7 @@ public class PlayerRabbit extends JLabel {
 		this.high = high;
 	}
 
+	// 생성자
 	public PlayerRabbit() {
 	      this.initObject();
 	      this.initSetting();
@@ -127,6 +132,9 @@ public class PlayerRabbit extends JLabel {
 	      this.hitRight = false;
 	      this.leftWallCrash = false;
 	      this.rightWallCrash = false;
+	      
+	      // 여기 해주세요
+	      this.game;
 	   
 	      this.setIcon(this.playerR);
 	      this.setSize(30, 50);
@@ -324,7 +332,7 @@ public class PlayerRabbit extends JLabel {
 	}
 
 	private void initBackgroundRabbitService() {
-		new Thread(new BackgroundRabbitService(this)).start();
+		new Thread(new BackgroundRabbitService(this, this.game)).start();
 	}
 	
 	public int getX() {
