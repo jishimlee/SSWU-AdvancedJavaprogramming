@@ -1,6 +1,7 @@
 package component;
 
 import javax.swing.ImageIcon;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -8,7 +9,6 @@ import direction.EnemyDirection;
 import main.MoonRabbitGame;
 import service.BackgroundTurtleService;
 import service.Moveable;
-import stage.*;
 
 public class Turtle extends JLabel implements Moveable {
    private int x;
@@ -24,7 +24,7 @@ public class Turtle extends JLabel implements Moveable {
    private boolean left;
    private boolean right;
    private boolean startLeft;
-   private int state;	// 공격 당했는지 확인, 0은 공격 X, 1은 공격 당함 (떡으로 변함)
+   private int state;	// 공격 당했는지 확인, 0은 공격 X, 1은 공격 당함 (떡으로 변함), 2: 먹힘
    private EnemyDirection enemyDirection;
    private boolean leftCrash;
    private boolean rightCrash;
@@ -130,6 +130,22 @@ public class Turtle extends JLabel implements Moveable {
 	   t.start();
    }
    
+   public void setState(int state) {
+	      this.state = state;
+	      if (state == 1) {
+	    	  this.songpyeon = new ImageIcon("image/songpyeon.png");
+	    	  this.setIcon(this.songpyeon);
+	    	  this.game.repaint();
+	      }
+	      else if (state == 2) {
+	          this.setVisible(false); // 거북이 비활성화
+	          this.game.getCurrentStage().remove(this); // 스테이지에서 제거
+	          this.game.getCurrentStage().revalidate(); // 레이아웃 갱신
+	          this.game.getCurrentStage().repaint(); // 화면 갱신
+	          System.out.println("송편이 제거되었습니다.");
+	      }
+   }
+   
    public int getX() {
       return this.x;
    }
@@ -192,15 +208,6 @@ public class Turtle extends JLabel implements Moveable {
    
    public void setstartLeft(boolean startLeft) {
 	   this.startLeft = startLeft;
-   }
-
-   public void setState(int state) {
-      this.state = state;
-      if (state == 1) {
-    	  this.songpyeon = new ImageIcon("image/songpyeon.png");
-    	  this.setIcon(this.songpyeon);
-    	  this.game.repaint();
-      }
    }
 
    public void setEnemyDirection(EnemyDirection enemyDirection) {

@@ -94,6 +94,7 @@ public class PlayerRabbit extends JLabel {
 	public void updateAttackState() {
 	    if (spacePressed) {
 	        setAttackIcon();
+	        System.out.println("Attack!");
 	        new Timer().schedule(new TimerTask() {
 	           
 	            public void run() {

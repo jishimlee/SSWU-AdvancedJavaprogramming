@@ -17,7 +17,7 @@ public class Stage2 extends JPanel {
     private JLabel timerLabel;
     private PlayerRabbit player;
     private Turtle turtle;
-    //private Toad toad;
+    private Toad toad;
     private Tiger tiger;
 
     private javax.swing.Timer timer; // 게임 타이머
@@ -73,11 +73,11 @@ public class Stage2 extends JPanel {
         SwingUtilities.invokeLater(() -> {
             // Stage1 초기화가 완료된 후에 Turtle 생성
             this.turtle = new Turtle(100, 255, false, this.game, this.player);
-            this.tiger = new Tiger(750, 250, false, this.game);
+            this.toad = new Toad(750, 250, false, this.game);
             this.frontMap.add(this.turtle);
-            this.frontMap.add(this.tiger);
+            this.frontMap.add(this.toad);
             new Thread(() -> turtle.start()).start(); // Turtle 실행
-            new Thread(() -> tiger.start()).start();
+            new Thread(() -> toad.start()).start();
         });
     }
     

@@ -95,10 +95,9 @@ public class MoonRabbitGame extends JFrame {
 	                    break;
 	                case KeyEvent.VK_UP: 
 	                	if(!player.isUp()&&!player.isDown()) {
-	                		player.up();
+	                		player.up();s
 	                	}
 	                	break;
-	                	
 	                case KeyEvent.VK_S:
 	                	player.spacePressed = true;
 	                    player.updateAttackState();
