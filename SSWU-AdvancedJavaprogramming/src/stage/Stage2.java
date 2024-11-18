@@ -73,11 +73,11 @@ public class Stage2 extends JPanel {
         SwingUtilities.invokeLater(() -> {
             // Stage1 초기화가 완료된 후에 Turtle 생성
             this.turtle = new Turtle(100, 255, false, this.game, this.player);
-            this.toad = new Toad(750, 250, false, this.game);
+            // this.toad = new Toad(750, 250, false, this.game);
             this.frontMap.add(this.turtle);
-            this.frontMap.add(this.toad);
+            // this.frontMap.add(this.toad);
             new Thread(() -> turtle.start()).start(); // Turtle 실행
-            new Thread(() -> toad.start()).start();
+            // new Thread(() -> toad.start()).start();
         });
     }
     
