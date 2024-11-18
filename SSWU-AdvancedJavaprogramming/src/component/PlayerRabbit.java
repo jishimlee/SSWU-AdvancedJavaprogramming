@@ -1,20 +1,19 @@
 package component;
 
 import javax.swing.Icon;
-
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.xml.stream.events.StartDocument;
 import direction.PlayerDirection;
 import service.Moveable;
 import service.BackgroundRabbitService;
+import service.MoonRabbitGame;
+
 import java.util.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.awt.*;
 import javax.imageio.ImageIO;
-
-import main.MoonRabbitGame;
 
 public class PlayerRabbit extends JLabel {
 	// 위치 상태
@@ -46,65 +45,19 @@ public class PlayerRabbit extends JLabel {
 	private boolean isThreadRunning = false;
 	public boolean spacePressed = false;
 	private boolean APressed = false;
-	// private ThrowHammer hammer;
+	private ThrowHammer hammer;
 	private ImageIcon hammerL;
 	private ImageIcon hammerR;
 	private MoonRabbitGame game;
 	
-	public ImageIcon getThrowplayerL() {
-		return throwplayerL;
-	}
-
-	public void setThrowplayerL(ImageIcon throwplayerL) {
-		this.throwplayerL = throwplayerL;
-	}
-
-	public ImageIcon getThrowplayerR() {
-		return throwplayerR;
-	}
-
-	public void setThrowplayerR(ImageIcon throwplayerR) {
-		this.throwplayerR = throwplayerR;
-	}
-
-	public boolean isAPressed() {
-		return APressed;
-	}
-
-	public void setAPressed(boolean aPressed) {
-		APressed = aPressed;
-	}
-
-	public Turtle getTurtle() {
-		return turtle;
-	}
-
-	public void setTurtle(Turtle turtle) {
-		this.turtle = turtle;
-	}
 
 	private int high;
 	
 	private Turtle turtle;
 	
-	public boolean isSpacePressed() {
-		return spacePressed;
-	}
-
-	public void setSpacePressed(boolean spacePressed) {
-		this.spacePressed = spacePressed;
-	}
-
-	public int getHigh() {
-		return high;
-	}
-
-	public void setHigh(int high) { // 높이를 입력하는 코드 
-		this.high = high;
-	}
-
-	// 생성자
-	public PlayerRabbit() {
+	
+	public PlayerRabbit(MoonRabbitGame game) {
+		  this.game = game;
 	      this.initObject();
 	      this.initSetting();
 	      this.initBackgroundRabbitService();
@@ -132,9 +85,6 @@ public class PlayerRabbit extends JLabel {
 	      this.hitRight = false;
 	      this.leftWallCrash = false;
 	      this.rightWallCrash = false;
-	      
-	      // 여기 해주세요
-	      this.game;
 	   
 	      this.setIcon(this.playerR);
 	      this.setSize(30, 50);
@@ -144,14 +94,13 @@ public class PlayerRabbit extends JLabel {
 	public void updateAttackState() {
 	    if (spacePressed) {
 	        setAttackIcon();
-
 	        new Timer().schedule(new TimerTask() {
 	           
 	            public void run() {
 	                resetPlayerIcon();
 	                spacePressed = false; 
 	            }
-	        }, 300); 
+	        }, 300);  
 	    }
 	}
 	
@@ -168,19 +117,18 @@ public class PlayerRabbit extends JLabel {
 	        }, 300); 
 	    }
 	}
-
+	int countTime =0; 
 	private void setAttackIcon() {
-	    if(spacePressed) {
-	    	if (left) {
-		        setIcon(hitplayerL);
-		        //hammer.setIcon(new ImageIcon("image/hammerL.png"));
+		
+		if (left) {
+	        setIcon(hitplayerL);
+	        //hammer.setIcon(new ImageIcon("image/hammerL.png"));
 
-		    } else {
-		        setIcon(hitplayerR);
-		        //hammer.setIcon(new ImageIcon("image/hammerR.png"));
-		    }
-		    setSize(39, 50);
+	    } else {
+	        setIcon(hitplayerR);
+	        //hammer.setIcon(new ImageIcon("image/hammerR.png"));
 	    }
+	    setSize(39, 50);
 	}
 	
 	private void setThrowAttackIcon() {
@@ -289,7 +237,55 @@ public class PlayerRabbit extends JLabel {
 		      
 		   }
 	   
+	   public boolean isSpacePressed() {
+			return spacePressed;
+		}
 
+		public void setSpacePressed(boolean spacePressed) {
+			this.spacePressed = spacePressed;
+		}
+
+		public int getHigh() {
+			return high;
+		}
+
+		public void setHigh(int high) { // 높이를 입력하는 코드 
+			this.high = high;
+		}
+
+		
+
+	   public ImageIcon getThrowplayerL() {
+			return throwplayerL;
+		}
+
+		public void setThrowplayerL(ImageIcon throwplayerL) {
+			this.throwplayerL = throwplayerL;
+		}
+
+		public ImageIcon getThrowplayerR() {
+			return throwplayerR;
+		}
+
+		public void setThrowplayerR(ImageIcon throwplayerR) {
+			this.throwplayerR = throwplayerR;
+		}
+
+		public boolean isAPressed() {
+			return APressed;
+		}
+
+		public void setAPressed(boolean aPressed) {
+			APressed = aPressed;
+		}
+
+		public Turtle getTurtle() {
+			return turtle;
+		}
+
+		public void setTurtle(Turtle turtle) {
+			this.turtle = turtle;
+		}
 
 	public PlayerDirection getDirection() {
 		return direction;
