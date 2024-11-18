@@ -14,7 +14,7 @@ import component.Turtle;
 import component.Toad;
 import component.WildBoar;
 import component.Monkey;
-// import component.ThrowHammer;
+import component.ThrowHammer;
 import stage.Stage1;
 import stage.Stage2;
 import stage.Stage3;
