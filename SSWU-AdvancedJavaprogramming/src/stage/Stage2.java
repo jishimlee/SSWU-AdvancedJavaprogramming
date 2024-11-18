@@ -54,10 +54,10 @@ public class Stage2 extends JPanel {
         this.frontMap.add(this.moonLabel);
         
      // 남은 시간 표시 라벨
-        this.timerLabel = new JLabel("Time Left: " + timeRemaining + "s");
-        this.timerLabel.setBounds(850, 40, 150, 50); // 위치 조정
-        this.timerLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        this.timerLabel.setForeground(Color.RED);
+        this.timerLabel = new JLabel(timeRemaining + "S");
+        this.timerLabel.setBounds(870, 35, 150, 50); // 위치 조정
+        this.timerLabel.setFont(new Font("Lexend", Font.BOLD, 25));
+        this.timerLabel.setForeground(Color.WHITE);
         this.frontMap.add(this.timerLabel);
 
         // 오브젝트 추가
@@ -87,7 +87,7 @@ public class Stage2 extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 if (timeRemaining > 0) {
                     timeRemaining--;
-                    timerLabel.setText("Time Left: " + timeRemaining + "s");
+                    timerLabel.setText(timeRemaining + "S");
                 } else {
                     timer.stop();
                     JOptionPane.showMessageDialog(Stage2.this, "Time's up! Game over.");

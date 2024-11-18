@@ -17,17 +17,17 @@ public class BackgroundRabbitService implements Runnable {
 	private MoonRabbitGame game;
 
 
-	public BackgroundRabbitService(PlayerRabbit player)  {
+	public BackgroundRabbitService(PlayerRabbit player, MoonRabbitGame game)  {
 		
-		//this.game = game;
+		this.game = game;
 		this.player = player;
-		//this.stageNum = game.getStageNumber();
+		this.stageNum = game.getStageNumber();
 		
 		try {
-			//switch(stageNum) {
-            //case 1:
+			switch(stageNum) {
+            case 1:
                 image = ImageIO.read(new File("image/background1.png"));
-                /*break; 
+                break; 
             case 2:
                 image = ImageIO.read(new File("image/background2.png"));
                 break;
@@ -41,7 +41,8 @@ public class BackgroundRabbitService implements Runnable {
                 image = ImageIO.read(new File("image/background5.png"));
                 break;
             default:
-                System.out.println("Invalid stage number");*/
+                System.out.println("Invalid stage number");
+			}
         
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -81,3 +82,4 @@ public class BackgroundRabbitService implements Runnable {
 		    }
 	}
 }
+
