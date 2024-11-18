@@ -27,10 +27,6 @@ public class Stage1 extends JPanel {
         initSetting();
         initThread();
     }
-    
-    public Stage1(service.MoonRabbitGame moonRabbitGame) {
-		// TODO Auto-generated constructor stub
-	}
 
 	public PlayerRabbit getPlayer() {
         return this.player;

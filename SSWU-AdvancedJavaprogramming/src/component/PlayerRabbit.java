@@ -43,7 +43,7 @@ public class PlayerRabbit extends JLabel {
 	private boolean isThreadRunning = false;
 	public boolean spacePressed = false;
 	private boolean APressed = false;
-	private ThrowHammer hammer;
+	// private ThrowHammer hammer;
 	private ImageIcon hammerL;
 	private ImageIcon hammerR;
 	

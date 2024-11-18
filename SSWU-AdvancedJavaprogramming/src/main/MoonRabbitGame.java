@@ -14,7 +14,7 @@ import component.Turtle;
 import component.Toad;
 import component.WildBoar;
 import component.Monkey;
-import component.ThrowHammer;
+// import component.ThrowHammer;
 import stage.Stage1;
 import stage.Stage2;
 import stage.Stage3;
@@ -103,12 +103,14 @@ public class MoonRabbitGame extends JFrame {
 	                	player.spacePressed = true;
 	                    player.updateAttackState();
 	                    break;
+	                    /*
 	                case KeyEvent.VK_A:
 	                	player.setAPressed(true);
 	                    player.updateThrowAttackState();
 	                    ThrowHammer throwhammer = new ThrowHammer(player);
 	                    add(throwhammer);
 	                    break;
+	                    */
 	            }
 	        }
 	        
