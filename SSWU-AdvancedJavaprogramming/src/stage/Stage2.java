@@ -25,7 +25,7 @@ public class Stage2 extends JPanel {
     
     public Stage2(MoonRabbitGame game) {
         this.game = game;
-        this.player = new PlayerRabbit();
+        this.player = new PlayerRabbit(this.game);
         initObject();
         initSetting();
         initThread();

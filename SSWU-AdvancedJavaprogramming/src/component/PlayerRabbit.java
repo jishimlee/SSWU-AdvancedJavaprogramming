@@ -7,7 +7,7 @@ import javax.xml.stream.events.StartDocument;
 import direction.PlayerDirection;
 import service.Moveable;
 import service.BackgroundRabbitService;
-import service.MoonRabbitGame;
+import main.MoonRabbitGame;
 
 import java.util.*;
 import java.awt.image.BufferedImage;

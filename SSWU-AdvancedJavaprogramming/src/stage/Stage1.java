@@ -2,6 +2,7 @@ package stage;
 
 import java.awt.Dimension;
 
+
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -22,7 +23,7 @@ public class Stage1 extends JPanel {
 
     public Stage1(MoonRabbitGame game) {
         this.game = game;
-        this.player = new PlayerRabbit();
+        this.player = new PlayerRabbit(this.game);
         initObject();
         initSetting();
         initThread();
@@ -41,7 +42,6 @@ public class Stage1 extends JPanel {
         this.add(this.frontMap); 
         this.setVisible(true);
 
-        this.player = new PlayerRabbit();
         this.player.setHigh(130);	// 플레이어 점프 높이 설정
         this.player.setBounds(100, 300, 50, 50); // 플레이어 위치 및 크기 설정
 
