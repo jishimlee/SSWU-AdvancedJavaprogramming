@@ -99,7 +99,7 @@ public class MoonRabbitGame extends JFrame {
 	                	}
 	                	break;
 	                	
-	                case KeyEvent.VK_SPACE:
+	                case KeyEvent.VK_S:
 	                	player.spacePressed = true;
 	                    player.updateAttackState();
 	                    break;
