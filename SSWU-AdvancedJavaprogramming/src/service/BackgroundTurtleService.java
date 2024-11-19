@@ -76,10 +76,10 @@ public class BackgroundTurtleService implements Runnable {
 				
 			// 충돌여부 확인
 			// state == 0일 때, 토끼 목숨 깎이고 2000ms 무적
-			// state == 1일 때, 떡 state == 3, 사라짐, 점수 올라감
+			// state == 1일 때, 떡 / state == 2, 사라짐, 점수 올라감
 			checkCollision();
 			
-			if (turtle.getState() == 0) checkAttacked();
+			if (state == 0) checkAttacked();
 				
 			try {
 				Thread.sleep(10);

@@ -1,13 +1,13 @@
 package component;
 
 import javax.swing.ImageIcon;
-
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import direction.EnemyDirection;
 import main.MoonRabbitGame;
-import service.BackgroundToadService;
 import service.Moveable;
+import service.ToadService;
 
 public class Toad extends JLabel implements Moveable {
 	   private int x;
@@ -29,20 +29,17 @@ public class Toad extends JLabel implements Moveable {
 	   private boolean rightCrash;
 	   private static final int SPEED = 2;
 	   private static final int JUMPSPEED = 2;
-	   private int stageHeight;	// up용 스테이지 높이 표시
+	   private MoonRabbitGame game;
+	   private PlayerRabbit player;
+	   private int stageNumber;
+	   private JPanel stage;
 	   
 	   private boolean isJumping; // 점프 상태 플래그
 	   private boolean canJump;	// 검사 가능한지 플래그
-
-	   private MoonRabbitGame game;
 	   
 	   private ImageIcon toadR;
 	   private ImageIcon toadL;
-	   
-	
-	   public void setStageHeight(int stageHeight) {
-		   this.stageHeight = stageHeight;
-	   }
+	   private ImageIcon honey;
 	   
 		
 	   public Toad() {
@@ -50,10 +47,13 @@ public class Toad extends JLabel implements Moveable {
 	   }
 
 	   
-	   public Toad(int x, int y, boolean left, MoonRabbitGame game) {
+	   public Toad(int x, int y, boolean left, MoonRabbitGame game, PlayerRabbit player) {
 		      this.initObject();
 		      this.initSetting(x, y, left);
 		      this.game = game;
+		      this.stage = game.getCurrentStage();	// 현재 실행 중인 stage 값 받아오기 위함
+		      this.player = player; // PlayerRabbit 객체를 직접 전달받음
+		      this.stageNumber = game.getStageNumber();   
 	   }
 	   
 	   
@@ -91,7 +91,7 @@ public class Toad extends JLabel implements Moveable {
 	   
 	   private void initBackgroundToadService() {
 		   System.out.println("스레드 시작");
-		   (new Thread(new BackgroundToadService(this, game))).start();
+		   (new Thread(new ToadService(this, this.game, this.player))).start();
 	   }
 
 	   
@@ -119,6 +119,7 @@ public class Toad extends JLabel implements Moveable {
 		   Thread t = new Thread(() -> {
 			   while (true) {
 				   if (canJump) {
+					   canJump = false;
 					   // 점프로 올라갔다가
 					   for (int i = 0; i < 10; i++) {
 						   this.x -= SPEED;
@@ -141,10 +142,11 @@ public class Toad extends JLabel implements Moveable {
 							   e2.printStackTrace();
 						   }
 					   }
-					   this.isJumping = false;	// 바닥 검사 재시작
 					   
 				        try {
-				            Thread.sleep(50); // 점프 딜레이
+				            Thread.sleep(100); // 점프 딜레이
+				            this.isJumping = false;	// 바닥 검사 재시작
+				            canJump = true;
 				        } catch (InterruptedException e) {
 				            e.printStackTrace();
 				        }
@@ -175,6 +177,21 @@ public class Toad extends JLabel implements Moveable {
 		   t.start();
 	   }
 	   
+	   public void setState(int state) {
+		      this.state = state;
+		      if (state == 1) {
+		    	  this.honey = new ImageIcon("image/honey.png");
+		    	  this.setIcon(this.honey);
+		    	  this.game.repaint();
+		      }
+		      else if (state == 2) {
+		          this.setVisible(false); // 거북이 비활성화
+		          this.game.getCurrentStage().remove(this); // 스테이지에서 제거
+		          this.game.getCurrentStage().revalidate(); // 레이아웃 갱신
+		          this.game.getCurrentStage().repaint(); // 화면 갱신
+		          System.out.println("송편이 제거되었습니다.");
+		      }
+	   }
 	   
 	   // 접근자, 설정자
 	   public boolean isJumping() {
@@ -257,10 +274,6 @@ public class Toad extends JLabel implements Moveable {
 		   this.startLeft = startLeft;
 	   }
 
-	   public void setState(int state) {
-	      this.state = state;
-	   }
-
 	   public void setEnemyDirection(EnemyDirection enemyDirection) {
 	      this.enemyDirection = enemyDirection;
 	   }
@@ -273,11 +286,11 @@ public class Toad extends JLabel implements Moveable {
 	      this.rightCrash = rightCrash;
 	   }
 
-	   public void setToadR(ImageIcon monkeyR) {
-	      this.toadR = monkeyR;
+	   public void setToadR(ImageIcon toadR) {
+	      this.toadR = toadR;
 	   }
 
-	   public void setToadL(ImageIcon monkeyL) {
-	      this.toadL = monkeyL;
+	   public void setToadL(ImageIcon toadL) {
+	      this.toadL = toadL;
 	   }
 	}
