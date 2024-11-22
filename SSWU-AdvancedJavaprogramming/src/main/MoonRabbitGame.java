@@ -10,16 +10,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import component.PlayerRabbit;
-import component.Turtle;
-import component.Toad;
-import component.WildBoar;
-import component.Monkey;
 import component.ThrowHammer;
-import stage.Stage1;
-import stage.Stage2;
-import stage.Stage3;
-import stage.Stage4;
-import stage.Stage5;
+import stage.*;
 
 public class MoonRabbitGame extends JFrame {
 	private int stageNumber = 3;	// 1~5, 시작 전후 화면은 별도의 번호로 설정하도록 함 -> 다음 스테이지로 넘어갈 때 이 Number도 업데이트 해줘야 됨

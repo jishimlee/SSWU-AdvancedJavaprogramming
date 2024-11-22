@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 
 import component.PlayerRabbit;
 import component.Turtle;
+import direction.PlayerDirection;
 import main.MoonRabbitGame;
 import stage.*;
 
@@ -230,10 +231,10 @@ public class BackgroundTurtleService implements Runnable {
         	// 플레이어가 공격 버튼을 누르고 거북이와 충돌하지 않았을 때
         	if (isAttacking && !isColliding && turtle.getState() == 0) {
         	    // 공격 방향에 따라 범위를 설정
-        	    if (player.isLeft()) { // 왼쪽으로 공격할 때
+        	    if (this.player.getDirection() == PlayerDirection.LEFT) { // 왼쪽으로 공격할 때
         	        isAttacked = (playerX - 60 <= turtleX && turtleX <= playerX) && 
         	                     (playerY - 50 <= turtleY && turtleY <= playerY + 40); // 왼쪽 공격 범위
-        	    } else if (player.isRight()) { // 오른쪽으로 공격할 때
+        	    } else if (this.player.getDirection() == PlayerDirection.RIGHT) { // 오른쪽으로 공격할 때
         	        isAttacked = (playerX + 30 <= turtleX && turtleX <= playerX + 90) && 
         	                     (playerY - 50 <= turtleY && turtleY <= playerY + 40); // 오른쪽 공격 범위
         	    }

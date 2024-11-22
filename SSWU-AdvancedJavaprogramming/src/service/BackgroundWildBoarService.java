@@ -1,7 +1,6 @@
 package service;
 
 import java.awt.Color;
-
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.Timer;
@@ -12,8 +11,13 @@ import javax.swing.JPanel;
 
 import component.PlayerRabbit;
 import component.WildBoar;
+import direction.PlayerDirection;
 import main.MoonRabbitGame;
-import stage.*;
+import stage.Stage1;
+import stage.Stage2;
+import stage.Stage3;
+import stage.Stage4;
+import stage.Stage5;
 
 public class BackgroundWildBoarService implements Runnable {
 	private BufferedImage img;
@@ -242,16 +246,16 @@ public class BackgroundWildBoarService implements Runnable {
     	// 플레이어가 공격 버튼을 누르고 멧돼지와 충돌하지 않았을 때
     	if (isAttacking && !isColliding && wildboar.getState() == 0) {
     	    // 공격 방향에 따라 범위를 설정
-    	    if (player.isLeft()) { // 왼쪽으로 공격할 때
+    	    if (this.player.getDirection() == PlayerDirection.LEFT) { // 왼쪽으로 공격할 때
     	        isAttacked = (playerX - 60 <= wildboarX && wildboarX <= playerX) && 
     	                     (playerY - 50 <= wildboarY && wildboarY <= playerY + 40); // 왼쪽 공격 범위
-    	    } else if (player.isRight()) { // 오른쪽으로 공격할 때
+    	    } else if (this.player.getDirection() == PlayerDirection.RIGHT) { // 오른쪽으로 공격할 때
     	        isAttacked = (playerX + 30 <= wildboarX && wildboarX <= playerX + 90) && 
     	                     (playerY - 50 <= wildboarY && wildboarY <= playerY + 40); // 오른쪽 공격 범위
     	    }
     	    
             // 디버깅용 출력 (공격 범위와 충돌 체크)
-    	    if (player.isLeft()) {
+    	    if (this.player.getDirection() == PlayerDirection.LEFT) {
     	    	System.out.println("Left");
     	    	System.out.println("X 공격 범위 체크: " + (playerX - 60) + " ~ " + playerX);
     	    	System.out.println("Y 공격 범위 체크: " + (playerY - 50) + " ~ " + (playerY + 40));
