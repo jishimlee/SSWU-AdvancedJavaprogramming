@@ -12,14 +12,6 @@ import service.ToadService;
 public class Toad extends JLabel implements Moveable {
 	   private int x;
 	   private int y;
-	   /*
-	    * stage1 층별 y 좌표 값
-	    * 1층: y = 560
-	    * 2층: y = 455
-	    * 3층: y = 340
-	    * 4층: y = 232
-	    * 5층: y = 128
-	    */
 	   private boolean left;
 	   private boolean right;
 	   private boolean startLeft;
@@ -27,7 +19,7 @@ public class Toad extends JLabel implements Moveable {
 	   private EnemyDirection enemyDirection;
 	   private boolean leftCrash;
 	   private boolean rightCrash;
-	   private static final int SPEED = 2;
+	   private static final int SPEED = 3;
 	   private static final int JUMPSPEED = 2;
 	   private MoonRabbitGame game;
 	   private PlayerRabbit player;
@@ -84,7 +76,7 @@ public class Toad extends JLabel implements Moveable {
 	         this.setIcon(this.toadR);
 	      }
 
-	      this.setSize(50, 50);
+	      this.setSize(40, 40);
 	      this.setLocation(this.x, this.y);
 	   }
 	   
@@ -110,6 +102,8 @@ public class Toad extends JLabel implements Moveable {
 	   
 	   // 점프 시 펄쩍 뛰어오르게
 	   public void left() {
+		   if (!canJump) return;
+		   
 		   System.out.println("LEFT");
 		   this.enemyDirection = EnemyDirection.LEFT;
 		   this.setIcon(this.toadL);
@@ -117,11 +111,11 @@ public class Toad extends JLabel implements Moveable {
 		   this.isJumping = true;
 		   
 		   Thread t = new Thread(() -> {
-			   while (true) {
+			   while (this.left) {
 				   if (canJump) {
-					   canJump = false;
+					   this.canJump = false;
 					   // 점프로 올라갔다가
-					   for (int i = 0; i < 10; i++) {
+					   for (int i = 0; i < 15; i++) {
 						   this.x -= SPEED;
 						   this.y -= JUMPSPEED;
 						   this.setLocation(this.x, this.y);
@@ -132,7 +126,7 @@ public class Toad extends JLabel implements Moveable {
 						   }
 					   }
 					   // 포물선 모양으로 내려감
-					   for (int i = 0; i < 10; i++) {
+					   for (int i = 0; i < 15; i++) {
 						   this.x -= SPEED;
 						   this.y += JUMPSPEED;
 						   this.setLocation(this.x, this.y);
@@ -146,7 +140,7 @@ public class Toad extends JLabel implements Moveable {
 				        try {
 				            Thread.sleep(100); // 점프 딜레이
 				            this.isJumping = false;	// 바닥 검사 재시작
-				            canJump = true;
+				            this.canJump = true;
 				        } catch (InterruptedException e) {
 				            e.printStackTrace();
 				        }
@@ -158,6 +152,8 @@ public class Toad extends JLabel implements Moveable {
 	   }
 
 	   public void right() {
+		   if (!canJump) return;
+		   
 		   System.out.println("RIGHT");
 		   this.enemyDirection = EnemyDirection.RIGHT;
 		   this.setIcon(toadR);
@@ -193,6 +189,8 @@ public class Toad extends JLabel implements Moveable {
 		      }
 	   }
 	   
+	   
+	   
 	   // 접근자, 설정자
 	   public boolean isJumping() {
 		   return this.isJumping;
@@ -210,6 +208,15 @@ public class Toad extends JLabel implements Moveable {
 			this.canJump = canJump;
 		}
 	   
+		   public static int getSpeed() {
+				return SPEED;
+			}
+
+
+			public static int getJumpspeed() {
+				return JUMPSPEED;
+			}
+		
 	   public int getX() {
 	      return this.x;
 	   }

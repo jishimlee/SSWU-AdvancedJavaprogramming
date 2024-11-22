@@ -1,6 +1,7 @@
 package component;
 
 import java.awt.Image;
+
 import java.util.Timer;
 import java.util.TimerTask;
 import java.awt.image.BufferedImage;

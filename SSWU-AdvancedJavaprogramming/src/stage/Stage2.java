@@ -40,9 +40,12 @@ public class Stage2 extends JPanel {
     private void initObject() {
         // 배경 이미지 설정
         this.frontMap = new JLabel(new ImageIcon("image/stage2.png"));
+        this.frontMap.setBounds(0, 0, 1000, 640); // 배경 이미지 크기 설정, 겹치는거 아닌가..?
+        this.setLayout(null);
+        this.add(this.frontMap);
         this.frontMap.setBounds(0, 0, 1000, 640); // 배경 이미지 크기 설정
         this.setLayout(null); 
-        this.add(this.frontMap); 
+        this.add(this.frontMap);
         this.setVisible(true);
         
 
@@ -81,8 +84,8 @@ public class Stage2 extends JPanel {
             //this.frontMap.add(this.toad);
             new Thread(() -> turtle1.start()).start(); // Turtle 실행
             new Thread(() -> turtle2.start()).start();
-            //new Thread(() -> toad.start()).start();
-        });
+            }
+        );
     }
     
     private void initTimer() {

@@ -47,7 +47,7 @@ public class Stage5 extends JPanel {
         this.player.setBounds(100, 300, 50, 50); // 플레이어 위치 및 크기 설정
         //this.turtle = new Turtle(200, 230, false, this.game);
         this.toad = new Toad(400, 230, false, this.game, this.player);
-        this.wildboar = new WildBoar(400, 230, false, this.game);
+        this.wildboar = new WildBoar(400, 230, false, this.game, this.player);
         //this.monkey = new Monkey(400, 230, false, this.game);
         
         this.heartLabel = new JLabel(new ImageIcon("image/heart.png"));
