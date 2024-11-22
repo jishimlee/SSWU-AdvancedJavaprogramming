@@ -9,7 +9,7 @@ import main.MoonRabbitGame;
 import service.BackgroundWildBoarService;
 import service.Moveable;
 
-public class WildBoar  extends JLabel implements Moveable {
+public class WildBoar extends JLabel implements Moveable {
 	   private int x;
 	   private int y;
 	   /*
@@ -24,7 +24,26 @@ public class WildBoar  extends JLabel implements Moveable {
 	   private boolean right;
 	   private boolean startLeft;
 	   private int state;	// 공격 당했는지 확인, 0은 공격 X, 1은 공격 당함
-	   private EnemyDirection enemyDirection;
+	   private boolean rushState = false;	// true는 rush 가능, false는 rush 불가능
+	   								// 3000ms마다 true로 변경, rush 끝날 경우 다시 false으로 초기화
+	   private long lastRushTime; // 마지막 rushState 해제 시간
+
+	   public long getLastRushTime() {
+	       return lastRushTime;
+	   }
+	   
+	   public boolean isRushState() {
+		return rushState;
+	}
+
+	   public void setRushState(boolean rushState) {
+		    this.rushState = rushState;
+		    if (!rushState) {
+		        this.lastRushTime = System.currentTimeMillis(); // rushState 해제 시점 기록
+		    }
+		}
+
+	private EnemyDirection enemyDirection;
 	   private boolean leftCrash;
 	   private boolean rightCrash;
 	   private static final int SPEED = 2;
@@ -96,7 +115,8 @@ public class WildBoar  extends JLabel implements Moveable {
 		   this.left = true;
 		   Thread t = new Thread(() -> {
 			   while (this.left) {
-				   this.x -= SPEED;
+				   if (rushState) this.x -= (SPEED * 2);
+				   else this.x -= SPEED;
 				   this.setLocation(this.x, this.y);
 				   
 				   try {
@@ -108,29 +128,7 @@ public class WildBoar  extends JLabel implements Moveable {
 			   }
 		   });
 		   t.start();
-	   }
-	   
-	   public void leftRush() {
-		   System.out.println("LEFT");
-		   this.enemyDirection = EnemyDirection.LEFT;
-		   this.setIcon(this.wildboarL);
-		   this.left = true;
-		   Thread t = new Thread(() -> {
-			   while (this.left) {
-				   this.x -= SPEED * 2;
-				   this.setLocation(this.x, this.y);
-				   
-				   try {
-					   Thread.sleep(10L);
-				   } catch (Exception e2) {
-					   System.out.println("왼쪽 이동 중 인터럽트 발생: " + e2.getMessage());
-				   }
-				   
-			   }
-		   });
-		   t.start();
-	   }
-	   
+	   }	   
 
 	   public void right() {
 		   System.out.println("RIGHT");
@@ -139,7 +137,8 @@ public class WildBoar  extends JLabel implements Moveable {
 		   this.right = true;
 		   Thread t = new Thread(() -> {
 			   while(this.right) {
-				   this.x += SPEED;
+				   if (rushState) this.x += (SPEED * 2);
+				   else this.x += SPEED;
 				   this.setLocation(this.x, this.y);
 				   
 				   try {
@@ -164,7 +163,7 @@ public class WildBoar  extends JLabel implements Moveable {
 		          this.game.getCurrentStage().remove(this); // 스테이지에서 제거
 		          this.game.getCurrentStage().revalidate(); // 레이아웃 갱신
 		          this.game.getCurrentStage().repaint(); // 화면 갱신
-		          System.out.println("송편이 제거되었습니다.");
+		          System.out.println("시루떡이 제거되었습니다.");
 		      }
 	   }
 	   

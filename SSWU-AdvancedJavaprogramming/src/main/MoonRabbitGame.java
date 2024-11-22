@@ -22,7 +22,7 @@ import stage.Stage4;
 import stage.Stage5;
 
 public class MoonRabbitGame extends JFrame {
-	private int stageNumber = 2;	// 1~5, 시작 전후 화면은 별도의 번호로 설정하도록 함 -> 다음 스테이지로 넘어갈 때 이 Number도 업데이트 해줘야 됨
+	private int stageNumber = 3;	// 1~5, 시작 전후 화면은 별도의 번호로 설정하도록 함 -> 다음 스테이지로 넘어갈 때 이 Number도 업데이트 해줘야 됨
 	private CardLayout cardLayout;
 	private JPanel stagePanel;
 	private PlayerRabbit player;
@@ -38,7 +38,7 @@ public class MoonRabbitGame extends JFrame {
 	private void initLayout() {
         this.setTitle("달토끼전");
         this.setSize(1010, 670);
-        // this.setResizable(false);
+        this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
 
@@ -67,6 +67,7 @@ public class MoonRabbitGame extends JFrame {
 	            Stage3 stage3 = new Stage3(this); // Stage3 로드, 실험위해 stage3로 함
 	            this.player = stage3.getPlayer(); // player를 가져옴
 	            stagePanel.add(stage3, "Stage3");
+	            this.currentStage = stage3;
 	            break;
 	        // 이후 다른 스테이지 추가
 	        default:

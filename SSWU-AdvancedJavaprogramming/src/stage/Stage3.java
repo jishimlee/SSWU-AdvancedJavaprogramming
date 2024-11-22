@@ -68,15 +68,10 @@ public class Stage3 extends JPanel {
         
         private void initThread() {
             SwingUtilities.invokeLater(() -> {
-                // Stage1 초기화가 완료된 후에 Turtle 생성
-            	this.wildboar = new WildBoar(350, 250, false, this.game, this.player);
-            	this.frontMap.add(this.wildboar);
-            	new Thread(() -> wildboar.start()).start();
-                // new Thread(() -> toad.start()).start();
+                this.wildboar = new WildBoar(350, 250, false, this.game, this.player);
+                this.frontMap.add(this.wildboar);
+                new Thread(() -> wildboar.start()).start();
             });
-            // new Thread(() -> turtle.start()).start();
-            // new Thread(() -> toad.start()).start();
-            // new Thread(() -> wildboar.start()).start();
         }
         
         public MoonRabbitGame getGame() {

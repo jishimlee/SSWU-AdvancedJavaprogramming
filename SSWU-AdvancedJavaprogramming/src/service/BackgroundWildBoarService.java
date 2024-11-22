@@ -51,7 +51,7 @@ public class BackgroundWildBoarService implements Runnable {
 		this.wildboar = wildboar;
 		this.game = game;
 		this.player = player;
-		stage = game.getCurrentStage();
+		this.stage = game.getCurrentStage();
 		this.stageNumber = game.getStageNumber();
 		System.out.println("현재 스테이지는 stage " + stage + "입니다.");
 		try {
@@ -77,10 +77,21 @@ public class BackgroundWildBoarService implements Runnable {
 			// 충돌여부 확인
 			// state == 0일 때, 토끼 목숨 깎이고 2000ms 무적
 			// state == 1일 때, 떡 / state == 2, 사라짐, 점수 올라감
-			if (state == 0) checkStageCollision();
-			checkPlayerCollision();
+			if (state == 0) {
+				checkStageCollision();
+				checkAttacked();
+			}
 			
-			if (state == 0) checkAttacked();
+			checkPlayerCollision();
+
+	        // rushState 상태 확인 및 갱신
+	        if (!wildboar.isRushState()) { // rushState가 false인 경우
+	            long currentTime = System.currentTimeMillis();
+	            if (currentTime - wildboar.getLastRushTime() >= 2000) { // 2초 경과 확인
+	                wildboar.setRushState(true); // rushState 활성화
+	                System.out.println("rushState 활성화!");
+	            }
+	        }
 				
 			try {
 				Thread.sleep(10);
@@ -130,9 +141,9 @@ public class BackgroundWildBoarService implements Runnable {
 		try {
             // 바닥 없는 곳 확인
             Color leftColor = new Color(img.getRGB(wildboarX - 7, wildboarY + 25));
-            Color rightColor = new Color(img.getRGB(wildboarX + 50 + 7, wildboarY + 25));
+            Color rightColor = new Color(img.getRGB(wildboarX + 67 + 7, wildboarY + 25));
             Color leftBottom = new Color(img.getRGB(wildboarX - 2, wildboarY + 55));
-            Color rightBottom = new Color(img.getRGB(wildboarX + 50 + 2, wildboarY + 55));
+            Color rightBottom = new Color(img.getRGB(wildboarX + 67 + 2, wildboarY + 55));
 
             // 좌측 및 우측 벽 충돌 검사
             if (isRed(leftColor)) {
@@ -140,12 +151,14 @@ public class BackgroundWildBoarService implements Runnable {
                 wildboar.setLeft(false);
                 if (!wildboar.isRight()) {
                     wildboar.right();
+                    if (wildboar.isRushState()) wildboar.setRushState(false);
                 }
             } else if (isRed(rightColor)) {
                 System.out.println("오른쪽 충돌");
                 wildboar.setRight(false);
                 if (!wildboar.isLeft()) {
                     wildboar.left();
+                    if (wildboar.isRushState()) wildboar.setRushState(false);
                 }
             }
 
@@ -177,8 +190,8 @@ public class BackgroundWildBoarService implements Runnable {
 	private void checkPlayerCollision() {
 		if (state != 2) {
 			// 멧돼지와 플레이어의 충돌 영역 (50 x 50 기준)
-        	isColliding = (wildboarX < playerX + 30) && (wildboarX + 50 > playerX) && 
-        	                      (wildboarY < playerY + 50) && (wildboarY + 50 > playerY);       
+        	isColliding = (wildboarX < playerX + 30) && (wildboarX + 67 > playerX) && 
+        	                      (wildboarY < playerY + 50) && (wildboarY + 67 > playerY);       
         	if (state == 0) {
         	    try {
         	        // 충돌 확인 로직 -> 몸이랑 닿은 거

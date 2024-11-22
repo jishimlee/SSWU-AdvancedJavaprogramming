@@ -43,10 +43,10 @@ public class Stage2 extends JPanel {
         this.frontMap.setBounds(0, 0, 1000, 640); // 배경 이미지 크기 설정, 겹치는거 아닌가..?
         this.setLayout(null);
         this.add(this.frontMap);
-        this.frontMap.setBounds(0, 0, 1000, 640); // 배경 이미지 크기 설정
-        this.setLayout(null); 
-        this.add(this.frontMap);
-        this.setVisible(true);
+//        this.frontMap.setBounds(0, 0, 1000, 640); // 배경 이미지 크기 설정
+//        this.setLayout(null); 
+//        this.add(this.frontMap);
+//        this.setVisible(true);
         
 
         this.heartLabel = new JLabel(new ImageIcon("image/heart.png"));
