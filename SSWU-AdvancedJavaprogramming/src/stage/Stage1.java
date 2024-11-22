@@ -19,7 +19,11 @@ public class Stage1 extends JPanel {
     private JLabel moonLabel;
     private JLabel heartLabel;
     private PlayerRabbit player;
-    private Turtle turtle;
+    private Turtle turtle1;
+    private Turtle turtle2;
+    private Turtle turtle3;
+    private Turtle turtle4;
+    private Turtle turtle5;
 
     public Stage1(MoonRabbitGame game) {
         this.game = game;
@@ -65,9 +69,22 @@ public class Stage1 extends JPanel {
     private void initThread() {
         SwingUtilities.invokeLater(() -> {
             // Stage1 초기화가 완료된 후에 Turtle 생성
-            this.turtle = new Turtle(200, 230, false, this.game, this.player);
-            this.frontMap.add(this.turtle);
-            new Thread(() -> turtle.start()).start(); // Turtle 실행
+            this.turtle1 = new Turtle(200, 230, false, this.game, this.player);
+            this.turtle2 = new Turtle(400, 128, false, this.game, this.player);
+            this.turtle3 = new Turtle(200, 340, false, this.game, this.player);
+            this.turtle4 = new Turtle(600, 340, false, this.game, this.player);
+            this.turtle5 = new Turtle(800, 454, false, this.game, this.player);
+            
+            this.frontMap.add(this.turtle1);
+            this.frontMap.add(this.turtle2);
+            this.frontMap.add(this.turtle3);
+            this.frontMap.add(this.turtle4);
+            this.frontMap.add(this.turtle5);
+            new Thread(() -> turtle1.start()).start(); // Turtle 실행
+            new Thread(() -> turtle2.start()).start();
+            new Thread(() -> turtle3.start()).start();
+            new Thread(() -> turtle4.start()).start();
+            new Thread(() -> turtle5.start()).start();
         });
     }
     
