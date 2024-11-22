@@ -132,12 +132,12 @@ public class Turtle extends JLabel implements Moveable {
    
    public void setState(int state) {
 	      this.state = state;
-	      if (state == 1) {
+	      if (this.state == 1) {
 	    	  this.songpyeon = new ImageIcon("image/songpyeon.png");
 	    	  this.setIcon(this.songpyeon);
 	    	  this.game.repaint();
 	      }
-	      else if (state == 2) {
+	      else if (this.state == 2) {
 	          this.setVisible(false); // 거북이 비활성화
 	          this.game.getCurrentStage().remove(this); // 스테이지에서 제거
 	          this.game.getCurrentStage().revalidate(); // 레이아웃 갱신

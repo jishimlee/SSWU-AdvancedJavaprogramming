@@ -216,8 +216,8 @@ public class BackgroundWildBoarService implements Runnable {
 	                if (isColliding) {
 	                    handleTtoek();
 	                }
-	            } catch (Exception e2) {
-	                System.out.println("Error : " + e2.getMessage());
+	            } catch (Exception e) {
+	                System.out.println("Error : " + e.getMessage());
 	            }
             }
 		}
@@ -247,10 +247,12 @@ public class BackgroundWildBoarService implements Runnable {
     	if (isAttacking && !isColliding && wildboar.getState() == 0) {
     	    // 공격 방향에 따라 범위를 설정
     	    if (this.player.getDirection() == PlayerDirection.LEFT) { // 왼쪽으로 공격할 때
-    	        isAttacked = (playerX - 60 <= wildboarX && wildboarX <= playerX) && 
+    	        isAttacked = ((playerX - 60 <= wildboarX && wildboarX <= playerX) ||
+    	        		(playerX - 60 <= wildboarX + 67 && wildboarX + 67 <= playerX)) && 
     	                     (playerY - 50 <= wildboarY && wildboarY <= playerY + 40); // 왼쪽 공격 범위
     	    } else if (this.player.getDirection() == PlayerDirection.RIGHT) { // 오른쪽으로 공격할 때
-    	        isAttacked = (playerX + 30 <= wildboarX && wildboarX <= playerX + 90) && 
+    	        isAttacked = ((playerX + 30 <= wildboarX && wildboarX <= playerX + 90) ||
+    	        		(playerX + 30 <= wildboarX + 67 && wildboarX + 67 <= playerX + 30)) && 
     	                     (playerY - 50 <= wildboarY && wildboarY <= playerY + 40); // 오른쪽 공격 범위
     	    }
     	    
