@@ -2,6 +2,7 @@ package component;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import direction.EnemyDirection;
 import main.MoonRabbitGame;
@@ -26,20 +27,27 @@ public class WildBoar  extends JLabel implements Moveable {
 	   private EnemyDirection enemyDirection;
 	   private boolean leftCrash;
 	   private boolean rightCrash;
-	   private static final int SPEED = 4;
+	   private static final int SPEED = 2;
 	   private MoonRabbitGame game;
+	   private PlayerRabbit player;
+	   private int stageNumber;
+	   private JPanel stage;
 	   
 	   private ImageIcon wildboarR;
 	   private ImageIcon wildboarL;
+	   private ImageIcon siru;
 
 	   public WildBoar() {
 	      this.initObject();
 	   }
 
-	   public WildBoar(int x, int y, boolean left, MoonRabbitGame game) {
+	   public WildBoar(int x, int y, boolean left, MoonRabbitGame game, PlayerRabbit player) {
 		      this.initObject();
 		      this.initSetting(x, y, left);
 		      this.game = game;
+		      this.stage = game.getCurrentStage();	// 현재 실행 중인 stage 값 받아오기 위함
+		      this.player = player; // PlayerRabbit 객체를 직접 전달받음
+		      this.stageNumber = game.getStageNumber();
 	   }
 	   
 	   public void start() {
@@ -72,7 +80,7 @@ public class WildBoar  extends JLabel implements Moveable {
 	   
 	   private void initBackgroundWildBoarService() {
 		   System.out.println("스레드 시작");
-		   (new Thread(new BackgroundWildBoarService(this, game))).start();
+		   (new Thread(new BackgroundWildBoarService(this, this.game, this.player))).start();
 	   }
 
 	   public void up() {
@@ -101,6 +109,28 @@ public class WildBoar  extends JLabel implements Moveable {
 		   });
 		   t.start();
 	   }
+	   
+	   public void leftRush() {
+		   System.out.println("LEFT");
+		   this.enemyDirection = EnemyDirection.LEFT;
+		   this.setIcon(this.wildboarL);
+		   this.left = true;
+		   Thread t = new Thread(() -> {
+			   while (this.left) {
+				   this.x -= SPEED * 2;
+				   this.setLocation(this.x, this.y);
+				   
+				   try {
+					   Thread.sleep(10L);
+				   } catch (Exception e2) {
+					   System.out.println("왼쪽 이동 중 인터럽트 발생: " + e2.getMessage());
+				   }
+				   
+			   }
+		   });
+		   t.start();
+	   }
+	   
 
 	   public void right() {
 		   System.out.println("RIGHT");
@@ -120,6 +150,22 @@ public class WildBoar  extends JLabel implements Moveable {
 			   }
 		   });
 		   t.start();
+	   }
+	   
+	   public void setState(int state) {
+		      this.state = state;
+		      if (state == 1) {
+		    	  this.siru = new ImageIcon("image/siru.png");
+		    	  this.setIcon(this.siru);
+		    	  this.game.repaint();
+		      }
+		      else if (state == 2) {
+		          this.setVisible(false); // 거북이 비활성화
+		          this.game.getCurrentStage().remove(this); // 스테이지에서 제거
+		          this.game.getCurrentStage().revalidate(); // 레이아웃 갱신
+		          this.game.getCurrentStage().repaint(); // 화면 갱신
+		          System.out.println("송편이 제거되었습니다.");
+		      }
 	   }
 	   
 	   public int getX() {
@@ -184,10 +230,6 @@ public class WildBoar  extends JLabel implements Moveable {
 	   
 	   public void setstartLeft(boolean startLeft) {
 		   this.startLeft = startLeft;
-	   }
-
-	   public void setState(int state) {
-	      this.state = state;
 	   }
 
 	   public void setEnemyDirection(EnemyDirection enemyDirection) {
