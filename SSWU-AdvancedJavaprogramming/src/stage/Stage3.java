@@ -1,12 +1,11 @@
 package stage;
 
 import javax.swing.*;
+
 import java.awt.*;
 
 import component.PlayerRabbit;
-import component.Toad;
-import component.Turtle;
-import component.WildBoar;
+import component.*;
 import main.MoonRabbitGame;
 
 public class Stage3 extends JPanel {
@@ -18,6 +17,8 @@ public class Stage3 extends JPanel {
     private Turtle turtle;
     private Toad toad;
     private WildBoar wildboar;
+    private Tiger tiger;
+    
     
     public Stage3(MoonRabbitGame game) {
         this.game = game;
@@ -69,8 +70,11 @@ public class Stage3 extends JPanel {
         private void initThread() {
             SwingUtilities.invokeLater(() -> {
                 this.wildboar = new WildBoar(350, 250, false, this.game, this.player);
+                this.tiger = new Tiger(800, 560, true, this.game, this.player);
                 this.frontMap.add(this.wildboar);
+                this.frontMap.add(this.tiger);
                 new Thread(() -> wildboar.start()).start();
+                new Thread(() -> tiger.start()).start();
             });
         }
         

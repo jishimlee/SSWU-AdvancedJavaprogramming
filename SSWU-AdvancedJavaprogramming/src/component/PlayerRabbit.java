@@ -21,8 +21,8 @@ public class PlayerRabbit extends JLabel {
    private int x;
    private int y;
    // 크기
-   private int width = 30;
-   private int height = 50;
+//   private int width = 30;
+//   private int height = 50;
    private PlayerDirection direction;
    // 움직임 상태
    private boolean left;
@@ -80,61 +80,109 @@ public class PlayerRabbit extends JLabel {
          this.initBackgroundRabbitService();
    }
 
-   private void initObject() {
-        this.playerR = new ImageIcon("image/rabbitR.png");
-        this.playerL = new ImageIcon("image/rabbitL.png");
-        this.hitplayerL = new ImageIcon("image/rabbitHitL.png");
-        this.hitplayerR = new ImageIcon("image/rabbitHitR.png");
-        this.throwplayerL = new ImageIcon("image/rabbitthrowL.png");
-        this.throwplayerR = new ImageIcon("image/rabbitthrowR.png");
-        hammerL = new ImageIcon("image/hammerL.png");
-       hammerR = new ImageIcon("image/hammerR.png");
-   }
-   private void initSetting() {
-         this.x = 45;
-         this.y = 555;
-         
-         this.left = false;
-         this.right = false;
-         this.up = false;
-         this.down = false;
-         this.hitLeft = false;
-         this.hitRight = false;
-         this.leftWallCrash = false;
-         this.rightWallCrash = false;
-      
-         this.setIcon(this.playerR);
-         this.setSize(30, 50);
-         this.setLocation(this.x, this.y);
-         
-         //목숨 초기화
-         hearts = new ArrayList<>();
-         for (int i = 0; i < lives; i++) {
-             JLabel heart = new JLabel(new ImageIcon("image/heart.png"));
-             heart.setSize(30, 30);
-             heart.setLocation(10 + (i * 35), 10); // 하트 간격
-             game.add(heart); // 게임 화면에 추가
-             hearts.add(heart);
-         }
-   }
-   
-   public void updateAttackState() {
-       if (spacePressed) {
-           setAttackIcon();
-           System.out.println("Attack!");
-           new Timer().schedule(new TimerTask() {
-              
-               public void run() {
-                   resetPlayerIcon();
-                   spacePressed = false; 
-               }
-           }, 300);  
-       }
-   }
-   
-   public void updateThrowAttackState() {
-      if (APressed) {
-           setThrowAttackIcon();
+//<<<<<<< HEAD
+//   private void initObject() {
+//        this.playerR = new ImageIcon("image/rabbitR.png");
+//        this.playerL = new ImageIcon("image/rabbitL.png");
+//        this.hitplayerL = new ImageIcon("image/rabbitHitL.png");
+//        this.hitplayerR = new ImageIcon("image/rabbitHitR.png");
+//        this.throwplayerL = new ImageIcon("image/rabbitthrowL.png");
+//        this.throwplayerR = new ImageIcon("image/rabbitthrowR.png");
+//        hammerL = new ImageIcon("image/hammerL.png");
+//       hammerR = new ImageIcon("image/hammerR.png");
+//   }
+//   private void initSetting() {
+//         this.x = 45;
+//         this.y = 555;
+//         
+//         this.left = false;
+//         this.right = false;
+//         this.up = false;
+//         this.down = false;
+//         this.hitLeft = false;
+//         this.hitRight = false;
+//         this.leftWallCrash = false;
+//         this.rightWallCrash = false;
+//      
+//         this.setIcon(this.playerR);
+//         this.setSize(30, 50);
+//         this.setLocation(this.x, this.y);
+//         
+//         //목숨 초기화
+//         hearts = new ArrayList<>();
+//         for (int i = 0; i < lives; i++) {
+//             JLabel heart = new JLabel(new ImageIcon("image/heart.png"));
+//             heart.setSize(30, 30);
+//             heart.setLocation(10 + (i * 35), 10); // 하트 간격
+//             game.add(heart); // 게임 화면에 추가
+//             hearts.add(heart);
+//         }
+//   }
+//   
+//   public void updateAttackState() {
+//       if (spacePressed) {
+//           setAttackIcon();
+//           System.out.println("Attack!");
+//           new Timer().schedule(new TimerTask() {
+//              
+//               public void run() {
+//                   resetPlayerIcon();
+//                   spacePressed = false; 
+//               }
+//           }, 300);  
+//       }
+//   }
+//   
+//   public void updateThrowAttackState() {
+//      if (APressed) {
+//           setThrowAttackIcon();
+//=======
+	private void initObject() {
+	     this.playerR = new ImageIcon("image/rabbitR.png");
+	     this.playerL = new ImageIcon("image/rabbitL.png");
+	     this.hitplayerL = new ImageIcon("image/rabbitHitL.png");
+	     this.hitplayerR = new ImageIcon("image/rabbitHitR.png");
+	     this.throwplayerL = new ImageIcon("image/rabbitthrowL.png");
+	     this.throwplayerR = new ImageIcon("image/rabbitthrowR.png");
+	     hammerL = new ImageIcon("image/hammerL.png");
+		 hammerR = new ImageIcon("image/hammerR.png");
+	}
+	private void initSetting() {
+	      this.x = 45;
+	      this.y = 560;
+	      
+	      this.left = false;
+	      this.right = false;
+	      this.up = false;
+	      this.down = false;
+	      this.hitLeft = false;
+	      this.hitRight = false;
+	      this.leftWallCrash = false;
+	      this.rightWallCrash = false;
+	   
+	      this.setIcon(this.playerR);
+	      this.setSize(30, 50);
+	      this.setLocation(this.x, this.y);
+	}
+	
+	public void updateAttackState() {
+	    if (spacePressed) {
+	        setAttackIcon();
+	        System.out.println("Attack!");
+	        new Timer().schedule(new TimerTask() {
+	           
+	            public void run() {
+	                resetPlayerIcon();
+	                spacePressed = false; 
+	            }
+	        }, 300);  
+	    }
+	}
+	
+	public void updateThrowAttackState() {
+		if (APressed) {
+	        setThrowAttackIcon();
+//>>>>>>> branch 'main' of https://github.com/jishimlee/SSWU-AdvancedJavaprogramming.git
 
            new Timer().schedule(new TimerTask() {
               

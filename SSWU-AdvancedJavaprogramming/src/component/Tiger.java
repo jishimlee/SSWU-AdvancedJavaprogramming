@@ -1,7 +1,9 @@
 package component;
 
 import javax.swing.ImageIcon;
+
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import direction.EnemyDirection;
 import main.MoonRabbitGame;
@@ -11,35 +13,51 @@ import service.Moveable;
 public class Tiger extends JLabel implements Moveable {
 	   private int x;
 	   private int y;
-	   /*
-	    * stage1 층별 y 좌표 값
-	    * 1층: y = 560
-	    * 2층: y = 455
-	    * 3층: y = 340
-	    * 4층: y = 232
-	    * 5층: y = 128
-	    */
 	   private boolean left;
 	   private boolean right;
 	   private boolean startLeft;
 	   private int state;	// 공격 당했는지 확인, 0은 공격 X, 1은 공격 당함
+	  
+	   private boolean rushState = false;
+	   private long lastRushTime; // 마지막 rushState 해제 시간
+	   private long lastRushStartTime;
+	   public long getLastRushTime() { return lastRushTime; }
+	   public boolean isRushState() { return rushState; }
+	   public void setRushState( boolean rushState ) {
+		   this.rushState = rushState;
+		   if (!rushState) {
+			   this.lastRushTime = System.currentTimeMillis(); // rushState 해제 시점 기록
+		   }
+		   else {
+			   this.lastRushStartTime = System.currentTimeMillis();
+		   }
+	   }
+	   public long getLastRushStartTime() { return lastRushStartTime; }
+	   
 	   private EnemyDirection enemyDirection;
 	   private boolean leftCrash;
 	   private boolean rightCrash;
-	   private static final int SPEED = 4;
+	   private static final int SPEED = 3;
 	   private MoonRabbitGame game;
+	   private PlayerRabbit player;
+	   private int stageNumber;
+	   private JPanel stage;
 	   
 	   private ImageIcon tigerR;
 	   private ImageIcon tigerL;
+	   private ImageIcon rainbow;
 
 	   public Tiger() {
 	      this.initObject();
 	   }
 
-	   public Tiger(int x, int y, boolean left, MoonRabbitGame game) {
+	   public Tiger(int x, int y, boolean left, MoonRabbitGame game, PlayerRabbit player) {
 	      this.initObject();
 	      this.initSetting(x, y, left);
 	      this.game = game;
+	      this.stage = game.getCurrentStage();	// 현재 실행 중인 stage 값 받아오기 위함
+	      this.player = player; // PlayerRabbit 객체를 직접 전달받음
+	      this.stageNumber = game.getStageNumber();
 	   }
 	   
 	   public void start() {
@@ -49,13 +67,14 @@ public class Tiger extends JLabel implements Moveable {
 		   if (startLeft) this.left();
 		   else this.right();
 	   }
+	   
 
 	   public void initObject() {
 	      this.tigerL = new ImageIcon("image/tigerL.png");
 	      this.tigerR = new ImageIcon("image/tigerR.png");
 	   }
 	   
-	   // y 좌표를 토끼보다 5 크게 설정하면 토끼와 동일한 위치에 있음
+
 	   public void initSetting(int x, int y, boolean left) {
 	      this.x = x;
 	      this.y = y;
@@ -72,7 +91,7 @@ public class Tiger extends JLabel implements Moveable {
 	   
 	   private void initBackgroundTigerService() {
 		   System.out.println("스레드 시작");
-		   (new Thread(new BackgroundTigerService(this, game))).start();
+		   (new Thread(new BackgroundTigerService(this, this.game, this.player))).start();
 	   }
 
 	   public void up() {
@@ -88,13 +107,14 @@ public class Tiger extends JLabel implements Moveable {
 		   this.left = true;
 		   Thread t = new Thread(() -> {
 			   while (this.left) {
-				   this.x -= SPEED;
+				   if (rushState) this.x -= (SPEED * 2);
+				   else this.x -= SPEED;
 				   this.setLocation(this.x, this.y);
 				   
 				   try {
 					   Thread.sleep(10L);
-				   } catch (Exception e2) {
-					   System.out.println("왼쪽 이동 중 인터럽트 발생: " + e2.getMessage());
+				   } catch (Exception e) {
+					   System.out.println("왼쪽 이동 중 인터럽트 발생: " + e.getMessage());
 				   }
 				   
 			   }
@@ -109,18 +129,38 @@ public class Tiger extends JLabel implements Moveable {
 		   this.right = true;
 		   Thread t = new Thread(() -> {
 			   while(this.right) {
-				   this.x += SPEED;
+				   if (rushState) this.x += (SPEED * 2);
+				   else this.x += SPEED;
 				   this.setLocation(this.x, this.y);
 				   
 				   try {
 					   Thread.sleep(10L);
-				   } catch (Exception e2) {
-		               System.out.println("오른쪽 이동 중 인터럽트 발생: " + e2.getMessage());
+				   } catch (Exception e) {
+		               System.out.println("오른쪽 이동 중 인터럽트 발생: " + e.getMessage());
 				   }
 			   }
 		   });
 		   t.start();
 	   }
+	   
+	   
+	   public void setState(int state) {
+		      this.state = state;
+		      if (state == 1) {
+		    	  this.rainbow = new ImageIcon("image/rainbow.png");
+		    	  this.setIcon(this.rainbow);
+		    	  this.setY(this.getY() + 5);
+		    	  this.game.repaint();
+		      }
+		      else if (state == 2) {
+		          this.setVisible(false); // 거북이 비활성화
+		          this.game.getCurrentStage().remove(this); // 스테이지에서 제거
+		          this.game.getCurrentStage().revalidate(); // 레이아웃 갱신
+		          this.game.getCurrentStage().repaint(); // 화면 갱신
+		          System.out.println("무지개떡이 제거되었습니다.");
+		      }
+	   }
+	   
 	   
 	   public int getX() {
 	      return this.x;
@@ -184,10 +224,6 @@ public class Tiger extends JLabel implements Moveable {
 	   
 	   public void setstartLeft(boolean startLeft) {
 		   this.startLeft = startLeft;
-	   }
-
-	   public void setState(int state) {
-	      this.state = state;
 	   }
 
 	   public void setEnemyDirection(EnemyDirection enemyDirection) {

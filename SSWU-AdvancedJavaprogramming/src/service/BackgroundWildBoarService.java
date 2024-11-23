@@ -13,11 +13,7 @@ import component.PlayerRabbit;
 import component.WildBoar;
 import direction.PlayerDirection;
 import main.MoonRabbitGame;
-import stage.Stage1;
-import stage.Stage2;
-import stage.Stage3;
-import stage.Stage4;
-import stage.Stage5;
+import stage.*;
 
 public class BackgroundWildBoarService implements Runnable {
 	private BufferedImage img;
@@ -30,18 +26,15 @@ public class BackgroundWildBoarService implements Runnable {
 	int wildboarY;
 	int playerX;
 	int playerY;
-	private boolean isRed(Color color) {
-	    return color.getRed() == 255 && color.getGreen() == 0 && color.getBlue() == 0;
-	}
 	
 	private MoonRabbitGame game;
 	private String backgroundPath;
-	PlayerRabbit currentPlayer;
+	private PlayerRabbit currentPlayer;
 	private boolean isColliding;
 	private boolean isAttacked;
+	
 	// 무적 상태를 관리하는 플래그
 	private boolean isInvincible;
-	
 	// 토끼 상태 확인
 	private boolean touchingRabbit = false;
 	// 토끼가 공격 중인가?
@@ -59,7 +52,7 @@ public class BackgroundWildBoarService implements Runnable {
 		this.stageNumber = game.getStageNumber();
 		System.out.println("현재 스테이지는 stage " + stage + "입니다.");
 		try {
-			if (stageNumber == 1)	backgroundPath = "image/background1.png";
+			if (stageNumber == 1) backgroundPath = "image/background1.png";
 			else if (stageNumber == 2) backgroundPath = "image/background2.png";
 			else if (stageNumber == 3) backgroundPath = "image/background3.png";
 			else if (stageNumber == 4) backgroundPath = "image/background4.png";
@@ -313,6 +306,10 @@ public class BackgroundWildBoarService implements Runnable {
 	    wildboar.setState(2); // 최종 상태로 변경
 	    wildboar.repaint();
 	    stage.repaint();
+	}
+	
+	private boolean isRed(Color color) {
+	    return color.getRed() == 255 && color.getGreen() == 0 && color.getBlue() == 0;
 	}
 	
 }

@@ -12,14 +12,6 @@ import service.Moveable;
 public class WildBoar extends JLabel implements Moveable {
 	   private int x;
 	   private int y;
-	   /*
-	    * stage1 층별 y 좌표 값
-	    * 1층: y = 560
-	    * 2층: y = 455
-	    * 3층: y = 340
-	    * 4층: y = 232
-	    * 5층: y = 128
-	    */
 	   private boolean left;
 	   private boolean right;
 	   private boolean startLeft;
@@ -43,7 +35,7 @@ public class WildBoar extends JLabel implements Moveable {
 		    }
 		}
 
-	private EnemyDirection enemyDirection;
+	   private EnemyDirection enemyDirection;
 	   private boolean leftCrash;
 	   private boolean rightCrash;
 	   private static final int SPEED = 2;
@@ -77,12 +69,13 @@ public class WildBoar extends JLabel implements Moveable {
 		   else this.right();
 	   }
 
+
 	   public void initObject() {
 	      this.wildboarL = new ImageIcon("image/wildboarL.png");
 	      this.wildboarR = new ImageIcon("image/wildboarR.png");
 	   }
 	   
-	   // y 좌표를 토끼보다 5 크게 설정하면 토끼와 동일한 위치에 있음
+
 	   public void initSetting(int x, int y, boolean left) {
 	      this.x = x;
 	      this.y = y;
@@ -121,8 +114,8 @@ public class WildBoar extends JLabel implements Moveable {
 				   
 				   try {
 					   Thread.sleep(10L);
-				   } catch (Exception e2) {
-					   System.out.println("왼쪽 이동 중 인터럽트 발생: " + e2.getMessage());
+				   } catch (Exception e) {
+					   System.out.println("왼쪽 이동 중 인터럽트 발생: " + e.getMessage());
 				   }
 				   
 			   }
@@ -143,8 +136,8 @@ public class WildBoar extends JLabel implements Moveable {
 				   
 				   try {
 					   Thread.sleep(10L);
-				   } catch (Exception e2) {
-		               System.out.println("오른쪽 이동 중 인터럽트 발생: " + e2.getMessage());
+				   } catch (Exception e) {
+		               System.out.println("오른쪽 이동 중 인터럽트 발생: " + e.getMessage());
 				   }
 			   }
 		   });
