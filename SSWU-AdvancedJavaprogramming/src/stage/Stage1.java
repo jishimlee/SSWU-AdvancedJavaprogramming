@@ -74,6 +74,10 @@ public class Stage1 extends JPanel {
             this.turtle3 = new Turtle(200, 340, false, this.game, this.player);
             this.turtle4 = new Turtle(600, 340, false, this.game, this.player);
             this.turtle5 = new Turtle(800, 454, false, this.game, this.player);
+            System.out.println(turtle1.hashCode());
+            System.out.println(turtle2.hashCode());
+            System.out.println(turtle3.hashCode());
+
             
             this.frontMap.add(this.turtle1);
             this.frontMap.add(this.turtle2);

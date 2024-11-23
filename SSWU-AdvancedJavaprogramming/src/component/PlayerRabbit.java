@@ -20,6 +20,9 @@ public class PlayerRabbit extends JLabel {
    // 위치 상태
    private int x;
    private int y;
+   // 크기
+   private int width = 30;
+   private int height = 50;
    private PlayerDirection direction;
    // 움직임 상태
    private boolean left;
@@ -53,17 +56,21 @@ public class PlayerRabbit extends JLabel {
    public boolean spacePressed = false;
    private boolean APressed = false;
    
-   private ThrowHammer hammer;
-   private ImageIcon hammerL;
-   private ImageIcon hammerR;
-   private MoonRabbitGame game;
+//	// 무적 상태를 관리하는 플래그
+//	private boolean isInvincible;
    
-   // 목숨 상태
-   private int lives = 3; // 목숨 개수 초기값
-   private List<JLabel> hearts; 
+
+	private ThrowHammer hammer;
+	private ImageIcon hammerL;
+	private ImageIcon hammerR;
+	private MoonRabbitGame game;
    
-   private int high;
-   private Turtle turtle;
+	// 목숨 상태
+	private int lives = 3; // 목숨 개수 초기값
+	private List<JLabel> hearts; 
+   
+	private int high;
+	private Turtle turtle;
    
    
    public PlayerRabbit(MoonRabbitGame game) {
@@ -273,6 +280,20 @@ public class PlayerRabbit extends JLabel {
               }
           }
       }
+      
+//      // 히트박스
+//      public Rectangle getBodyHitbox() {
+//          return new Rectangle(x, y, width, height);
+//      }
+//      
+//      public Rectangle getAttackHitbox() {
+//    	  // 왼쪽 공격
+//    	  if (direction == PlayerDirection.LEFT)
+//    		  return new Rectangle(x-50, y+10, 50, height+10);
+//    	  // 오른쪽 공격
+//    	  else
+//    		  return new Rectangle(x+30, y, 50, height+10);
+//      }
 
       
       public boolean isSpacePressed() {
@@ -545,4 +566,12 @@ public class PlayerRabbit extends JLabel {
    public void setPlayerL(ImageIcon playerL) {
       this.playerL = playerL;
    }
+   
+//   public boolean isInvincible() {
+//		return isInvincible;
+//	}
+//
+//	public void setInvincible(boolean isInvincible) {
+//		this.isInvincible = isInvincible;
+//	}
 }

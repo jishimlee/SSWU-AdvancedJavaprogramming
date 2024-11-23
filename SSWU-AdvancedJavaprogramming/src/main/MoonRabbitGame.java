@@ -11,10 +11,14 @@ import javax.swing.JPanel;
 
 import component.PlayerRabbit;
 import component.ThrowHammer;
-import stage.*;
+import stage.Stage1;
+import stage.Stage2;
+import stage.Stage3;
+import stage.Stage4;
+import stage.Stage5;
 
 public class MoonRabbitGame extends JFrame {
-	private int stageNumber = 1;	// 1~5, 시작 전후 화면은 별도의 번호로 설정하도록 함 -> 다음 스테이지로 넘어갈 때 이 Number도 업데이트 해줘야 됨
+	private int stageNumber = 5;	// 1~5, 시작 전후 화면은 별도의 번호로 설정하도록 함 -> 다음 스테이지로 넘어갈 때 이 Number도 업데이트 해줘야 됨
 	private CardLayout cardLayout;
 	private JPanel stagePanel;
 	private PlayerRabbit player;
@@ -30,7 +34,7 @@ public class MoonRabbitGame extends JFrame {
 	private void initLayout() {
         this.setTitle("달토끼전");
         this.setSize(1010, 670);
-        this.setResizable(false);
+        // this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
 
@@ -61,7 +65,19 @@ public class MoonRabbitGame extends JFrame {
 	            stagePanel.add(stage3, "Stage3");
 	            this.currentStage = stage3;
 	            break;
-	        // 이후 다른 스테이지 추가
+	        case 4:
+	            Stage4 stage4 = new Stage4(this); // Stage4 로드, 실험위해 stage4로 함
+	            this.player = stage4.getPlayer(); // player를 가져옴
+	            stagePanel.add(stage4, "Stage4");
+	            this.currentStage = stage4;
+	            break;
+	        case 5:
+	            Stage5 stage5 = new Stage5(this); // Stage5 로드, 실험위해 stage5로 함
+	            this.player = stage5.getPlayer(); // player를 가져옴
+	            stagePanel.add(stage5, "Stage5");
+	            this.currentStage = stage5;
+	            break;
+	      
 	        default:
 	            JOptionPane.showMessageDialog(null, "준비된 스테이지가 없습니다!");
 	            break;

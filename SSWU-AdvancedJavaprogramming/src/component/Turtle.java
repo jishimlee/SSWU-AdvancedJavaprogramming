@@ -1,7 +1,8 @@
 package component;
 
-import javax.swing.ImageIcon;
+import java.awt.Rectangle;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -13,6 +14,9 @@ import service.Moveable;
 public class Turtle extends JLabel implements Moveable {
    private int x;
    private int y;
+   private int width = 50;  // 객체의 너비
+   private int height = 50; // 객체의 높이
+   
    /*
     * stage1 층별 y 좌표 값
     * 1층: y = 560
@@ -83,11 +87,7 @@ public class Turtle extends JLabel implements Moveable {
 	   (new Thread(new BackgroundTurtleService(this, game, this.player))).start();
    }
 
-   public void up() {
-   }
 
-   public void down() {
-   }
 
    public void left() {
 	   System.out.println("LEFT");
@@ -146,6 +146,18 @@ public class Turtle extends JLabel implements Moveable {
 	      }
    }
    
+//   // 히트박스
+//   public Rectangle getHitbox() {
+//       return new Rectangle(this.x, this.y, this.width, this.height);
+//   }
+   
+   
+//--------------------------------------
+   public void up() {
+   }
+
+   public void down() {
+   }
    public int getX() {
       return this.x;
    }

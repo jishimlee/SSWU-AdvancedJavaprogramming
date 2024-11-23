@@ -67,7 +67,7 @@ public class BackgroundTurtleService implements Runnable {
 	}
 		
 	public void run() {
-		while (this.state != 2) {	
+		while (state != 2) {	
 			// player와 turtle 상태 업데이트
 			// player를 스테이지별로 가져오기
 			// turtle의 state를 확인하기
@@ -76,10 +76,10 @@ public class BackgroundTurtleService implements Runnable {
 			// 충돌여부 확인
 			// state == 0일 때, 토끼 목숨 깎이고 2000ms 무적
 			// state == 1일 때, 떡 / state == 2, 사라짐, 점수 올라감
-			if (this.state == 0) checkStageCollision();
+			if (state == 0) checkStageCollision();
 			checkPlayerCollision();
 			
-			if (this.state == 0) checkAttacked();
+			if (state == 0) checkAttacked();
 				
 			try {
 				Thread.sleep(10);
@@ -118,7 +118,7 @@ public class BackgroundTurtleService implements Runnable {
 	        	turtleY = turtle.getY();
 	        	playerX = currentPlayer.getX();
 	        	playerY = currentPlayer.getY();
-	        	this.state = turtle.getState();
+	        	state = turtle.getState();
 	        	
 	        } catch (Exception e) {
 	        	System.out.println("Error : " + e.getMessage());
@@ -177,11 +177,11 @@ public class BackgroundTurtleService implements Runnable {
 		}
 		
 		private void checkPlayerCollision() {
-			if (this.state != 2) {
+			if (state != 2) {
 				// 거북이와 플레이어의 충돌 영역 (50 x 50 기준)
 	        	isColliding = (turtleX < playerX + 30) && (turtleX + 50 > playerX) && 
 	        	                      (turtleY < playerY + 50) && (turtleY + 50 > playerY);       
-	        	if (this.state == 0) {
+	        	if (state == 0) {
 	        	    try {
 	        	        // 충돌 확인 로직 -> 몸이랑 닿은 거
 	        	        if (!isInvincible) {
@@ -195,7 +195,7 @@ public class BackgroundTurtleService implements Runnable {
 	        	    }
 	        	}
 	        	
-	            else if (this.state == 1) {
+	            else if (state == 1) {
 		            try {
 		                // 충돌 확인 로직
 		                if (isColliding) {
@@ -231,18 +231,16 @@ public class BackgroundTurtleService implements Runnable {
         	// 플레이어가 공격 버튼을 누르고 거북이와 충돌하지 않았을 때
         	if (isAttacking && !isColliding && turtle.getState() == 0) {
         	    // 공격 방향에 따라 범위를 설정
-        	    if (this.player.getDirection() == PlayerDirection.LEFT) { // 왼쪽으로 공격할 때
-        	        isAttacked = (playerX - 60 <= turtleX && turtleX <= playerX) ||
-        	        		(playerX - 60 <= turtleX + 50 && turtleX + 50 <= playerX) && 
+        	    if (player.getDirection() == PlayerDirection.LEFT) { // 왼쪽으로 공격할 때
+        	        isAttacked = (playerX - 60 <= turtleX && turtleX <= playerX) && 
         	                     (playerY - 50 <= turtleY && turtleY <= playerY + 40); // 왼쪽 공격 범위
-        	    } else if (this.player.getDirection() == PlayerDirection.RIGHT) { // 오른쪽으로 공격할 때
-        	        isAttacked = (playerX + 30 <= turtleX && turtleX <= playerX + 90) ||
-        	        		(playerX - 60 <= turtleX + 50 && turtleX + 50 <= playerX) && 
+        	    } else if (player.getDirection() == PlayerDirection.RIGHT) { // 오른쪽으로 공격할 때
+        	        isAttacked = (playerX + 30 <= turtleX && turtleX <= playerX + 90) && 
         	                     (playerY - 50 <= turtleY && turtleY <= playerY + 40); // 오른쪽 공격 범위
         	    }
         	    
                 // 디버깅용 출력 (공격 범위와 충돌 체크)
-        	    if (player.isLeft()) {
+        	    if (player.getDirection() == PlayerDirection.LEFT) {
         	    	System.out.println("Left");
         	    	System.out.println("X 공격 범위 체크: " + (playerX - 60) + " ~ " + playerX);
         	    	System.out.println("Y 공격 범위 체크: " + (playerY - 50) + " ~ " + (playerY + 40));
