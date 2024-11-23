@@ -11,18 +11,15 @@ import javax.swing.JPanel;
 
 import component.PlayerRabbit;
 import component.ThrowHammer;
-import stage.Stage1;
-import stage.Stage2;
-import stage.Stage3;
-import stage.Stage4;
-import stage.Stage5;
+import stage.*;
 
 public class MoonRabbitGame extends JFrame {
-	private int stageNumber = 3;	// 1~5, 시작 전후 화면은 별도의 번호로 설정하도록 함 -> 다음 스테이지로 넘어갈 때 이 Number도 업데이트 해줘야 됨
+	private int stageNumber = 1;	// 1~5, 시작 전후 화면은 별도의 번호로 설정하도록 함 -> 다음 스테이지로 넘어갈 때 이 Number도 업데이트 해줘야 됨
 	private CardLayout cardLayout;
 	private JPanel stagePanel;
 	private PlayerRabbit player;
 	private JPanel currentStage;
+	private MoonRabbitGame game = MoonRabbitGame.this;
 	
 	public MoonRabbitGame() {
 		initLayout();
@@ -34,7 +31,7 @@ public class MoonRabbitGame extends JFrame {
 	private void initLayout() {
         this.setTitle("달토끼전");
         this.setSize(1010, 670);
-        // this.setResizable(false);
+        this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
 
@@ -114,16 +111,20 @@ public class MoonRabbitGame extends JFrame {
 	                case KeyEvent.VK_A:
 	                       player.setAPressed(true);
 	                       player.updateThrowAttackState();
-	                       ThrowHammer throwHammer = new ThrowHammer(player);
-
-	                       // 방향에 따라 던지기 로직 호출
-	                       if (player.isLeft()) {
-	                           throwHammer.throwLeft();  // 왼쪽으로 던지기
-	                       } else if (player.isRight()) {
-	                           throwHammer.throwRight();  // 오른쪽으로 던지기
+	                       
+	                       if (currentStage instanceof Stage1) {
+	                           ((Stage1) currentStage).loadHammerIcon(); // Stage3의 loadHammerIcon 호출
+	                       } else if (currentStage instanceof Stage2) {
+	                           ((Stage2) currentStage).loadHammerIcon(); // Stage3의 loadHammerIcon 호출
+	                       } else if (currentStage instanceof Stage3) {
+	                           ((Stage3) currentStage).loadHammerIcon(); // Stage3의 loadHammerIcon 호출
+	                       } else if (currentStage instanceof Stage4) {
+	                           ((Stage4) currentStage).loadHammerIcon(); // Stage3의 loadHammerIcon 호출
+	                       } else {
+	                           ((Stage5) currentStage).loadHammerIcon(); // Stage3의 loadHammerIcon 호출
 	                       }
-
-	                       add(throwHammer);  // 망치 UI 추가
+	                       
+	                       
 	                       break;
 	            }
 	        }

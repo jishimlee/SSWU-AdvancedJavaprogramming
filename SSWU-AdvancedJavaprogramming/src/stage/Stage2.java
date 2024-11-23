@@ -105,6 +105,15 @@ public class Stage2 extends JPanel {
         timer.start();
     }
     
+    public void loadHammerIcon() {
+        ThrowHammer throwHammer = new ThrowHammer(this.game, player);
+        throwHammer.setBounds(100, 200, throwHammer.getWidth(), throwHammer.getHeight());
+        this.frontMap.add(throwHammer);
+        throwHammer.setVisible(true);
+        this.frontMap.revalidate();
+        this.frontMap.repaint();
+    }
+    
     public MoonRabbitGame getGame() {
         return game;
     }   

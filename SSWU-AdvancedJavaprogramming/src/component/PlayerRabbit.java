@@ -206,7 +206,7 @@ public class PlayerRabbit extends JLabel {
    
    private void setThrowAttackIcon() {
        if(APressed) {
-          if (left) {
+          if (direction == PlayerDirection.LEFT) {
               setIcon(throwplayerL);
               
           } else {

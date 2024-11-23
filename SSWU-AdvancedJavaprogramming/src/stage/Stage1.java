@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import component.PlayerRabbit;
+import component.ThrowHammer;
 import component.Toad;
 import component.Turtle;
 import main.MoonRabbitGame;
@@ -90,6 +91,15 @@ public class Stage1 extends JPanel {
             new Thread(() -> turtle4.start()).start();
             new Thread(() -> turtle5.start()).start();
         });
+    }
+    
+    public void loadHammerIcon() {
+        ThrowHammer throwHammer = new ThrowHammer(this.game, player);
+        throwHammer.setBounds(100, 200, throwHammer.getWidth(), throwHammer.getHeight());
+        this.frontMap.add(throwHammer);
+        throwHammer.setVisible(true);
+        this.frontMap.revalidate();
+        this.frontMap.repaint();
     }
     
     public MoonRabbitGame getGame() {
