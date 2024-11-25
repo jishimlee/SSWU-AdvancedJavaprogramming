@@ -112,7 +112,11 @@ public class Stage3 extends JPanel {
              timer.start();
          }
         
-       
+        public boolean areAllEnemiesDefeated() {
+            return toad1.getState() == 2 && toad2.getState() == 2 &&
+            		wildboar1.getState() == 2 && wildboar2.getState() == 2 &&
+            				wildboar3.getState() == 2 && wildboar4.getState() == 2;
+        }
         
         // 떡방아 추가
         public void loadHammerIcon() {

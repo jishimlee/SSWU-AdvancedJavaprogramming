@@ -322,7 +322,7 @@ import direction.PlayerDirection;
 import main.MoonRabbitGame;
 import stage.*;
 import score.*;
-import life.*;
+//import life.*;
 
 public class BackgroundTurtleService implements Runnable {
 	private BufferedImage img;
@@ -332,7 +332,7 @@ public class BackgroundTurtleService implements Runnable {
 	private JPanel stage;
 	private int state;
 	private Score score;
-	private Life life;
+	//private Life life;
 	private Stage1 stage1;
 	private ThrowHammer hammer;
 	int turtleX;
@@ -369,8 +369,8 @@ public class BackgroundTurtleService implements Runnable {
 		this.player = player;
 		this.stage = game.getCurrentStage();	// 현재 실행 중인 stage 값 받아오기 위함
 		this.stageNumber = game.getStageNumber();
-		this.score = game.getScore(); // moonrabbitgame에서 점수를 공유
-		this.life = game.getLife();
+		//this.score = game.getScore(); // moonrabbitgame에서 점수를 공유
+		//this.life = game.getLife();
 		
 		System.out.println("현재 스테이지는 stage " + stage + "입니다.");
 		try {

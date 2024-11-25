@@ -16,13 +16,16 @@ public class Stage5 extends JPanel {
     private JLabel timerLabel;
     private PlayerRabbit player;
     private Turtle turtle;
-    //private Toad toad;
-    private WildBoar wildboar;
-    private Tiger tiger;
-    //private Monkey monkey;
+    private WildBoar wildboar1;
+    private WildBoar wildboar2;
+    private Tiger tiger1;
+    private Tiger tiger2;
+    private Tiger tiger3;
+    private Tiger tiger4;
+    
     
     private javax.swing.Timer timer; // 게임 타이머
-    private int timeRemaining = 60; // 남은 시간 (초 단위)
+    private int timeRemaining = 70; // 남은 시간 (초 단위)
     
     public Stage5(MoonRabbitGame game) {
         this.game = game;
@@ -74,15 +77,27 @@ public class Stage5 extends JPanel {
     private void initThread() {
     	SwingUtilities.invokeLater(() -> {
             // Stage5 초기화가 완료된 후에 Turtle 생성
-            this.turtle = new Turtle(300,460, false, this.game, this.player);
-            //this.turtle2 = new Turtle(200, 464, false, this.game, this.player);
-            //this.toad = new Toad(750, 250, false, this.game, this.player);
+            this.turtle = new Turtle(490,356, false, this.game, this.player);
+            this.wildboar1 = new WildBoar(200, 560, false, this.game, this.player);
+            this.wildboar2 = new WildBoar(750, 460, false, this.game, this.player);
+            this.tiger1 = new Tiger(360, 460, false, this.game, this.player);
+            this.tiger2 = new Tiger(700, 560, false, this.game, this.player);
+            this.tiger3 = new Tiger(150, 35, false, this.game, this.player);
+            this.tiger4 = new Tiger(750, 35, false, this.game, this.player);
             this.frontMap.add(this.turtle);
-            //this.frontMap.add(this.turtle2);
-            //this.frontMap.add(this.toad);
+            this.frontMap.add(this.wildboar1);
+            this.frontMap.add(this.wildboar2);
+            this.frontMap.add(this.tiger1);
+            this.frontMap.add(this.tiger2);
+            this.frontMap.add(this.tiger3);
+            this.frontMap.add(this.tiger4);
             new Thread(() -> turtle.start()).start(); // Turtle 실행
-            //new Thread(() -> turtle2.start()).start();
-            //new Thread(() -> toad.start()).start();
+            new Thread(() -> wildboar1.start()).start();
+            new Thread(() -> wildboar2.start()).start();
+            new Thread(() -> tiger1.start()).start();
+            new Thread(() -> tiger2.start()).start();
+            new Thread(() -> tiger3.start()).start();
+            new Thread(() -> tiger4.start()).start();
         });
     }
     
