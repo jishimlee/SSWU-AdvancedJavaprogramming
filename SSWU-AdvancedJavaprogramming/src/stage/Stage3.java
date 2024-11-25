@@ -1,11 +1,20 @@
 package stage;
 
-import javax.swing.*;
+import java.awt.Dimension;
 
-import java.awt.*;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
+import component.Monkey;
 import component.PlayerRabbit;
-import component.*;
+import component.ThrowBanana;
+import component.ThrowHammer;
+import component.Tiger;
+import component.Toad;
+import component.Turtle;
+import component.WildBoar;
 import main.MoonRabbitGame;
 
 public class Stage3 extends JPanel {
@@ -18,6 +27,7 @@ public class Stage3 extends JPanel {
     private Toad toad;
     private WildBoar wildboar;
     private Tiger tiger;
+    private Monkey monkey;
     
     
     public Stage3(MoonRabbitGame game) {
@@ -71,10 +81,13 @@ public class Stage3 extends JPanel {
             SwingUtilities.invokeLater(() -> {
                 this.wildboar = new WildBoar(350, 250, false, this.game, this.player);
                 this.tiger = new Tiger(800, 560, true, this.game, this.player);
+                this.monkey = new Monkey(800, 250, true, this.game, this.player);
                 this.frontMap.add(this.wildboar);
                 this.frontMap.add(this.tiger);
+                this.frontMap.add(this.monkey);
                 new Thread(() -> wildboar.start()).start();
                 new Thread(() -> tiger.start()).start();
+                new Thread(() -> monkey.start()).start();
             });
         }
         
@@ -87,6 +100,7 @@ public class Stage3 extends JPanel {
             this.frontMap.revalidate();
             this.frontMap.repaint();
         }
+        
         
         public MoonRabbitGame getGame() {
             return game;

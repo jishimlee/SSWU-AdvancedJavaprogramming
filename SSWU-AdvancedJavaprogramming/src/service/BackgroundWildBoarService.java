@@ -50,7 +50,7 @@ public class BackgroundWildBoarService implements Runnable {
 		this.player = player;
 		this.stage = game.getCurrentStage();
 		this.stageNumber = game.getStageNumber();
-		System.out.println("현재 스테이지는 stage " + stage + "입니다.");
+		// System.out.println("현재 스테이지는 stage " + stageNumber + "입니다.");
 		try {
 			if (stageNumber == 1) backgroundPath = "image/background1.png";
 			else if (stageNumber == 2) backgroundPath = "image/background2.png";
@@ -86,7 +86,7 @@ public class BackgroundWildBoarService implements Runnable {
 	            long currentTime = System.currentTimeMillis();
 	            if (currentTime - wildboar.getLastRushTime() >= 2000) { // 2초 경과 확인
 	                wildboar.setRushState(true); // rushState 활성화
-	                System.out.println("rushState 활성화!");
+	                // System.out.println("rushState 활성화!");
 	            }
 	        }
 				
@@ -144,14 +144,14 @@ public class BackgroundWildBoarService implements Runnable {
 
             // 좌측 및 우측 벽 충돌 검사
             if (isRed(leftColor)) {
-                System.out.println("왼쪽 충돌");
+                // System.out.println("왼쪽 충돌");
                 wildboar.setLeft(false);
                 if (!wildboar.isRight()) {
                     wildboar.right();
                     if (wildboar.isRushState()) wildboar.setRushState(false);
                 }
             } else if (isRed(rightColor)) {
-                System.out.println("오른쪽 충돌");
+                // System.out.println("오른쪽 충돌");
                 wildboar.setRight(false);
                 if (!wildboar.isLeft()) {
                     wildboar.left();
@@ -166,13 +166,13 @@ public class BackgroundWildBoarService implements Runnable {
                     && (rightBottom.getRed() != 255 || rightBottom.getGreen() != 0 || rightBottom.getBlue() != 0);
 
             if (leftBottomMissing && wildboar.isLeft()) {
-                System.out.println("왼쪽 바닥 없음");
+                // System.out.println("왼쪽 바닥 없음");
                 wildboar.setLeft(false);
                 if (!wildboar.isRight()) {
                     wildboar.right();
                 }
             } else if (rightBottomMissing && wildboar.isRight()) {
-                System.out.println("오른쪽 바닥 없음");
+                // System.out.println("오른쪽 바닥 없음");
                 wildboar.setRight(false);
                 if (!wildboar.isLeft()) {
                     wildboar.left();

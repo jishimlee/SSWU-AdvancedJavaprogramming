@@ -25,9 +25,6 @@ public class BackgroundTurtleService implements Runnable {
 	int turtleY;
 	int playerX;
 	int playerY;
-	private boolean isRed(Color color) {
-	    return color.getRed() == 255 && color.getGreen() == 0 && color.getBlue() == 0;
-	}
 	
 	private MoonRabbitGame game;
 	private String backgroundPath;
@@ -52,7 +49,7 @@ public class BackgroundTurtleService implements Runnable {
 		this.player = player;
 		this.stage = game.getCurrentStage();	// 현재 실행 중인 stage 값 받아오기 위함
 		this.stageNumber = game.getStageNumber();
-		System.out.println("현재 스테이지는 stage " + stage + "입니다.");
+		// System.out.println("현재 스테이지는 stage " + stageNumber + "입니다.");
 		try {
 			if (stageNumber == 1)	backgroundPath = "image/background1.png";
 			else if (stageNumber == 2) backgroundPath = "image/background2.png";
@@ -76,10 +73,11 @@ public class BackgroundTurtleService implements Runnable {
 			// 충돌여부 확인
 			// state == 0일 때, 토끼 목숨 깎이고 2000ms 무적
 			// state == 1일 때, 떡 / state == 2, 사라짐, 점수 올라감
-			if (state == 0) checkStageCollision();
+			if (state == 0) {
+				checkStageCollision();
+				checkAttacked();
+			}
 			checkPlayerCollision();
-			
-			if (state == 0) checkAttacked();
 				
 			try {
 				Thread.sleep(10);
@@ -215,14 +213,14 @@ public class BackgroundTurtleService implements Runnable {
 		        isAttacking = true;
 		        System.out.println("공격 중");
 		        
-		        // 일정 시간 동안 공격 상태 유지 (100ms)
+		        // 일정 시간 동안 공격 상태 유지 (300ms)
 		        new Timer().schedule(new TimerTask() {
 		            @Override
 		            public void run() {
 		                isAttacking = false;
 		                System.out.println("공격 끝");
 		            }
-		        }, 100); // 100ms 후 공격 종료
+		        }, 300); // 100ms 후 공격 종료
 		    }
 
         	// 떡방아에 닿았을 때
@@ -239,20 +237,20 @@ public class BackgroundTurtleService implements Runnable {
         	                     (playerY - 50 <= turtleY && turtleY <= playerY + 40); // 오른쪽 공격 범위
         	    }
         	    
-                // 디버깅용 출력 (공격 범위와 충돌 체크)
-        	    if (player.getDirection() == PlayerDirection.LEFT) {
-        	    	System.out.println("Left");
-        	    	System.out.println("X 공격 범위 체크: " + (playerX - 60) + " ~ " + playerX);
-        	    	System.out.println("Y 공격 범위 체크: " + (playerY - 50) + " ~ " + (playerY + 40));
-        	    }
-        	    else {
-        	    	System.out.println("Right");
-        	    	System.out.println("X 공격 범위 체크: " + (playerX + 30) + " ~ " + (playerX + 90));
-        	    	System.out.println("Y 공격 범위 체크: " + (playerY - 50) + " ~ " + (playerY + 40));
-        	    }
-                System.out.println("플레이어 X: " + playerX + ", 거북이 X: " + turtleX);
-                System.out.println("플레이어 Y: " + playerY + ", 거북이 Y: " + turtleY);
-                System.out.println("isAttacked: " + isAttacked);
+//                // 디버깅용 출력 (공격 범위와 충돌 체크)
+//        	    if (player.getDirection() == PlayerDirection.LEFT) {
+//        	    	System.out.println("Left");
+//        	    	System.out.println("X 공격 범위 체크: " + (playerX - 60) + " ~ " + playerX);
+//        	    	System.out.println("Y 공격 범위 체크: " + (playerY - 50) + " ~ " + (playerY + 40));
+//        	    }
+//        	    else {
+//        	    	System.out.println("Right");
+//        	    	System.out.println("X 공격 범위 체크: " + (playerX + 30) + " ~ " + (playerX + 90));
+//        	    	System.out.println("Y 공격 범위 체크: " + (playerY - 50) + " ~ " + (playerY + 40));
+//        	    }
+//                System.out.println("플레이어 X: " + playerX + ", 거북이 X: " + turtleX);
+//                System.out.println("플레이어 Y: " + playerY + ", 거북이 Y: " + turtleY);
+//                System.out.println("isAttacked: " + isAttacked);
         	}
         	
         	if (isAttacked) handleAttacked();
@@ -296,5 +294,9 @@ public class BackgroundTurtleService implements Runnable {
 		    turtle.setState(2); // 최종 상태로 변경
 		    turtle.repaint();
 		    stage.repaint();
+		}
+		
+		private boolean isRed(Color color) {
+		    return color.getRed() == 255 && color.getGreen() == 0 && color.getBlue() == 0;
 		}
 }

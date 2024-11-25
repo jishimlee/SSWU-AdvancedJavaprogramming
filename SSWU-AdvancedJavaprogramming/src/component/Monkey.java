@@ -2,6 +2,7 @@ package component;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import direction.EnemyDirection;
 import main.MoonRabbitGame;
@@ -26,20 +27,29 @@ public class Monkey extends JLabel implements Moveable {
 	   private EnemyDirection enemyDirection;
 	   private boolean leftCrash;
 	   private boolean rightCrash;
-	   private static final int SPEED = 1;
+	   private static final int SPEED = 2;
 	   private MoonRabbitGame game;
+	   private PlayerRabbit player;
+	   private int stageNumber;
+	   private JPanel stage;
 	   
 	   private ImageIcon monkeyR;
 	   private ImageIcon monkeyL;
+	   private ImageIcon strawberry;
+	   private ThrowBanana banana;
 
+	   
 	   public Monkey() {
 	      this.initObject();
 	   }
 
-	   public Monkey(int x, int y, boolean left, MoonRabbitGame game) {
+	   public Monkey(int x, int y, boolean left, MoonRabbitGame game, PlayerRabbit player) {
 		      this.initObject();
 		      this.initSetting(x, y, left);
 		      this.game = game;
+		      this.stage = game.getCurrentStage();	// 현재 실행 중인 stage 값 받아오기 위함
+		      this.player = player; // PlayerRabbit 객체를 직접 전달받음
+		      this.stageNumber = game.getStageNumber();    
 	   }
 	   
 	   public void start() {
@@ -72,14 +82,9 @@ public class Monkey extends JLabel implements Moveable {
 	   
 	   private void initBackgroundMonkeyService() {
 		   System.out.println("스레드 시작");
-		   (new Thread(new BackgroundMonkeyService(this, game))).start();
+		   (new Thread(new BackgroundMonkeyService(this, this.game, this.player))).start();
 	   }
 
-	   public void up() {
-	   }
-
-	   public void down() {
-	   }
 
 	   public void left() {
 		   System.out.println("LEFT");
@@ -120,6 +125,54 @@ public class Monkey extends JLabel implements Moveable {
 			   }
 		   });
 		   t.start();
+	   }
+	   
+	   public void throwBanana() {
+	        if (banana != null) return; // 이미 바나나가 있으면 생성하지 않음
+	        
+	        banana = new ThrowBanana(this.game, this, this.player);
+	        this.stage.add(banana); // 현재 스테이지에 바나나 추가
+	        this.stage.repaint();
+	        System.out.println("banana 추가");
+	        
+	        // 바나나 일정 시간 후 제거 & null 처리
+	        new Thread(() -> {
+	            try {
+	                Thread.sleep(ThrowBanana.getBananaLifetime()); // 바나나 수명만큼 대기
+	            } catch (InterruptedException e) {
+	                e.printStackTrace();
+	            }
+	            if (banana != null) {
+		            this.banana.setVisible(false); // 화면에서 숨기기
+		            this.stage.remove(this.banana); // 부모 패널에서 제거
+		            this.stage.repaint();
+	                banana = null; // 참조를 null로 설정
+	            }
+	        }).start();
+	   }
+	   
+	   public void setState(int state) {
+		   this.state = state;
+		   if (this.state == 1) {
+			   this.strawberry = new ImageIcon("image/strawberry.png");
+			   this.setIcon(this.strawberry);
+			   this.game.repaint();
+		   }
+		   else if (this.state == 2) {
+			   this.setVisible(false);
+		       this.game.getCurrentStage().remove(this); // 스테이지에서 제거
+		       this.game.getCurrentStage().revalidate(); // 레이아웃 갱신
+		       this.game.getCurrentStage().repaint(); // 화면 갱신
+		       System.out.println("딸기모찌가 제거되었습니다.");
+		   }
+	   }
+	   
+//--------------------------------------
+	   
+	   public void up() {
+	   }
+
+	   public void down() {
 	   }
 	   
 	   public int getX() {
@@ -184,10 +237,6 @@ public class Monkey extends JLabel implements Moveable {
 	   
 	   public void setstartLeft(boolean startLeft) {
 		   this.startLeft = startLeft;
-	   }
-
-	   public void setState(int state) {
-	      this.state = state;
 	   }
 
 	   public void setEnemyDirection(EnemyDirection enemyDirection) {

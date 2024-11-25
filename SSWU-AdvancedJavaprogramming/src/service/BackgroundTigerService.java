@@ -85,7 +85,7 @@ public class BackgroundTigerService implements Runnable {
 	            long currentTime = System.currentTimeMillis();
 	            if (currentTime - tiger.getLastRushTime() >= 3000) { // 3초 경과 확인
 	                tiger.setRushState(true); // rushState 활성화
-	                System.out.println("tiger: rushState 활성화!");
+	                // System.out.println("tiger: rushState 활성화!");
 	            }
 	        }
 	        
@@ -93,7 +93,7 @@ public class BackgroundTigerService implements Runnable {
 	            long currentTime = System.currentTimeMillis();
 	            if (currentTime - tiger.getLastRushStartTime() >= 1000) { // 1초 경과 확인
 	                tiger.setRushState(false); // rushState 활성화
-	                System.out.println("tiger: rushState 비활성화");
+	                // System.out.println("tiger: rushState 비활성화");
 	            }
 	        }
 				
@@ -229,14 +229,14 @@ public class BackgroundTigerService implements Runnable {
 	        isAttacking = true;
 	        System.out.println("공격 중");
 	        
-	        // 일정 시간 동안 공격 상태 유지 (100ms)
+	        // 일정 시간 동안 공격 상태 유지 (300ms)
 	        new Timer().schedule(new TimerTask() {
 	            @Override
 	            public void run() {
 	                isAttacking = false;
 	                System.out.println("공격 끝");
 	            }
-	        }, 100); // 100ms 후 공격 종료
+	        }, 300); // 300ms 후 공격 종료
 	    }
 
     	// 떡방아에 닿았을 때
