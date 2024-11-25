@@ -1,17 +1,12 @@
 package stage;
 
-import java.awt.Dimension;
+import javax.swing.*;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-
-import component.PlayerRabbit;
-import component.ThrowHammer;
-import component.Toad;
-import component.Turtle;
+import component.*;
 import main.MoonRabbitGame;
 
 public class Stage1 extends JPanel {
@@ -19,12 +14,16 @@ public class Stage1 extends JPanel {
     private JLabel frontMap;
     private JLabel moonLabel;
     private JLabel heartLabel;
+    private JLabel timerLabel;
     private PlayerRabbit player;
     private Turtle turtle1;
     private Turtle turtle2;
     private Turtle turtle3;
     private Turtle turtle4;
     private Turtle turtle5;
+    
+    private javax.swing.Timer timer; // 게임 타이머
+    private int timeRemaining = 30; // 남은 시간 (초 단위)
 
     public Stage1(MoonRabbitGame game) {
         this.game = game;
@@ -32,6 +31,7 @@ public class Stage1 extends JPanel {
         initObject();
         initSetting();
         initThread();
+        initTimer(); 
     }
 
 	public PlayerRabbit getPlayer() {
@@ -58,6 +58,13 @@ public class Stage1 extends JPanel {
         this.moonLabel.setBounds(480, 40, 50, 50);
         this.frontMap.add(this.moonLabel);
 
+        // 남은 시간 표시 라벨
+        this.timerLabel = new JLabel(timeRemaining + "S");
+        this.timerLabel.setBounds(870, 35, 150, 50); // 위치 조정
+        this.timerLabel.setFont(new Font("Lexend", Font.BOLD, 25));
+        this.timerLabel.setForeground(Color.WHITE);
+        this.frontMap.add(this.timerLabel);
+        
         // 오브젝트 추가
         this.frontMap.add(this.player);
     }
@@ -92,6 +99,33 @@ public class Stage1 extends JPanel {
             new Thread(() -> turtle5.start()).start();
         });
     }
+    
+    private void initTimer() {
+        timer = new javax.swing.Timer(1000, new ActionListener() {
+             @Override
+             public void actionPerformed(ActionEvent e) {
+                 if (timeRemaining > 0) {
+                     timeRemaining--;
+                     timerLabel.setText(timeRemaining + "S");
+                 } else {
+                     timer.stop();
+                     JOptionPane.showMessageDialog(Stage1.this, "Time's up! Game over.");
+                     game.dispose(); // 게임 창 닫기
+                 }
+             }
+         });
+         timer.start();
+     }
+     
+    
+    public boolean areAllEnemiesDefeated() {
+        return turtle1.getState() == 2 && turtle2.getState() == 2 &&
+               turtle3.getState() == 2 && turtle4.getState() == 2 &&
+               turtle5.getState() == 2;
+    }
+    
+
+
     
     public void loadHammerIcon() {
         ThrowHammer throwHammer = new ThrowHammer(this.game, player);

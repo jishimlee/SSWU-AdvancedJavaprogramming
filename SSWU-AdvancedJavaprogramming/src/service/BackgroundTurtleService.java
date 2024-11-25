@@ -63,13 +63,17 @@ public class BackgroundTurtleService implements Runnable {
 		}
 	}
 		
+	 public BackgroundTurtleService(MoonRabbitGame game) {
+	        this.game = game;
+	    }
+	 
 	public void run() {
 		while (state != 2) {	
 			// player와 turtle 상태 업데이트
 			// player를 스테이지별로 가져오기
 			// turtle의 state를 확인하기
 			updateObjState();
-				
+			
 			// 충돌여부 확인
 			// state == 0일 때, 토끼 목숨 깎이고 2000ms 무적
 			// state == 1일 때, 떡 / state == 2, 사라짐, 점수 올라감
@@ -78,6 +82,7 @@ public class BackgroundTurtleService implements Runnable {
 				checkAttacked();
 			}
 			checkPlayerCollision();
+			game.checkStageCompletion();
 				
 			try {
 				Thread.sleep(10);

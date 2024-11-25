@@ -1,20 +1,12 @@
 package stage;
 
-import java.awt.Dimension;
+import javax.swing.*;
 
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import component.Monkey;
-import component.PlayerRabbit;
-import component.ThrowBanana;
-import component.ThrowHammer;
-import component.Tiger;
-import component.Toad;
-import component.Turtle;
-import component.WildBoar;
+import component.*;
 import main.MoonRabbitGame;
 
 public class Stage3 extends JPanel {
@@ -22,13 +14,17 @@ public class Stage3 extends JPanel {
     private JLabel frontMap;
     private JLabel moonLabel;
     private JLabel heartLabel;
+    private JLabel timerLabel;
     private PlayerRabbit player;
-    private Turtle turtle;
-    private Toad toad;
-    private WildBoar wildboar;
-    private Tiger tiger;
-    private Monkey monkey;
+    private Toad toad1;
+    private Toad toad2;
+    private WildBoar wildboar1;
+    private WildBoar wildboar2;
+    private WildBoar wildboar3;
+    private WildBoar wildboar4;
     
+    private javax.swing.Timer timer; // 게임 타이머
+    private int timeRemaining = 60; // 남은 시간 (초 단위)
     
     public Stage3(MoonRabbitGame game) {
         this.game = game;
@@ -36,6 +32,7 @@ public class Stage3 extends JPanel {
         initObject();
         initSetting();
         initThread();
+        initTimer(); 
     }
     
     public PlayerRabbit getPlayer() {
@@ -50,13 +47,6 @@ public class Stage3 extends JPanel {
         this.add(this.frontMap); 
         this.setVisible(true);
         
-     // 캐릭터 및 오브젝트 초기화
-        // this.player = new PlayerRabbit();
-        this.player.setBounds(100, 300, 50, 50); // 플레이어 위치 및 크기 설정
-        //this.turtle = new Turtle(200, 230, false, this.game, this.player);
-        //this.toad = new Toad(400, 230, false, this.game, this.player);
-        //this.wildboar = new WildBoar(400, 230, false, this.game);
-        
         this.heartLabel = new JLabel(new ImageIcon("image/heart.png"));
         this.heartLabel.setBounds(50, 40, 50, 50); // setLocation + setSize
         this.frontMap.add(this.heartLabel);
@@ -65,11 +55,16 @@ public class Stage3 extends JPanel {
         this.moonLabel.setBounds(480, 40, 50, 50);
         this.frontMap.add(this.moonLabel);
         
+     // 남은 시간 표시 라벨
+        this.timerLabel = new JLabel(timeRemaining + "S");
+        this.timerLabel.setBounds(870, 35, 150, 50); // 위치 조정
+        this.timerLabel.setFont(new Font("Lexend", Font.BOLD, 25));
+        this.timerLabel.setForeground(Color.WHITE);
+        this.frontMap.add(this.timerLabel);
+
+        
      // 오브젝트 추가
         this.frontMap.add(this.player);
-        //this.frontMap.add(this.turtle);
-        //this.frontMap.add(this.toad);
-        //this.frontMap.add(this.wildboar);
     }
         
         private void initSetting() {
@@ -79,17 +74,45 @@ public class Stage3 extends JPanel {
         
         private void initThread() {
             SwingUtilities.invokeLater(() -> {
-                this.wildboar = new WildBoar(350, 250, false, this.game, this.player);
-                this.tiger = new Tiger(800, 560, true, this.game, this.player);
-                this.monkey = new Monkey(800, 250, true, this.game, this.player);
-                this.frontMap.add(this.wildboar);
-                this.frontMap.add(this.tiger);
-                this.frontMap.add(this.monkey);
-                new Thread(() -> wildboar.start()).start();
-                new Thread(() -> tiger.start()).start();
-                new Thread(() -> monkey.start()).start();
+                this.wildboar1 = new WildBoar(250, 120, false, this.game, this.player);
+                this.wildboar2 = new WildBoar(550, 100, false, this.game, this.player);
+                this.wildboar3 = new WildBoar(350, 355, false, this.game, this.player);
+                this.wildboar4 = new WildBoar(350, 563, false, this.game, this.player);
+                this.toad1 = new Toad(400, 260, true, this.game, this.player);
+                this.toad2 = new Toad(800, 260, true, this.game, this.player);
+                this.frontMap.add(this.wildboar1);
+                this.frontMap.add(this.wildboar2);
+                this.frontMap.add(this.wildboar3);
+                this.frontMap.add(this.wildboar4);
+                this.frontMap.add(this.toad1);
+                this.frontMap.add(this.toad2);
+                new Thread(() -> wildboar1.start()).start();
+                new Thread(() -> wildboar2.start()).start();
+                new Thread(() -> wildboar3.start()).start();
+                new Thread(() -> wildboar4.start()).start();
+                new Thread(() -> toad1.start()).start();
+                new Thread(() -> toad2.start()).start();
             });
         }
+        
+        private void initTimer() {
+            timer = new javax.swing.Timer(1000, new ActionListener() {
+                 @Override
+                 public void actionPerformed(ActionEvent e) {
+                     if (timeRemaining > 0) {
+                         timeRemaining--;
+                         timerLabel.setText(timeRemaining + "S");
+                     } else {
+                         timer.stop();
+                         JOptionPane.showMessageDialog(Stage3.this, "Time's up! Game over.");
+                         game.dispose(); // 게임 창 닫기
+                     }
+                 }
+             });
+             timer.start();
+         }
+        
+       
         
         // 떡방아 추가
         public void loadHammerIcon() {

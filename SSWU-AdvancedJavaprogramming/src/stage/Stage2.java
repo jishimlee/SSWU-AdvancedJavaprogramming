@@ -18,8 +18,11 @@ public class Stage2 extends JPanel {
     private PlayerRabbit player;
     private Turtle turtle1;
     private Turtle turtle2;
-    private Toad toad;
-    private Tiger tiger;
+    private Toad toad1;
+    private Toad toad2;
+    private Toad toad3;
+    private Toad toad4;
+    
 
     private javax.swing.Timer timer; // 게임 타이머
     private int timeRemaining = 60; // 남은 시간 (초 단위)
@@ -78,12 +81,22 @@ public class Stage2 extends JPanel {
             // Stage1 초기화가 완료된 후에 Turtle 생성
             this.turtle1 = new Turtle(750, 145, false, this.game, this.player);
             this.turtle2 = new Turtle(200, 464, false, this.game, this.player);
-            //this.toad = new Toad(750, 250, false, this.game, this.player);
+            this.toad1 = new Toad(750, 263, false, this.game, this.player);
+            this.toad2 = new Toad(300, 263, false, this.game, this.player);
+            this.toad3 = new Toad(600, 480, false, this.game, this.player);
+            this.toad4 = new Toad(500, 160, false, this.game, this.player);
             this.frontMap.add(this.turtle1);
             this.frontMap.add(this.turtle2);
-            //this.frontMap.add(this.toad);
+            this.frontMap.add(this.toad1);
+            this.frontMap.add(this.toad2);
+            this.frontMap.add(this.toad3);
+            this.frontMap.add(this.toad4);
             new Thread(() -> turtle1.start()).start(); // Turtle 실행
             new Thread(() -> turtle2.start()).start();
+            new Thread(() -> toad1.start()).start();
+            new Thread(() -> toad2.start()).start();
+            new Thread(() -> toad3.start()).start();
+            new Thread(() -> toad4.start()).start();
             }
         );
     }
@@ -103,6 +116,12 @@ public class Stage2 extends JPanel {
             }
         });
         timer.start();
+    }
+    
+    public boolean areAllEnemiesDefeated() {
+        return turtle1.getState() == 2 && turtle2.getState() == 2 &&
+        		toad1.getState() == 2 && toad2.getState() == 2 &&
+        				toad3.getState() == 2 && toad4.getState() == 2;
     }
     
     public void loadHammerIcon() {

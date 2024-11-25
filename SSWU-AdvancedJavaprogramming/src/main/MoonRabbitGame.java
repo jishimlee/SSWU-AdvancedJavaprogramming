@@ -146,6 +146,31 @@ public class MoonRabbitGame extends JFrame {
 	    });
 	}
 	
+	
+	
+	public void checkStageCompletion() {
+	    // 현재 스테이지의 모든 적이 상태 2인지 확인
+	    JPanel currentStage = getCurrentStage();
+	    if (currentStage instanceof Stage1) {
+	        Stage1 stage = (Stage1) currentStage;
+	        if (stage.areAllEnemiesDefeated()) {
+	            System.out.println("모든 적이 처치되었습니다. 다음 스테이지로 이동합니다.");
+	            nextStage();
+	        }
+	    }
+	    // Stage2, Stage3 등 다른 스테이지에 대해 동일한 확인 가능
+	    if (currentStage instanceof Stage2) {
+	        Stage2 stage = (Stage2) currentStage;
+	        if (stage.areAllEnemiesDefeated()) {
+	            System.out.println("모든 적이 처치되었습니다. 다음 스테이지로 이동합니다.");
+	            nextStage();
+	        }
+	    }
+	    
+	}
+	
+
+	
 	public JPanel getCurrentStage() {
 	    return this.currentStage;
 	}
