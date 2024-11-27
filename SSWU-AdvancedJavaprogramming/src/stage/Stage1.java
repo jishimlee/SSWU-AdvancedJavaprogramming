@@ -42,7 +42,7 @@ public class Stage1 extends JPanel {
 
     private void initObject() {
     	//bgm 추가
-    	BGM bgm = new BGM();
+    	new BGM();
         // 배경 이미지 설정
         this.frontMap = new JLabel(new ImageIcon("image/stage1.png"));
         this.frontMap.setBounds(0, 0, 1000, 630); // 배경 이미지 크기 설정

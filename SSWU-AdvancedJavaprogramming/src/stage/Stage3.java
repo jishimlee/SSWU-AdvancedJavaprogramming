@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 
 import component.*;
 import main.MoonRabbitGame;
+import music.BGM;
 
 public class Stage3 extends JPanel {
 	private MoonRabbitGame game; //추가함
@@ -40,6 +41,8 @@ public class Stage3 extends JPanel {
     }
     
     private void initObject() {
+    	//bgm 추가
+    	new BGM();
         // 배경 이미지 설정
         this.frontMap = new JLabel(new ImageIcon("image/stage3.png"));
         this.frontMap.setBounds(0, 0, 1000, 640); // 배경 이미지 크기 설정, 겹치는거 아닌가..?

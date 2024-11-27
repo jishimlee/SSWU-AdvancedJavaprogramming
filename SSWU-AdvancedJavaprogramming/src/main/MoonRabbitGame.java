@@ -23,7 +23,8 @@ public class MoonRabbitGame extends JFrame {
 	
 	public MoonRabbitGame() {
 		initLayout();
-        loadStage(stageNumber);
+		showGameIntro(); // 게임 설명 화면 표시
+        //loadStage(stageNumber);
         initListener();
         this.setVisible(true);
 	}
@@ -39,6 +40,16 @@ public class MoonRabbitGame extends JFrame {
         stagePanel = new JPanel(cardLayout);
         this.setContentPane(stagePanel);
     }
+	
+	private void showGameIntro() {
+        GameIntro introPanel = new GameIntro(() -> {
+            // 설명 종료 후 첫 번째 스테이지 로드
+            loadStage(stageNumber);
+        });
+        stagePanel.add(introPanel, "Intro");
+        cardLayout.show(stagePanel, "Intro");
+    }
+
 	
 	private void loadStage(int stageNumber) {
 	    switch (stageNumber) {
