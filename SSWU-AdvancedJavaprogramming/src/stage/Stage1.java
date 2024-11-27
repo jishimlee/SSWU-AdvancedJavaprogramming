@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 
 import component.*;
 import main.MoonRabbitGame;
+import music.BGM;
 
 public class Stage1 extends JPanel {
 	private MoonRabbitGame game; //추가함
@@ -40,6 +41,8 @@ public class Stage1 extends JPanel {
 
 
     private void initObject() {
+    	//bgm 추가
+    	BGM bgm = new BGM();
         // 배경 이미지 설정
         this.frontMap = new JLabel(new ImageIcon("image/stage1.png"));
         this.frontMap.setBounds(0, 0, 1000, 630); // 배경 이미지 크기 설정
@@ -67,6 +70,7 @@ public class Stage1 extends JPanel {
         
         // 오브젝트 추가
         this.frontMap.add(this.player);
+       
     }
 
     private void initSetting() {

@@ -10,11 +10,11 @@ import javax.sound.sampled.FloatControl;
 public class BGM {
 	public BGM() {
 		try {
-			AudioInputStream ais = AudioSystem.getAudioInputStream(new File("sound/bgm.wav"));
+			AudioInputStream ais = AudioSystem.getAudioInputStream(new File("music/bgm.mp3"));
 			Clip clip = AudioSystem.getClip();
 			clip.open(ais);
-			FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-			gainControl.setValue(-30.0f); // Reduce volume by 10 decibels.
+			//FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+			//gainControl.setValue(-30.0f); // Reduce volume by 10 decibels.
 			clip.start();
 		} catch (Exception e) {
 			e.printStackTrace();
