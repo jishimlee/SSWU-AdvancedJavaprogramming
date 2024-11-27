@@ -4,4 +4,4 @@
 팀 코드웍<br/>
 팀원 김가윤, 이은우, 이지민<br/>
 <br/>
-실행 환경: eclipse(jdk21)
+실행 환경: eclipse (jdk21)
