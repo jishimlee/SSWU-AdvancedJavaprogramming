@@ -101,19 +101,27 @@ public class MoonRabbitGame extends JFrame {
 	            
 	            switch(e.getKeyCode()) {
 	                case KeyEvent.VK_LEFT: 
-	                	if(!player.isLeft()) {
-	                		player.left();
-	                	}
+	                	if (!player.isLeft()) {
+	                        if (player.isReversedControls()) { // 반전 상태 확인
+	                            player.right(); // 반전 상태라면 오른쪽으로 이동
+	                        } else {
+	                            player.left(); // 일반 상태라면 왼쪽으로 이동
+	                        }
+	                    }
 	                    break;
 	                case KeyEvent.VK_RIGHT: 
-	                	if(!player.isRight()) {
-	                		player.right();
-	                	}
+	                	if (!player.isRight()) {
+	                        if (player.isReversedControls()) { // 반전 상태 확인
+	                            player.left(); // 반전 상태라면 왼쪽으로 이동
+	                        } else {
+	                            player.right(); // 일반 상태라면 오른쪽으로 이동
+	                        }
+	                    }
 	                    break;
 	                case KeyEvent.VK_UP: 
-	                	if(!player.isUp()&&!player.isDown()) {
-	                		player.up();
-	                	}
+	                	if (!player.isUp() && !player.isDown()) {
+	                        player.up(); // 점프 동작은 반전되지 않음
+	                    }
 	                	break;
 	                case KeyEvent.VK_S:
 	                	player.spacePressed = true;
@@ -144,10 +152,18 @@ public class MoonRabbitGame extends JFrame {
 	        public void keyReleased(KeyEvent e) {  // 메서드 이름 수정
 	            
 	        	int keyCode = e.getKeyCode();
-                if (keyCode == KeyEvent.VK_LEFT) {
-                	player.setLeft(false); // 왼쪽 이동 멈추기
-                } else if (keyCode == KeyEvent.VK_RIGHT) {
-                	player.setRight(false);  // 오른쪽 이동 멈추기
+	        	if (keyCode == KeyEvent.VK_LEFT) {
+	                if (player.isReversedControls()) {  // Reverse 상태일 때
+	                    player.setRight(false);  // 반대 방향인 오른쪽으로 멈추기
+	                } else {
+	                    player.setLeft(false);  // 일반 상태일 때 왼쪽으로 멈추기
+	                }
+	            } else if (keyCode == KeyEvent.VK_RIGHT) {
+	                if (player.isReversedControls()) {  // Reverse 상태일 때
+	                    player.setLeft(false);  // 반대 방향인 왼쪽으로 멈추기
+	                } else {
+	                    player.setRight(false);  // 일반 상태일 때 오른쪽으로 멈추기
+	                }
                 } else if (keyCode == KeyEvent.VK_UP) {
                     //up = false;  // 점프 멈추기
                 } else if (keyCode == KeyEvent.VK_DOWN) {
