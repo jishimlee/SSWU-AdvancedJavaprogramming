@@ -7,21 +7,26 @@ import java.awt.event.ActionListener;
 
 import component.*;
 import main.MoonRabbitGame;
+import music.BGM;
 
 public class Stage4 extends JPanel {
-	private MoonRabbitGame game; //추가함
+   private MoonRabbitGame game; //추가함
     private JLabel frontMap;
     private JLabel moonLabel;
     private JLabel heartLabel;
     private JLabel timerLabel;
     private PlayerRabbit player;
     private Turtle turtle;
-    //private Toad toad;
-    //private WildBoar wildboar;
-    private Monkey[] monkeys;	// monkey 배열
+    private WildBoar wildboar1;
+    private WildBoar wildboar2;
+    private Monkey monkey1;
+    private Monkey monkey2;
+    private Monkey monkey3;
+    private Monkey monkey4;
+    private Monkey monkey5;
     
     private javax.swing.Timer timer; // 게임 타이머
-    private int timeRemaining = 60; // 남은 시간 (초 단위)
+    private int timeRemaining = 80; // 남은 시간 (초 단위)
     
     public Stage4(MoonRabbitGame game) {
         this.game = game;
@@ -37,15 +42,14 @@ public class Stage4 extends JPanel {
     }
     
     private void initObject() {
+       //bgm 추가
+       //new BGM();
         // 배경 이미지 설정
         this.frontMap = new JLabel(new ImageIcon("image/stage4.png"));
         this.frontMap.setBounds(0, 0, 1000, 640); // 배경 이미지 크기 설정, 겹치는거 아닌가..?
         this.setLayout(null); 
         this.add(this.frontMap); 
-        this.frontMap.setBounds(0, 0, 1000, 640); // 배경 이미지 크기 설정
         this.setVisible(true);
-        
-    
         
         this.heartLabel = new JLabel(new ImageIcon("image/heart.png"));
         this.heartLabel.setBounds(50, 40, 50, 50); // setLocation + setSize
@@ -72,26 +76,33 @@ public class Stage4 extends JPanel {
      }
     
     private void initThread() {
-    	SwingUtilities.invokeLater(() -> {
-            // Stage1 초기화가 완료된 후에 Turtle 생성
+       SwingUtilities.invokeLater(() -> {
             this.turtle = new Turtle(750, 145, false, this.game, this.player);
-            //this.turtle2 = new Turtle(200, 464, false, this.game, this.player);
-            //this.toad = new Toad(750, 250, false, this.game, this.player);
-            this.frontMap.add(this.turtle);
-            //this.frontMap.add(this.turtle2);
-            //this.frontMap.add(this.toad);
-            new Thread(() -> turtle.start()).start(); // Turtle 실행
-            //new Thread(() -> turtle2.start()).start();
-            //new Thread(() -> toad.start()).start();
+            this.wildboar1 = new WildBoar(750, 145, false, this.game, this.player);
+            this.wildboar2 = new WildBoar(750, 145, false, this.game, this.player);
+            this.monkey1 = new Monkey(750, 145, false, this.game, this.player);
+            this.monkey2 = new Monkey(750, 145, false, this.game, this.player);
+            this.monkey3 = new Monkey(750, 145, false, this.game, this.player);
+            this.monkey4 = new Monkey(750, 145, false, this.game, this.player);
+            this.monkey5 = new Monkey(750, 145, false, this.game, this.player);
             
-            // 원숭이 배열로 관리
-            this.monkeys = new Monkey[1];
-            this.monkeys[0] = new Monkey(800, 250, true, this.game, this.player);
-            // 원숭이 추가
-            for (Monkey monkey : monkeys) {
-                this.frontMap.add(monkey);
-                new Thread(() -> monkey.start()).start();
-            }
+            this.frontMap.add(this.turtle);
+            this.frontMap.add(this.wildboar1);
+            this.frontMap.add(this.wildboar2);
+            this.frontMap.add(this.monkey1);
+            this.frontMap.add(this.monkey2);
+            this.frontMap.add(this.monkey3);
+            this.frontMap.add(this.monkey4);
+            this.frontMap.add(this.monkey5);
+            new Thread(() -> turtle.start()).start(); // Turtle 실행
+            new Thread(() -> wildboar1.start()).start();
+            new Thread(() -> wildboar2.start()).start();
+            new Thread(() -> monkey1.start()).start();
+            new Thread(() -> monkey2.start()).start();
+            new Thread(() -> monkey3.start()).start();
+            new Thread(() -> monkey4.start()).start();
+            new Thread(() -> monkey5.start()).start();
+            
         });
     }
     
@@ -121,15 +132,9 @@ public class Stage4 extends JPanel {
         this.frontMap.repaint();
     }
     
-    public void loadBanana() {
-        for (Monkey monkey : monkeys) {
-            monkey.throwBanana(); // 각 원숭이 객체에서 바나나 던지기
-        }
-    }
-    
     public MoonRabbitGame getGame() {
         return game;
     }  
-	
+   
 
 }

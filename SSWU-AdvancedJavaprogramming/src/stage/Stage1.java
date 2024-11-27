@@ -1,30 +1,31 @@
 package stage;
 
-import java.awt.Dimension;
+import javax.swing.*;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-
-import component.PlayerRabbit;
-import component.ThrowHammer;
-import component.Toad;
-import component.Turtle;
+import component.*;
 import main.MoonRabbitGame;
+import music.BGM;
 
 public class Stage1 extends JPanel {
 	private MoonRabbitGame game; //추가함
     private JLabel frontMap;
     private JLabel moonLabel;
     private JLabel heartLabel;
+    private JLabel timerLabel;
     private PlayerRabbit player;
     private Turtle turtle1;
     private Turtle turtle2;
     private Turtle turtle3;
     private Turtle turtle4;
     private Turtle turtle5;
+    private BGM bgm;
+    
+    private javax.swing.Timer timer; // 게임 타이머
+    private int timeRemaining = 30; // 남은 시간 (초 단위)
 
     public Stage1(MoonRabbitGame game) {
         this.game = game;
@@ -32,6 +33,7 @@ public class Stage1 extends JPanel {
         initObject();
         initSetting();
         initThread();
+        initTimer(); 
     }
 
 	public PlayerRabbit getPlayer() {
@@ -40,6 +42,9 @@ public class Stage1 extends JPanel {
 
 
     private void initObject() {
+    	//bgm 추가
+    	this.bgm = new BGM(); // BGM 클래스의 생성자 호출
+        bgm.play(); // BGM 재생 시작
         // 배경 이미지 설정
         this.frontMap = new JLabel(new ImageIcon("image/stage1.png"));
         this.frontMap.setBounds(0, 0, 1000, 630); // 배경 이미지 크기 설정
@@ -58,8 +63,16 @@ public class Stage1 extends JPanel {
         this.moonLabel.setBounds(480, 40, 50, 50);
         this.frontMap.add(this.moonLabel);
 
+        // 남은 시간 표시 라벨
+        this.timerLabel = new JLabel(timeRemaining + "S");
+        this.timerLabel.setBounds(870, 35, 150, 50); // 위치 조정
+        this.timerLabel.setFont(new Font("Lexend", Font.BOLD, 25));
+        this.timerLabel.setForeground(Color.WHITE);
+        this.frontMap.add(this.timerLabel);
+        
         // 오브젝트 추가
         this.frontMap.add(this.player);
+       
     }
 
     private void initSetting() {
@@ -92,6 +105,56 @@ public class Stage1 extends JPanel {
             new Thread(() -> turtle5.start()).start();
         });
     }
+    
+    private void initTimer() {
+        timer = new javax.swing.Timer(1000, new ActionListener() {
+             @Override
+             public void actionPerformed(ActionEvent e) {
+                 if (timeRemaining > 0) {
+                     timeRemaining--;
+                     timerLabel.setText(timeRemaining + "S");
+                 } else {
+                     timer.stop();
+                     showGameOverImage(); // 게임 오버 이미지 표시
+                     game.dispose(); // 게임 창 닫기
+                 }
+             }
+         });
+         timer.start();
+     }
+    
+    private void showGameOverImage() {
+    	// BGM 정지
+        if (bgm != null) {
+            bgm.stop(); // BGM 클래스에서 제공하는 정지 메서드 호출
+        }
+
+        // 새 JFrame을 생성하여 이미지 표시
+        JFrame gameOverFrame = new JFrame("Game Over");
+        gameOverFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        gameOverFrame.setSize(400, 300); // 적절한 크기로 설정
+
+        // JLabel에 이미지 설정
+        ImageIcon gameOverIcon = new ImageIcon("image/background1.png"); // 그냥 일단 넣어봄
+        JLabel gameOverLabel = new JLabel(gameOverIcon); 
+        gameOverFrame.add(gameOverLabel);
+
+        // 창의 크기를 내용물에 맞게 조정
+        gameOverFrame.pack();
+        gameOverFrame.setLocationRelativeTo(null); // 화면 중앙에 배치
+        gameOverFrame.setVisible(true);
+    }
+
+     
+    
+    public boolean areAllEnemiesDefeated() {
+        return turtle1.getState() == 2 && turtle2.getState() == 2 &&
+               turtle3.getState() == 2 && turtle4.getState() == 2 &&
+               turtle5.getState() == 2;
+    }
+    
+
+
     
     public void loadHammerIcon() {
         ThrowHammer throwHammer = new ThrowHammer(this.game, player);

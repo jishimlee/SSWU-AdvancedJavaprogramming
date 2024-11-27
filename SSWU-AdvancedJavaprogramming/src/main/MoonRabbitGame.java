@@ -14,7 +14,7 @@ import component.ThrowHammer;
 import stage.*;
 
 public class MoonRabbitGame extends JFrame {
-	private int stageNumber = 3;	// 1~5, 시작 전후 화면은 별도의 번호로 설정하도록 함 -> 다음 스테이지로 넘어갈 때 이 Number도 업데이트 해줘야 됨
+	private int stageNumber = 1;	// 1~5, 시작 전후 화면은 별도의 번호로 설정하도록 함 -> 다음 스테이지로 넘어갈 때 이 Number도 업데이트 해줘야 됨
 	private CardLayout cardLayout;
 	private JPanel stagePanel;
 	private PlayerRabbit player;
@@ -23,7 +23,8 @@ public class MoonRabbitGame extends JFrame {
 	
 	public MoonRabbitGame() {
 		initLayout();
-        loadStage(stageNumber);
+		showGameIntro(); // 게임 설명 화면 표시
+        //loadStage(stageNumber);
         initListener();
         this.setVisible(true);
 	}
@@ -39,6 +40,16 @@ public class MoonRabbitGame extends JFrame {
         stagePanel = new JPanel(cardLayout);
         this.setContentPane(stagePanel);
     }
+	
+	private void showGameIntro() {
+        GameIntro introPanel = new GameIntro(() -> {
+            // 설명 종료 후 첫 번째 스테이지 로드
+            loadStage(stageNumber);
+        });
+        stagePanel.add(introPanel, "Intro");
+        cardLayout.show(stagePanel, "Intro");
+    }
+
 	
 	private void loadStage(int stageNumber) {
 	    switch (stageNumber) {
@@ -145,6 +156,31 @@ public class MoonRabbitGame extends JFrame {
 	        }
 	    });
 	}
+	
+	
+	
+	public void checkStageCompletion() {
+	    // 현재 스테이지의 모든 적이 상태 2인지 확인
+	    JPanel currentStage = getCurrentStage();
+	    if (currentStage instanceof Stage1) {
+	        Stage1 stage = (Stage1) currentStage;
+	        if (stage.areAllEnemiesDefeated()) {
+	            System.out.println("모든 적이 처치되었습니다. 다음 스테이지로 이동합니다.");
+	            nextStage();
+	        }
+	    }
+	    // Stage2, Stage3 등 다른 스테이지에 대해 동일한 확인 가능
+	    if (currentStage instanceof Stage2) {
+	        Stage2 stage = (Stage2) currentStage;
+	        if (stage.areAllEnemiesDefeated()) {
+	            System.out.println("모든 적이 처치되었습니다. 다음 스테이지로 이동합니다.");
+	            nextStage();
+	        }
+	    }
+	    
+	}
+	
+
 	
 	public JPanel getCurrentStage() {
 	    return this.currentStage;
