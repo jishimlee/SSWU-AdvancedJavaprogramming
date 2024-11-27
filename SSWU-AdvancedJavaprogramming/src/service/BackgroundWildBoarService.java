@@ -128,6 +128,9 @@ public class BackgroundWildBoarService implements Runnable {
         	playerY = currentPlayer.getY();
         	state = wildboar.getState();
         	
+        	// 플레이어 무적 확인
+        	isInvincible = currentPlayer.isInvincible();
+        	
         } catch (Exception e) {
         	System.out.println("Error : " + e.getMessage());
         }
@@ -250,41 +253,33 @@ public class BackgroundWildBoarService implements Runnable {
     	    }
     	    
             // 디버깅용 출력 (공격 범위와 충돌 체크)
-    	    if (this.player.getDirection() == PlayerDirection.LEFT) {
-    	    	System.out.println("Left");
-    	    	System.out.println("X 공격 범위 체크: " + (playerX - 60) + " ~ " + playerX);
-    	    	System.out.println("Y 공격 범위 체크: " + (playerY - 50) + " ~ " + (playerY + 40));
-    	    }
-    	    else {
-    	    	System.out.println("Right");
-    	    	System.out.println("X 공격 범위 체크: " + (playerX + 30) + " ~ " + (playerX + 90));
-    	    	System.out.println("Y 공격 범위 체크: " + (playerY - 50) + " ~ " + (playerY + 40));
-    	    }
-            System.out.println("플레이어 X: " + playerX + ", 멧돼지 X: " + wildboarX);
-            System.out.println("플레이어 Y: " + playerY + ", 멧돼지 Y: " + wildboarY);
-            System.out.println("isAttacked: " + isAttacked);
+//    	    if (this.player.getDirection() == PlayerDirection.LEFT) {
+//    	    	System.out.println("Left");
+//    	    	System.out.println("X 공격 범위 체크: " + (playerX - 60) + " ~ " + playerX);
+//    	    	System.out.println("Y 공격 범위 체크: " + (playerY - 50) + " ~ " + (playerY + 40));
+//    	    }
+//    	    else {
+//    	    	System.out.println("Right");
+//    	    	System.out.println("X 공격 범위 체크: " + (playerX + 30) + " ~ " + (playerX + 90));
+//    	    	System.out.println("Y 공격 범위 체크: " + (playerY - 50) + " ~ " + (playerY + 40));
+//    	    }
+//            System.out.println("플레이어 X: " + playerX + ", 멧돼지 X: " + wildboarX);
+//            System.out.println("플레이어 Y: " + playerY + ", 멧돼지 Y: " + wildboarY);
+//            System.out.println("isAttacked: " + isAttacked);
     	}
     	
     	if (isAttacked) handleAttacked();
 	}
 	
-	private void handleEnemy() {
-	    System.out.println("토끼와 닿았습니다!");
-	    // 목숨 감소 등 충돌 처리
-	}
-
 	
 	// 부딪혔을 때 무적 시간 타이머 (비동기로!!!!)
 	private void startInvincibilityTimer() {
-	    isInvincible = true; // 무적 상태 시작
-	    new Thread(() -> {
-	        try {
-	            Thread.sleep(2000); // 무적 시간
-	        } catch (InterruptedException e) {
-	            e.printStackTrace();
-	        }
-	        isInvincible = false; // 무적 상태 해제
-	    }).start();
+	    this.currentPlayer.setStartInvincible(true);
+	}
+	
+	private void handleEnemy() {
+	    System.out.println("토끼와 닿았습니다!");
+	    // 목숨 감소 등 충돌 처리
 	}
 	
 	private void handleAttacked() {
@@ -313,61 +308,3 @@ public class BackgroundWildBoarService implements Runnable {
 	}
 	
 }
-	
-	
-//		// 살아 있으면 (= 공격 당하지 않았으면)
-//		while (wildboar.getState() == 0) {
-//			try {
-//				Color leftColor = new Color(img.getRGB(wildboar.getX() - 7, wildboar.getY() + 25));
-//				Color rightColor = new Color(img.getRGB(wildboar.getX() + 50 + 7, wildboar.getY() + 25));
-//				
-//				Color leftBottom = new Color(img.getRGB(wildboar.getX() - 5, wildboar.getY() + 50 + 10));
-//				Color rightBottom = new Color(img.getRGB(wildboar.getX() + 50 + 5, wildboar.getY() + 50 + 10));
-//								
-//				// 벽에 막힘
-//				if (leftColor.getRed() == 255 && leftColor.getBlue() == 0 && leftColor.getGreen() == 0) {
-//					System.out.println("왼쪽충돌");
-//					wildboar.setLeft(false);
-//					if (!wildboar.isRight()) {
-//						wildboar.right();
-//					}
-//
-//				} else if (rightColor.getRed() == 255 && rightColor.getBlue() == 0 && rightColor.getGreen() == 0) {
-//					System.out.println("오른쪽충돌");
-//					wildboar.setRight(false);
-//					if (!wildboar.isLeft()) {
-//						wildboar.left();
-//					}
-//				}
-//				
-//				// 빨간색도 파란색도 아니면
-//				boolean leftBottomMissing = (leftBottom.getRed() != 0 || leftBottom.getGreen() != 0 || leftBottom.getBlue() != 255) 
-//                        && (leftBottom.getRed() != 255 || leftBottom.getGreen() != 0 || leftBottom.getBlue() != 0);
-//	            boolean rightBottomMissing = (rightBottom.getRed() != 0 || rightBottom.getGreen() != 0 || rightBottom.getBlue() != 255) 
-//                        && (rightBottom.getRed() != 255 || rightBottom.getGreen() != 0 || rightBottom.getBlue() != 0);
-//				
-//				// 바닥 없으면
-//				// 왼쪽 바닥의 RGB 값이 RGB(0, 0, 255)가 아니면
-//				if (leftBottomMissing && wildboar.isLeft()) {
-//					System.out.println("Left Bottom Color: " + leftBottom);
-//					System.out.println("왼쪽 바닥 없음");
-//					wildboar.setLeft(false);
-//					if (!wildboar.isRight()) {
-//						wildboar.right();
-//					}
-//				} else if (rightBottomMissing && wildboar.isRight()) {
-//	                System.out.println("오른쪽 바닥 없음");
-//	                wildboar.setRight(false);
-//	                if (!wildboar.isLeft()) {
-//	                	wildboar.left(); // 왼쪽으로 회전
-//	                }
-//	            }
-//				
-//
-//				Thread.sleep(10);
-//			} catch (Exception e) {
-//				System.out.println("Error : " + e.getMessage());
-//			}
-//		}
-//	}
-//}

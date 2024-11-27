@@ -61,7 +61,7 @@ public class Tiger extends JLabel implements Moveable {
 	   }
 	   
 	   public void start() {
-		   System.out.println("start() 호출됨");
+		   //System.out.println("start() 호출됨");
 		   this.initBackgroundTigerService();
 		   this.state = 0;
 		   if (startLeft) this.left();
@@ -90,7 +90,7 @@ public class Tiger extends JLabel implements Moveable {
 	   }
 	   
 	   private void initBackgroundTigerService() {
-		   System.out.println("스레드 시작");
+		   //System.out.println("스레드 시작");
 		   (new Thread(new BackgroundTigerService(this, this.game, this.player))).start();
 	   }
 
@@ -101,7 +101,7 @@ public class Tiger extends JLabel implements Moveable {
 	   }
 
 	   public void left() {
-		   System.out.println("LEFT");
+		   //System.out.println("LEFT");
 		   this.enemyDirection = EnemyDirection.LEFT;
 		   this.setIcon(this.tigerL);
 		   this.left = true;
@@ -123,7 +123,7 @@ public class Tiger extends JLabel implements Moveable {
 	   }
 
 	   public void right() {
-		   System.out.println("RIGHT");
+		   //System.out.println("RIGHT");
 		   this.enemyDirection = EnemyDirection.RIGHT;
 		   this.setIcon(tigerR);
 		   this.right = true;

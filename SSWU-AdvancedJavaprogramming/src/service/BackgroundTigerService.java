@@ -13,7 +13,11 @@ import component.PlayerRabbit;
 import component.Tiger;
 import direction.PlayerDirection;
 import main.MoonRabbitGame;
-import stage.*;
+import stage.Stage1;
+import stage.Stage2;
+import stage.Stage3;
+import stage.Stage4;
+import stage.Stage5;
 
 public class BackgroundTigerService implements Runnable {
 	private BufferedImage img;
@@ -135,6 +139,9 @@ public class BackgroundTigerService implements Runnable {
         	playerY = currentPlayer.getY();
         	state = tiger.getState();
         	
+        	// 플레이어 무적 확인
+        	isInvincible = currentPlayer.isInvincible();
+        	
         } catch (Exception e) {
         	System.out.println("Error : " + e.getMessage());
         }
@@ -150,14 +157,14 @@ public class BackgroundTigerService implements Runnable {
 
             // 좌측 및 우측 벽 충돌 검사
             if (isRed(leftColor)) {
-                System.out.println("왼쪽 충돌");
+                //System.out.println("왼쪽 충돌");
                 tiger.setLeft(false);
                 if (!tiger.isRight()) {
                     tiger.right();
                     if (tiger.isRushState()) tiger.setRushState(false);
                 }
             } else if (isRed(rightColor)) {
-                System.out.println("오른쪽 충돌");
+                //System.out.println("오른쪽 충돌");
                 tiger.setRight(false);
                 if (!tiger.isLeft()) {
                     tiger.left();
@@ -172,13 +179,13 @@ public class BackgroundTigerService implements Runnable {
                     && (rightBottom.getRed() != 255 || rightBottom.getGreen() != 0 || rightBottom.getBlue() != 0);
 
             if (leftBottomMissing && tiger.isLeft()) {
-                System.out.println("왼쪽 바닥 없음");
+                //System.out.println("왼쪽 바닥 없음");
                 tiger.setLeft(false);
                 if (!tiger.isRight()) {
                     tiger.right();
                 }
             } else if (rightBottomMissing && tiger.isRight()) {
-                System.out.println("오른쪽 바닥 없음");
+                //System.out.println("오른쪽 바닥 없음");
                 tiger.setRight(false);
                 if (!tiger.isLeft()) {
                     tiger.left();
@@ -222,6 +229,14 @@ public class BackgroundTigerService implements Runnable {
 		}
 	}
 	
+
+	
+	// 부딪혔을 때 무적 시간 타이머 (비동기로!!!!)
+	private void startInvincibilityTimer() {
+	    this.currentPlayer.setStartInvincible(true);
+	}
+	
+	
 	// 공격 확인
 	private void checkAttacked() {
     	// 공격 중임을 300ms 동안,,,? 일단 조절하면서 (300ms 동안 공격 이미지 유지하므로)
@@ -256,19 +271,19 @@ public class BackgroundTigerService implements Runnable {
     	    }
     	    
             // 디버깅용 출력 (공격 범위와 충돌 체크)
-    	    if (this.player.getDirection() == PlayerDirection.LEFT) {
-    	    	System.out.println("Left");
-    	    	System.out.println("X 공격 범위 체크: " + (playerX - 60) + " ~ " + playerX);
-    	    	System.out.println("Y 공격 범위 체크: " + (playerY - 50) + " ~ " + (playerY + 40));
-    	    }
-    	    else {
-    	    	System.out.println("Right");
-    	    	System.out.println("X 공격 범위 체크: " + (playerX + 30) + " ~ " + (playerX + 90));
-    	    	System.out.println("Y 공격 범위 체크: " + (playerY - 50) + " ~ " + (playerY + 40));
-    	    }
-            System.out.println("플레이어 X: " + playerX + ", 호랑이 X: " + tigerX);
-            System.out.println("플레이어 Y: " + playerY + ", 호랑이 Y: " + tigerY);
-            System.out.println("isAttacked: " + isAttacked);
+//    	    if (this.player.getDirection() == PlayerDirection.LEFT) {
+//    	    	System.out.println("Left");
+//    	    	System.out.println("X 공격 범위 체크: " + (playerX - 60) + " ~ " + playerX);
+//    	    	System.out.println("Y 공격 범위 체크: " + (playerY - 50) + " ~ " + (playerY + 40));
+//    	    }
+//    	    else {
+//    	    	System.out.println("Right");
+//    	    	System.out.println("X 공격 범위 체크: " + (playerX + 30) + " ~ " + (playerX + 90));
+//    	    	System.out.println("Y 공격 범위 체크: " + (playerY - 50) + " ~ " + (playerY + 40));
+//    	    }
+//            System.out.println("플레이어 X: " + playerX + ", 호랑이 X: " + tigerX);
+//            System.out.println("플레이어 Y: " + playerY + ", 호랑이 Y: " + tigerY);
+//            System.out.println("isAttacked: " + isAttacked);
     	}
     	
     	if (isAttacked) handleAttacked();
@@ -277,20 +292,6 @@ public class BackgroundTigerService implements Runnable {
 	private void handleEnemy() {
 	    System.out.println("토끼와 닿았습니다!");
 	    // 목숨 감소 등 충돌 처리
-	}
-
-	
-	// 부딪혔을 때 무적 시간 타이머 (비동기로!!!!)
-	private void startInvincibilityTimer() {
-	    isInvincible = true; // 무적 상태 시작
-	    new Thread(() -> {
-	        try {
-	            Thread.sleep(2000); // 무적 시간
-	        } catch (InterruptedException e) {
-	            e.printStackTrace();
-	        }
-	        isInvincible = false; // 무적 상태 해제
-	    }).start();
 	}
 	
 	private void handleAttacked() {

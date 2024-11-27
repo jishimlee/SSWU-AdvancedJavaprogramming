@@ -86,7 +86,27 @@ public class BackgroundRabbitService implements Runnable {
 	              } catch (Exception e) {
 	                  System.out.println(e.getMessage());
 	              }
+	              
+	              if (this.player.isStartInvincible()) startInvincibilityTimer();
 	          }
 	   }
+	
+	// 부딪혔을 때 무적 시간 타이머 (비동기로!!!!)
+	private void startInvincibilityTimer() {
+		if (!this.player.isInvincible()) {// 무적 상태 시작
+			System.out.println("무적 시작");
+			this.player.setInvincible(true);
+			new Thread(() -> {
+		        try {
+		            Thread.sleep(2000); // 무적 시간
+		        } catch (InterruptedException e) {
+		            e.printStackTrace();
+		        }
+		        this.player.setInvincible(false); // 무적 상태 해제
+		        this.player.setStartInvincible(false); // 무적 상태 메서드 실행 방지
+		        System.out.println("무적 끝");
+			}).start();
+		}
+	}
 }
 

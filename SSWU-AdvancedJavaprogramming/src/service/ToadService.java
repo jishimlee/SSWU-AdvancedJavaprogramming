@@ -38,7 +38,7 @@ public class ToadService implements Runnable {
 	PlayerRabbit currentPlayer;
 	private boolean isColliding;
 	private boolean isAttacked;
-	// 무적 상태를 관리하는 플래그
+	// 무적 상태를 확인하는 플래그
 	private boolean isInvincible;
 	// 토끼 상태 확인
 	private boolean touchingRabbit = false;
@@ -124,13 +124,41 @@ public class ToadService implements Runnable {
 	
 	
 	private void updateObjState() {
-		// 매 루프마다 player의 위치를 확인하고, toad과 비교
-    	// 두꺼비와 플레이어 상태 확인
-    	toadX = toad.getX();
-    	toadY = toad.getY();
-    	playerX = currentPlayer.getX();
-    	playerY = currentPlayer.getY();
-    	state = toad.getState();        	
+        try {	        	
+            // 매 루프마다 player의 위치를 확인하고, tiger과 비교
+        	switch (stageNumber) {
+        		case 1:
+        			currentPlayer = ((Stage1)stage).getPlayer();
+        			break;
+        		case 2:
+        			currentPlayer = ((Stage2)stage).getPlayer();
+        			break;
+        		case 3:
+        			currentPlayer = ((Stage3)stage).getPlayer();
+        			break;
+        		case 4:
+        			currentPlayer = ((Stage4)stage).getPlayer();
+        			break;
+        		case 5:
+        			currentPlayer = ((Stage5)stage).getPlayer();
+        			break;
+        		default:
+        			break;
+        	}
+	        	
+	    	// 두꺼비와 플레이어 상태 확인
+	    	toadX = toad.getX();
+	    	toadY = toad.getY();
+	    	playerX = currentPlayer.getX();
+	    	playerY = currentPlayer.getY();
+	    	state = toad.getState();    
+	    	
+	    	// 플레이어 무적 확인
+	    	isInvincible = currentPlayer.isInvincible();
+	    	
+        } catch (Exception e) {
+        	System.out.println("Error : " + e.getMessage());
+        }
 	}
 	
 	
@@ -341,25 +369,18 @@ public class ToadService implements Runnable {
 	    
 	    if (isAttacked) handleAttacked();
 	}
+	
+	
+	// 부딪혔을 때 무적 시간 타이머 (비동기로!!!!)
+	private void startInvincibilityTimer() {
+	    this.currentPlayer.setStartInvincible(true);
+	}
 
 	private void handleEnemy() {
 	    System.out.println("토끼와 닿았습니다!");
 	    // 목숨 감소 등 충돌 처리
 	}
 
-
-	// 부딪혔을 때 무적 시간 타이머 (비동기로!!!!)
-	private void startInvincibilityTimer() {
-	    isInvincible = true; // 무적 상태 시작
-	    new Thread(() -> {
-	        try {
-	            Thread.sleep(2000); // 무적 시간
-	        } catch (InterruptedException e) {
-	            e.printStackTrace();
-	        }
-	        isInvincible = false; // 무적 상태 해제
-	    }).start();
-	}
 
 	private void handleAttacked() {
 	    System.out.println("공격 당했습니다!");

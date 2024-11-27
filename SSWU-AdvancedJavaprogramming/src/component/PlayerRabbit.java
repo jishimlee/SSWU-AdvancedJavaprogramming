@@ -20,15 +20,14 @@ public class PlayerRabbit extends JLabel {
    // 위치 상태
    private int x;
    private int y;
-   // 크기
-//   private int width = 30;
-//   private int height = 50;
    private PlayerDirection direction;
+   
    // 움직임 상태
    private boolean left;
    private boolean right;
    private boolean up;
    private boolean down;
+   
    // 벽에 충돌한 상태
    private boolean leftWallCrash;
    private boolean rightWallCrash;
@@ -39,25 +38,28 @@ public class PlayerRabbit extends JLabel {
    // 속도 상태
    private final int SPEED = 4;
    private final int JUMPSPEED = 4;
+   
    // 공격 상태
    private boolean hitLeft;
    private boolean hitRight;
+   
+   // 무적 상태
+   private boolean isInvincible = false;
+   private boolean startInvincible = false;
+
    // 이미지
    private ImageIcon playerR;
    private ImageIcon playerL;
+   
    // 공격 이미지
    private ImageIcon hitplayerR;
    private ImageIcon hitplayerL;
-   
    private ImageIcon throwplayerL;
    private ImageIcon throwplayerR;
    
    private boolean isThreadRunning = false;
    public boolean spacePressed = false;
    private boolean APressed = false;
-   
-//	// 무적 상태를 관리하는 플래그
-//	private boolean isInvincible;
    
 
 	private ThrowHammer hammer;
@@ -137,6 +139,7 @@ public class PlayerRabbit extends JLabel {
 //      if (APressed) {
 //           setThrowAttackIcon();
 //=======
+   
 	private void initObject() {
 	     this.playerR = new ImageIcon("image/rabbitR.png");
 	     this.playerL = new ImageIcon("image/rabbitL.png");
@@ -147,6 +150,7 @@ public class PlayerRabbit extends JLabel {
 	     hammerL = new ImageIcon("image/hammerL.png");
 		 hammerR = new ImageIcon("image/hammerR.png");
 	}
+	
 	private void initSetting() {
 	      this.x = 45;
 	      this.y = 560;
@@ -193,7 +197,7 @@ public class PlayerRabbit extends JLabel {
            }, 300); 
        }
    }
-   int countTime =0; 
+   
    private void setAttackIcon() {
       if (direction == PlayerDirection.LEFT) {
            setIcon(hitplayerL);
@@ -328,20 +332,24 @@ public class PlayerRabbit extends JLabel {
               }
           }
       }
+     
+
+      // 무적 상태용
+      public boolean isInvincible() {
+          return isInvincible;
+      }
+
+      public void setInvincible(boolean isInvincible) {
+          this.isInvincible = isInvincible;
+      }
       
-//      // 히트박스
-//      public Rectangle getBodyHitbox() {
-//          return new Rectangle(x, y, width, height);
-//      }
-//      
-//      public Rectangle getAttackHitbox() {
-//    	  // 왼쪽 공격
-//    	  if (direction == PlayerDirection.LEFT)
-//    		  return new Rectangle(x-50, y+10, 50, height+10);
-//    	  // 오른쪽 공격
-//    	  else
-//    		  return new Rectangle(x+30, y, 50, height+10);
-//      }
+      public boolean isStartInvincible() {
+    		return startInvincible;
+      }
+    	   
+    	   public void setStartInvincible(boolean startInvincible) {
+    		this.startInvincible = startInvincible;
+    }
 
       
       public boolean isSpacePressed() {
@@ -491,14 +499,6 @@ public class PlayerRabbit extends JLabel {
       this.hearts = hearts;
    }
 
-   public int getCountTime() {
-      return countTime;
-   }
-
-   public void setCountTime(int countTime) {
-      this.countTime = countTime;
-   }
-
    public boolean isThreadRunning() {
       return isThreadRunning;
    }
@@ -614,12 +614,4 @@ public class PlayerRabbit extends JLabel {
    public void setPlayerL(ImageIcon playerL) {
       this.playerL = playerL;
    }
-   
-//   public boolean isInvincible() {
-//		return isInvincible;
-//	}
-//
-//	public void setInvincible(boolean isInvincible) {
-//		this.isInvincible = isInvincible;
-//	}
 }

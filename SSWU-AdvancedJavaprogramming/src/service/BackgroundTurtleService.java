@@ -333,7 +333,6 @@ public class BackgroundTurtleService implements Runnable {
 	private int state;
 	private Score score;
 	//private Life life;
-	private Stage1 stage1;
 	private ThrowHammer hammer;
 	int turtleX;
 	int turtleY;
@@ -372,7 +371,7 @@ public class BackgroundTurtleService implements Runnable {
 		//this.score = game.getScore(); // moonrabbitgame에서 점수를 공유
 		//this.life = game.getLife();
 		
-		System.out.println("현재 스테이지는 stage " + stage + "입니다.");
+		//System.out.println("현재 스테이지는 stage " + stageNumber + "입니다.");
 		try {
 			if (stageNumber == 1)	backgroundPath = "image/background1.png";
 			else if (stageNumber == 2) backgroundPath = "image/background2.png";
@@ -441,8 +440,10 @@ public class BackgroundTurtleService implements Runnable {
 	        	turtleY = turtle.getY();
 	        	playerX = currentPlayer.getX();
 	        	playerY = currentPlayer.getY();
-	        	
 	        	state = turtle.getState();
+	        	
+	        	// 플레이어 무적 확인
+	        	isInvincible = currentPlayer.isInvincible();
 	        	
 	        } catch (Exception e) {
 	        	System.out.println("Error : " + e.getMessage());
@@ -462,13 +463,13 @@ public class BackgroundTurtleService implements Runnable {
 	
 		                // 좌측 및 우측 벽 충돌 검사
 		                if (isRed(leftColor)) {
-		                    System.out.println("왼쪽 충돌");
+		                    //System.out.println("왼쪽 충돌");
 		                    turtle.setLeft(false);
 		                    if (!turtle.isRight()) {
 		                        turtle.right();
 		                    }
 		                } else if (isRed(rightColor)) {
-		                    System.out.println("오른쪽 충돌");
+		                    //System.out.println("오른쪽 충돌");
 		                    turtle.setRight(false);
 		                    if (!turtle.isLeft()) {
 		                        turtle.left();
@@ -482,13 +483,13 @@ public class BackgroundTurtleService implements Runnable {
 		                        && (rightBottom.getRed() != 255 || rightBottom.getGreen() != 0 || rightBottom.getBlue() != 0);
 	
 		                if (leftBottomMissing && turtle.isLeft()) {
-		                    System.out.println("왼쪽 바닥 없음");
+		                    //System.out.println("왼쪽 바닥 없음");
 		                    turtle.setLeft(false);
 		                    if (!turtle.isRight()) {
 		                        turtle.right();
 		                    }
 		                } else if (rightBottomMissing && turtle.isRight()) {
-		                    System.out.println("오른쪽 바닥 없음");
+		                    //System.out.println("오른쪽 바닥 없음");
 		                    turtle.setRight(false);
 		                    if (!turtle.isLeft()) {
 		                        turtle.left();
@@ -531,6 +532,13 @@ public class BackgroundTurtleService implements Runnable {
 	            }
 			}
 		}
+		
+		
+		// 부딪혔을 때 무적 시간 타이머 (비동기로!!!!)
+		private void startInvincibilityTimer() {
+		    this.currentPlayer.setStartInvincible(true);
+		}
+		
 		
 		// 공격 확인
 		private void checkAttacked() {
@@ -585,35 +593,21 @@ public class BackgroundTurtleService implements Runnable {
 		private void handleEnemy() {
 		    System.out.println("토끼와 닿았습니다!");
 		    // 목숨 감소 등 충돌 처리
-		    life.decreaseLife();
-		    if (player.getDirection() == PlayerDirection.LEFT) {
-		        player.setIcon(player.getRabbitCrashL()); // 왼쪽으로 이동 중이면 왼쪽 충돌 아이콘 설정
-		    } else {
-		        player.setIcon(player.getRabbitCrashR()); // 오른쪽으로 이동 중이면 오른쪽 충돌 아이콘 설정
-		    }
-		    
-		    new Timer().schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    player.resetPlayerIcon(); // 충돌 후 원래 아이콘으로 복귀
-                }
-            }, 300);
+//		    life.decreaseLife();
+//		    if (player.getDirection() == PlayerDirection.LEFT) {
+//		        player.setIcon(player.getRabbitCrashL()); // 왼쪽으로 이동 중이면 왼쪽 충돌 아이콘 설정
+//		    } else {
+//		        player.setIcon(player.getRabbitCrashR()); // 오른쪽으로 이동 중이면 오른쪽 충돌 아이콘 설정
+//		    }
+//		    
+//		    new Timer().schedule(new TimerTask() {
+//                @Override
+//                public void run() {
+//                    player.resetPlayerIcon(); // 충돌 후 원래 아이콘으로 복귀
+//                }
+//            }, 300);
 		}
 
-		
-		// 부딪혔을 때 무적 시간 타이머 (비동기로!!!!)
-		private void startInvincibilityTimer() {
-		    isInvincible = true; // 무적 상태 시작
-		    new Thread(() -> {
-		        try {
-		            Thread.sleep(2000); // 무적 시간
-		        } catch (InterruptedException e) {
-		            e.printStackTrace();
-		        }
-		        isInvincible = false; // 무적 상태 해제
-		    }).start();
-		}
-		
 		private void handleAttacked() {
 		    System.out.println("공격 당했습니다!");
             turtle.setLeft(false); // 왼쪽 이동 막기

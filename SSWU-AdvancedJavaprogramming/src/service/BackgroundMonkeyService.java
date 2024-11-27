@@ -78,13 +78,13 @@ public class BackgroundMonkeyService implements Runnable {
 			if (state == 0) {
 				checkStageCollision();
 				checkAttacked();
-                if (stage instanceof Stage3) {
-                    ((Stage3) stage).loadBanana(); 
-                } else if (stage instanceof Stage4) {
-                    ((Stage4) stage).loadBanana(); 
-                } else {
-                    ((Stage5) stage).loadBanana(); 
-                }
+//                if (stage instanceof Stage3) {
+//                    ((Stage3) stage).loadBanana(); 
+//                } else if (stage instanceof Stage4) {
+//                    ((Stage4) stage).loadBanana(); 
+//                } else {
+//                    ((Stage5) stage).loadBanana(); 
+//                }
 			}
 			checkPlayerCollision();
 				
@@ -127,6 +127,9 @@ public class BackgroundMonkeyService implements Runnable {
 	        	playerY = currentPlayer.getY();
 	        	state = monkey.getState();
 	        	
+	        	// 플레이어 무적 확인
+	        	isInvincible = currentPlayer.isInvincible();
+	        	
 	        } catch (Exception e) {
 	        	System.out.println("Error : " + e.getMessage());
 	        }
@@ -145,13 +148,13 @@ public class BackgroundMonkeyService implements Runnable {
 	
 		                // 좌측 및 우측 벽 충돌 검사
 		                if (isRed(leftColor)) {
-		                    System.out.println("왼쪽 충돌");
+		                    //System.out.println("왼쪽 충돌");
 		                    monkey.setLeft(false);
 		                    if (!monkey.isRight()) {
 		                        monkey.right();
 		                    }
 		                } else if (isRed(rightColor)) {
-		                    System.out.println("오른쪽 충돌");
+		                    //System.out.println("오른쪽 충돌");
 		                    monkey.setRight(false);
 		                    if (!monkey.isLeft()) {
 		                        monkey.left();
@@ -165,13 +168,13 @@ public class BackgroundMonkeyService implements Runnable {
 		                        && (rightBottom.getRed() != 255 || rightBottom.getGreen() != 0 || rightBottom.getBlue() != 0);
 	
 		                if (leftBottomMissing && monkey.isLeft()) {
-		                    System.out.println("왼쪽 바닥 없음");
+		                    //System.out.println("왼쪽 바닥 없음");
 		                    monkey.setLeft(false);
 		                    if (!monkey.isRight()) {
 		                        monkey.right();
 		                    }
 		                } else if (rightBottomMissing && monkey.isRight()) {
-		                    System.out.println("오른쪽 바닥 없음");
+		                    //System.out.println("오른쪽 바닥 없음");
 		                    monkey.setRight(false);
 		                    if (!monkey.isLeft()) {
 		                        monkey.left();
@@ -261,25 +264,18 @@ public class BackgroundMonkeyService implements Runnable {
         	if (isAttacked) handleAttacked();
 		}
 		
+		
+		// 부딪혔을 때 무적 시간 타이머 (비동기로!!!!)
+		private void startInvincibilityTimer() {
+		    this.currentPlayer.setStartInvincible(true);
+		}
+		
 		private void handleEnemy() {
 		    System.out.println("토끼와 닿았습니다!");
 		    // 목숨 감소 등 충돌 처리
 		}
 
-		
-		// 부딪혔을 때 무적 시간 타이머 (비동기로!!!!)
-		private void startInvincibilityTimer() {
-		    isInvincible = true; // 무적 상태 시작
-		    new Thread(() -> {
-		        try {
-		            Thread.sleep(2000); // 무적 시간
-		        } catch (InterruptedException e) {
-		            e.printStackTrace();
-		        }
-		        isInvincible = false; // 무적 상태 해제
-		    }).start();
-		}
-		
+
 		private void handleAttacked() {
 		    System.out.println("공격 당했습니다!");
             monkey.setLeft(false); // 왼쪽 이동 막기

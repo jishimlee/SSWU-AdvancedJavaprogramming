@@ -56,7 +56,7 @@ public class Turtle extends JLabel implements Moveable {
   }
    
    public void start() {
-	   System.out.println("start() 호출됨");
+	   //System.out.println("start() 호출됨");
 	   this.initBackgroundTurtleService();
 	   this.state = 0;
 	   if (startLeft) this.left();
@@ -90,7 +90,7 @@ public class Turtle extends JLabel implements Moveable {
 
 
    public void left() {
-	   System.out.println("LEFT");
+	   //System.out.println("LEFT");
 	   this.enemyDirection = EnemyDirection.LEFT;
 	   this.setIcon(this.turtleL);
 	   this.left = true;
@@ -111,7 +111,7 @@ public class Turtle extends JLabel implements Moveable {
    }
 
    public void right() {
-	   System.out.println("RIGHT");
+	   //System.out.println("RIGHT");
 	   this.enemyDirection = EnemyDirection.RIGHT;
 	   this.setIcon(turtleR);
 	   this.right = true;
