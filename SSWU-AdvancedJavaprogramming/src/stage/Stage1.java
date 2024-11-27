@@ -22,6 +22,7 @@ public class Stage1 extends JPanel {
     private Turtle turtle3;
     private Turtle turtle4;
     private Turtle turtle5;
+    private BGM bgm;
     
     private javax.swing.Timer timer; // 게임 타이머
     private int timeRemaining = 30; // 남은 시간 (초 단위)
@@ -42,7 +43,8 @@ public class Stage1 extends JPanel {
 
     private void initObject() {
     	//bgm 추가
-    	BGM bgm = new BGM();
+    	this.bgm = new BGM(); // BGM 클래스의 생성자 호출
+        bgm.play(); // BGM 재생 시작
         // 배경 이미지 설정
         this.frontMap = new JLabel(new ImageIcon("image/stage1.png"));
         this.frontMap.setBounds(0, 0, 1000, 630); // 배경 이미지 크기 설정
@@ -113,13 +115,36 @@ public class Stage1 extends JPanel {
                      timerLabel.setText(timeRemaining + "S");
                  } else {
                      timer.stop();
-                     JOptionPane.showMessageDialog(Stage1.this, "Time's up! Game over.");
+                     showGameOverImage(); // 게임 오버 이미지 표시
                      game.dispose(); // 게임 창 닫기
                  }
              }
          });
          timer.start();
      }
+    
+    private void showGameOverImage() {
+    	// BGM 정지
+        if (bgm != null) {
+            bgm.stop(); // BGM 클래스에서 제공하는 정지 메서드 호출
+        }
+
+        // 새 JFrame을 생성하여 이미지 표시
+        JFrame gameOverFrame = new JFrame("Game Over");
+        gameOverFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        gameOverFrame.setSize(400, 300); // 적절한 크기로 설정
+
+        // JLabel에 이미지 설정
+        ImageIcon gameOverIcon = new ImageIcon("image/background1.png"); // 그냥 일단 넣어봄
+        JLabel gameOverLabel = new JLabel(gameOverIcon); 
+        gameOverFrame.add(gameOverLabel);
+
+        // 창의 크기를 내용물에 맞게 조정
+        gameOverFrame.pack();
+        gameOverFrame.setLocationRelativeTo(null); // 화면 중앙에 배치
+        gameOverFrame.setVisible(true);
+    }
+
      
     
     public boolean areAllEnemiesDefeated() {

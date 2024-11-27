@@ -43,7 +43,7 @@ public class Stage5 extends JPanel {
     
     private void initObject() {
     	//bgm 추가
-    	new BGM();
+    	//new BGM();
         // 배경 이미지 설정
         this.frontMap = new JLabel(new ImageIcon("image/stage5.png"));
         this.frontMap.setBounds(0, 0, 1000, 640); // 배경 이미지 크기 설정, 겹치는거 아닌가..?
