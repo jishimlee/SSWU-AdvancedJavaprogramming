@@ -104,15 +104,14 @@ public class ToadService implements Runnable {
 			updateObjState();
 				
 			// 충돌여부 확인
-			// 적 이동용 스테이지 충돌 확인
-			checkStageCollision();
-			// 토끼와 부딪혔는지 체크
 			// state == 0일 때, 토끼 목숨 깎이고 2000ms 무적
 			// state == 1일 때, 떡 / state == 2, 사라짐, 점수 올라감
-			checkPlayerCollision();
+			if (state == 0) {
+				checkStageCollision();
+				checkAttacked();
+			}
 			
-			// 토끼에게 공격 당했는지 체크
-			if (state == 0) checkAttacked();
+			checkPlayerCollision();
 				
 			try {
 				Thread.sleep(10);
@@ -162,7 +161,7 @@ public class ToadService implements Runnable {
 	}
 	
 	
-	// 벽, 바닥과 충돌 확인
+	// 벽, 바닥과 충돌 확인 -> 이걸 수정해야댕...
 	private void checkStageCollision() {
 	    if (state == 0) {
 	        try {
@@ -281,41 +280,30 @@ public class ToadService implements Runnable {
 	        isColliding = (toadX < playerX + 30) && (toadX + 40 > playerX) && 
 	                              (toadY < playerY + 40) && (toadY + 40 > playerY);
 
-	        try {
-	            // 두꺼비가 살아있다면
-	            if (state == 0) {
-	                try {
-	                    // 토끼가 무적 상태가 아니라면
-	                    if (!isInvincible) {
-	                        // 토끼랑 닿았을 때
-	                        if(isColliding) {
-	                            handleEnemy();	// 토끼 목숨 처리 로직
-	                            startInvincibilityTimer();	// 무적 시작
-	                        }
-	                    }
-	                } catch (Exception e2) {
-	                    System.out.println("Error : " + e2.getMessage());
+        	if (state == 0) {
+        	    try {
+        	        // 충돌 확인 로직 -> 몸이랑 닿은 거
+        	        if (!isInvincible) {
+        	            if(isColliding) {
+        	                handleEnemy();
+        	                startInvincibilityTimer();
+        	            }
+        	        }
+        	    } catch (Exception e) {
+        	        System.out.println("Error : " + e.getMessage());
+        	    }
+        	}
+        	
+            else if (state == 1) {
+	            try {
+	                // 충돌 확인 로직
+	                if (isColliding) {
+	                    handleTtoek();
 	                }
-	                                            
+	            } catch (Exception e2) {
+	                System.out.println("Error : " + e2.getMessage());
 	            }
-	            
-	            // 두꺼비가 떡 상태라면
-	            else if (state == 1) {
-	                toad.setLeft(false); // 왼쪽 이동 막기
-	                toad.setRight(false); // 오른쪽 이동 막기
-	                try {
-	                    // 토끼랑 닿았을 때
-	                    if (isColliding) {
-	                        handleTtoek();	// 떡 먹기 -> state == 2 됨, 점수 처리 로직
-	                    }
-	                } catch (Exception e2) {
-	                    System.out.println("Error : " + e2.getMessage());
-	                }
-	            }
-
-	        } catch (Exception e) {
-	            System.out.println("Error : " + e.getMessage());
-	        }
+            }
 	    }
 	}
 
@@ -351,20 +339,20 @@ public class ToadService implements Runnable {
 	                         (playerY - 50 <= toadY && toadY <= playerY + 40); // 오른쪽 공격 범위
 	        }
 	        
-	        // 디버깅용 출력 (공격 범위와 충돌 체크)
-	        if (player.isLeft()) {
-	            System.out.println("Left");
-	            System.out.println("X 공격 범위 체크: " + (playerX - 60) + " ~ " + playerX);
-	            System.out.println("Y 공격 범위 체크: " + (playerY - 50) + " ~ " + (playerY + 40));
-	        }
-	        else {
-	            System.out.println("Right");
-	            System.out.println("X 공격 범위 체크: " + (playerX + 30) + " ~ " + (playerX + 90));
-	            System.out.println("Y 공격 범위 체크: " + (playerY - 50) + " ~ " + (playerY + 40));
-	        }
-	        System.out.println("플레이어 X: " + playerX + ", 두꺼비 X: " + toadX);
-	        System.out.println("플레이어 Y: " + playerY + ", 두꺼비 Y: " + toadY);
-	        System.out.println("isAttacked: " + isAttacked);
+//	        // 디버깅용 출력 (공격 범위와 충돌 체크)
+//	        if (player.isLeft()) {
+//	            System.out.println("Left");
+//	            System.out.println("X 공격 범위 체크: " + (playerX - 60) + " ~ " + playerX);
+//	            System.out.println("Y 공격 범위 체크: " + (playerY - 50) + " ~ " + (playerY + 40));
+//	        }
+//	        else {
+//	            System.out.println("Right");
+//	            System.out.println("X 공격 범위 체크: " + (playerX + 30) + " ~ " + (playerX + 90));
+//	            System.out.println("Y 공격 범위 체크: " + (playerY - 50) + " ~ " + (playerY + 40));
+//	        }
+//	        System.out.println("플레이어 X: " + playerX + ", 두꺼비 X: " + toadX);
+//	        System.out.println("플레이어 Y: " + playerY + ", 두꺼비 Y: " + toadY);
+//	        System.out.println("isAttacked: " + isAttacked);
 	    }
 	    
 	    if (isAttacked) handleAttacked();
@@ -384,6 +372,8 @@ public class ToadService implements Runnable {
 
 	private void handleAttacked() {
 	    System.out.println("공격 당했습니다!");
+        toad.setLeft(false); // 왼쪽 이동 막기
+        toad.setRight(false); // 오른쪽 이동 막기
 	    toad.setState(1); // 상태를 '떡'으로 변경
 	    toad.repaint();
 	    stage.repaint();

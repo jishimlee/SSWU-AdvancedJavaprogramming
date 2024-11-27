@@ -305,6 +305,7 @@ public class BackgroundTurtleService implements Runnable {
 		    return color.getRed() == 255 && color.getGreen() == 0 && color.getBlue() == 0;
 		}
 }*/
+
 package service;
 
 import java.awt.Color;
@@ -399,6 +400,7 @@ public class BackgroundTurtleService implements Runnable {
 				checkStageCollision();
 				checkAttacked();
 			}
+			
 			checkPlayerCollision();
 			game.checkStageCompletion();
 		
@@ -571,20 +573,20 @@ public class BackgroundTurtleService implements Runnable {
         	                     (playerY - 50 <= turtleY && turtleY <= playerY + 40); // 오른쪽 공격 범위
         	    }
         	    
-                // 디버깅용 출력 (공격 범위와 충돌 체크)
-        	    if (player.getDirection() == PlayerDirection.LEFT) {
-        	    	System.out.println("Left");
-        	    	System.out.println("X 공격 범위 체크: " + (playerX - 60) + " ~ " + playerX);
-        	    	System.out.println("Y 공격 범위 체크: " + (playerY - 50) + " ~ " + (playerY + 40));
-        	    }
-        	    else {
-        	    	System.out.println("Right");
-        	    	System.out.println("X 공격 범위 체크: " + (playerX + 30) + " ~ " + (playerX + 90));
-        	    	System.out.println("Y 공격 범위 체크: " + (playerY - 50) + " ~ " + (playerY + 40));
-        	    }
-                System.out.println("플레이어 X: " + playerX + ", 거북이 X: " + turtleX);
-                System.out.println("플레이어 Y: " + playerY + ", 거북이 Y: " + turtleY);
-                System.out.println("isAttacked: " + isAttacked);
+//                // 디버깅용 출력 (공격 범위와 충돌 체크)
+//        	    if (player.getDirection() == PlayerDirection.LEFT) {
+//        	    	System.out.println("Left");
+//        	    	System.out.println("X 공격 범위 체크: " + (playerX - 60) + " ~ " + playerX);
+//        	    	System.out.println("Y 공격 범위 체크: " + (playerY - 50) + " ~ " + (playerY + 40));
+//        	    }
+//        	    else {
+//        	    	System.out.println("Right");
+//        	    	System.out.println("X 공격 범위 체크: " + (playerX + 30) + " ~ " + (playerX + 90));
+//        	    	System.out.println("Y 공격 범위 체크: " + (playerY - 50) + " ~ " + (playerY + 40));
+//        	    }
+//                System.out.println("플레이어 X: " + playerX + ", 거북이 X: " + turtleX);
+//                System.out.println("플레이어 Y: " + playerY + ", 거북이 Y: " + turtleY);
+//                System.out.println("isAttacked: " + isAttacked);
         	}
         	
         	if (isAttacked) handleAttacked();
@@ -627,6 +629,8 @@ public class BackgroundTurtleService implements Runnable {
 		    turtle.setState(2); // 최종 상태로 변경
 		    turtle.repaint();
 		    stage.repaint();
+		    
+		    // 점수 메서드
 		    score.addScore(100);
 		    System.out.println("현재 점수: " + score.getScore());
 		    
