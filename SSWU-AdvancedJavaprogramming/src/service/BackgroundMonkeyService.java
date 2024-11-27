@@ -78,7 +78,13 @@ public class BackgroundMonkeyService implements Runnable {
 			if (state == 0) {
 				checkStageCollision();
 				checkAttacked();
-		        monkey.throwBanana();
+                if (stage instanceof Stage3) {
+                    ((Stage3) stage).loadBanana(); 
+                } else if (stage instanceof Stage4) {
+                    ((Stage4) stage).loadBanana(); 
+                } else {
+                    ((Stage5) stage).loadBanana(); 
+                }
 			}
 			checkPlayerCollision();
 				

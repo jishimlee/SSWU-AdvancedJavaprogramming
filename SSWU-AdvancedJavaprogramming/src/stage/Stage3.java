@@ -27,7 +27,7 @@ public class Stage3 extends JPanel {
     private Toad toad;
     private WildBoar wildboar;
     private Tiger tiger;
-    private Monkey monkey;
+    private Monkey[] monkeys;
     
     
     public Stage3(MoonRabbitGame game) {
@@ -81,13 +81,19 @@ public class Stage3 extends JPanel {
             SwingUtilities.invokeLater(() -> {
                 this.wildboar = new WildBoar(350, 250, false, this.game, this.player);
                 this.tiger = new Tiger(800, 560, true, this.game, this.player);
-                this.monkey = new Monkey(800, 250, true, this.game, this.player);
                 this.frontMap.add(this.wildboar);
                 this.frontMap.add(this.tiger);
-                this.frontMap.add(this.monkey);
                 new Thread(() -> wildboar.start()).start();
                 new Thread(() -> tiger.start()).start();
-                new Thread(() -> monkey.start()).start();
+                
+                this.monkeys = new Monkey[2];
+                this.monkeys[0] = new Monkey(800, 250, true, this.game, this.player);
+                this.monkeys[1] = new Monkey(650, 458, true, this.game, this.player);
+                // 원숭이 추가
+                for (Monkey monkey : monkeys) {
+                    this.frontMap.add(monkey);
+                    new Thread(() -> monkey.start()).start();
+                }
             });
         }
         
@@ -99,6 +105,26 @@ public class Stage3 extends JPanel {
             throwHammer.setVisible(true);
             this.frontMap.revalidate();
             this.frontMap.repaint();
+        }
+        
+        // 바나나 추가
+        public void loadBanana() {
+            for (Monkey monkey : monkeys) {
+            	if (!monkey.isExistBanana()) {
+	                ThrowBanana banana = monkey.throwBanana(); // 각 원숭이 객체에서 바나나 던지기
+	                System.out.println(monkey + "바나나 추가");
+	                if (banana != null) {
+	                    // 위치 설정
+	                    banana.setLocation(monkey.getX(), monkey.getY());
+	                    banana.setSize(50, 50); // 적절한 크기 설정
+	                    this.frontMap.add(banana); // 바나나 객체를 frontMap에 추가
+	                    banana.setVisible(true);
+	                    this.frontMap.repaint(); // 화면 갱신
+	                    this.frontMap.revalidate(); // 레이아웃 갱신
+	                    System.out.println("갱신 완료");
+	                }
+	            }
+            }
         }
         
         

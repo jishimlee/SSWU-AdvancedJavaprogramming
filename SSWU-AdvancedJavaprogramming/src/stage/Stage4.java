@@ -18,7 +18,7 @@ public class Stage4 extends JPanel {
     private Turtle turtle;
     //private Toad toad;
     //private WildBoar wildboar;
-    //private Monkey monkey;
+    private Monkey[] monkeys;	// monkey 배열
     
     private javax.swing.Timer timer; // 게임 타이머
     private int timeRemaining = 60; // 남은 시간 (초 단위)
@@ -83,6 +83,15 @@ public class Stage4 extends JPanel {
             new Thread(() -> turtle.start()).start(); // Turtle 실행
             //new Thread(() -> turtle2.start()).start();
             //new Thread(() -> toad.start()).start();
+            
+            // 원숭이 배열로 관리
+            this.monkeys = new Monkey[1];
+            this.monkeys[0] = new Monkey(800, 250, true, this.game, this.player);
+            // 원숭이 추가
+            for (Monkey monkey : monkeys) {
+                this.frontMap.add(monkey);
+                new Thread(() -> monkey.start()).start();
+            }
         });
     }
     
@@ -110,6 +119,12 @@ public class Stage4 extends JPanel {
         throwHammer.setVisible(true);
         this.frontMap.revalidate();
         this.frontMap.repaint();
+    }
+    
+    public void loadBanana() {
+        for (Monkey monkey : monkeys) {
+            monkey.throwBanana(); // 각 원숭이 객체에서 바나나 던지기
+        }
     }
     
     public MoonRabbitGame getGame() {

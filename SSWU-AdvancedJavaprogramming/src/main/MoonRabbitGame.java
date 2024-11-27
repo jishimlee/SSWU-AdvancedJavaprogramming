@@ -113,15 +113,15 @@ public class MoonRabbitGame extends JFrame {
 	                       player.updateThrowAttackState();
 	                       
 	                       if (currentStage instanceof Stage1) {
-	                           ((Stage1) currentStage).loadHammerIcon(); // Stage3의 loadHammerIcon 호출
+	                           ((Stage1) currentStage).loadHammerIcon(); // Stage1의 loadHammerIcon 호출
 	                       } else if (currentStage instanceof Stage2) {
-	                           ((Stage2) currentStage).loadHammerIcon(); // Stage3의 loadHammerIcon 호출
+	                           ((Stage2) currentStage).loadHammerIcon(); // Stage2의 loadHammerIcon 호출
 	                       } else if (currentStage instanceof Stage3) {
 	                           ((Stage3) currentStage).loadHammerIcon(); // Stage3의 loadHammerIcon 호출
 	                       } else if (currentStage instanceof Stage4) {
-	                           ((Stage4) currentStage).loadHammerIcon(); // Stage3의 loadHammerIcon 호출
+	                           ((Stage4) currentStage).loadHammerIcon(); // Stage4의 loadHammerIcon 호출
 	                       } else {
-	                           ((Stage5) currentStage).loadHammerIcon(); // Stage3의 loadHammerIcon 호출
+	                           ((Stage5) currentStage).loadHammerIcon(); // Stage5의 loadHammerIcon 호출
 	                       }
 	                       
 	                       

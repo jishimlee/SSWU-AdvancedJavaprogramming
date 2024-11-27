@@ -37,6 +37,7 @@ public class Monkey extends JLabel implements Moveable {
 	   private ImageIcon monkeyL;
 	   private ImageIcon strawberry;
 	   private ThrowBanana banana;
+	   private boolean existBanana = false;
 
 	   
 	   public Monkey() {
@@ -127,31 +128,50 @@ public class Monkey extends JLabel implements Moveable {
 		   t.start();
 	   }
 	   
-	   public void throwBanana() {
-	        if (banana != null) return; // 이미 바나나가 있으면 생성하지 않음
-	        
-	        banana = new ThrowBanana(this.game, this, this.player);
-	        this.stage.add(banana); // 현재 스테이지에 바나나 추가
-	        this.stage.repaint();
-	        System.out.println("banana 추가");
-	        
-	        // 바나나 일정 시간 후 제거 & null 처리
-	        new Thread(() -> {
-	            try {
-	                Thread.sleep(ThrowBanana.getBananaLifetime()); // 바나나 수명만큼 대기
-	            } catch (InterruptedException e) {
-	                e.printStackTrace();
-	            }
-	            if (banana != null) {
-		            this.banana.setVisible(false); // 화면에서 숨기기
-		            this.stage.remove(this.banana); // 부모 패널에서 제거
-		            this.stage.repaint();
-	                banana = null; // 참조를 null로 설정
-	            }
-	        }).start();
-	   }
+	   public ThrowBanana throwBanana() {
+		    if (banana != null) return null; // 이미 바나나가 있으면 생성하지 않음
+
+		    banana = new ThrowBanana(this.game, this, this.player);
+		    existBanana = true;
+		    System.out.println("banana 추가");
+
+		    // 바나나 객체를 반환
+		    return banana;
+		}
 	   
-	   public void setState(int state) {
+//	   public void throwBanana() {
+//	        if (banana != null) return; // 이미 바나나가 있으면 생성하지 않음
+//	        
+//	        banana = new ThrowBanana(this.game, this, this.player);
+//	        existBanana = true;
+//	        System.out.println("banana 추가");
+//	        
+//	        // 바나나 일정 시간 후 제거 & null 처리
+//	        new Thread(() -> {
+//	            try {
+//	                Thread.sleep(ThrowBanana.getBananaLifetime()); // 바나나 수명만큼 대기
+//	            } catch (InterruptedException e) {
+//	                e.printStackTrace();
+//	            }
+//	            if (banana != null) {
+//		            this.banana.setVisible(false); // 화면에서 숨기기
+//		            this.stage.remove(this.banana); // 부모 패널에서 제거
+//		            this.stage.repaint();
+//		            existBanana = false;
+//	                banana = null; // 참조를 null로 설정
+//	            }
+//	        }).start();
+//	   }
+	   
+	   public boolean isExistBanana() {
+		return existBanana;
+	}
+
+	public void setExistBanana(boolean existBanana) {
+		this.existBanana = existBanana;
+	}
+
+	public void setState(int state) {
 		   this.state = state;
 		   if (this.state == 1) {
 			   this.strawberry = new ImageIcon("image/strawberry.png");
