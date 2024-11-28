@@ -153,7 +153,7 @@ public class PlayerRabbit extends JLabel {
 	
 	private void initSetting() {
 	      this.x = 45;
-	      this.y = 560;
+	      this.y = 555;
 	      
 	      this.left = false;
 	      this.right = false;

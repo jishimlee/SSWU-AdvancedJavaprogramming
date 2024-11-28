@@ -270,8 +270,8 @@ public class ToadService implements Runnable {
         	        // 충돌 확인 로직 -> 몸이랑 닿은 거
         	        if (!isInvincible) {
         	            if(isColliding) {
-        	                handleEnemy();
         	                startInvincibilityTimer();
+        	                handleEnemy();
         	            }
         	        }
         	    } catch (Exception e) {

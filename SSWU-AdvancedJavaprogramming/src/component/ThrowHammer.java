@@ -87,6 +87,7 @@ public class ThrowHammer extends JLabel {
 			}
 		}
 		
+		
 		public void initSetting() {
 			this.left = false;
 			this.right = false;
@@ -104,6 +105,7 @@ public class ThrowHammer extends JLabel {
 			this.setSize(34,26);
 			this.state = 0;
 		}
+		
 		
 		private void setThrowAttackIcon() {
 		    if(APressed) {
@@ -177,6 +179,7 @@ public class ThrowHammer extends JLabel {
 	              }
 	          }).start();
 	      }
+	      
 	      
 	      private boolean detectCollision() {
 	          try {

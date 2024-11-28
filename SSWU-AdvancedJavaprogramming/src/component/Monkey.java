@@ -37,12 +37,14 @@ public class Monkey extends JLabel implements Moveable {
 	   private ImageIcon monkeyL;
 	   private ImageIcon strawberry;
 	   private ThrowBanana banana;
-	   private boolean existBanana = false;
+	   private boolean bananaExist = false;
 
 	   
+
 	   public Monkey() {
 	      this.initObject();
 	   }
+	   
 
 	   public Monkey(int x, int y, boolean left, MoonRabbitGame game, PlayerRabbit player) {
 		      this.initObject();
@@ -53,6 +55,7 @@ public class Monkey extends JLabel implements Moveable {
 		      this.stageNumber = game.getStageNumber();    
 	   }
 	   
+	   
 	   public void start() {
 		   System.out.println("start() 호출됨");
 		   this.initBackgroundMonkeyService();
@@ -61,12 +64,13 @@ public class Monkey extends JLabel implements Moveable {
 		   else this.right();
 	   }
 
+	   
 	   public void initObject() {
 	      this.monkeyL = new ImageIcon("image/monkeyL.png");
 	      this.monkeyR = new ImageIcon("image/monkeyR.png");
 	   }
 	   
-	   // y 좌표를 토끼보다 5 크게 설정하면 토끼와 동일한 위치에 있음
+	   
 	   public void initSetting(int x, int y, boolean left) {
 	      this.x = x;
 	      this.y = y;
@@ -80,6 +84,7 @@ public class Monkey extends JLabel implements Moveable {
 	      this.setSize(50, 50);
 	      this.setLocation(this.x, this.y);
 	   }
+
 	   
 	   private void initBackgroundMonkeyService() {
 		   System.out.println("스레드 시작");
@@ -88,7 +93,7 @@ public class Monkey extends JLabel implements Moveable {
 
 
 	   public void left() {
-		   System.out.println("LEFT");
+//		   System.out.println("LEFT");
 		   this.enemyDirection = EnemyDirection.LEFT;
 		   this.setIcon(this.monkeyL);
 		   this.left = true;
@@ -99,17 +104,18 @@ public class Monkey extends JLabel implements Moveable {
 				   
 				   try {
 					   Thread.sleep(10L);
-				   } catch (Exception e2) {
-					   System.out.println("왼쪽 이동 중 인터럽트 발생: " + e2.getMessage());
+				   } catch (Exception e) {
+					   System.out.println("왼쪽 이동 중 인터럽트 발생: " + e.getMessage());
 				   }
 				   
 			   }
 		   });
 		   t.start();
 	   }
+	   
 
 	   public void right() {
-		   System.out.println("RIGHT");
+//		   System.out.println("RIGHT");
 		   this.enemyDirection = EnemyDirection.RIGHT;
 		   this.setIcon(monkeyR);
 		   this.right = true;
@@ -120,24 +126,14 @@ public class Monkey extends JLabel implements Moveable {
 				   
 				   try {
 					   Thread.sleep(10L);
-				   } catch (Exception e2) {
-		               System.out.println("오른쪽 이동 중 인터럽트 발생: " + e2.getMessage());
+				   } catch (Exception e) {
+		               System.out.println("오른쪽 이동 중 인터럽트 발생: " + e.getMessage());
 				   }
 			   }
 		   });
 		   t.start();
 	   }
 	   
-	   public ThrowBanana throwBanana() {
-		    if (banana != null) return null; // 이미 바나나가 있으면 생성하지 않음
-
-		    banana = new ThrowBanana(this.game, this, this.player);
-		    existBanana = true;
-		    System.out.println("banana 추가");
-
-		    // 바나나 객체를 반환
-		    return banana;
-		}
 	   
 //	   public void throwBanana() {
 //	        if (banana != null) return; // 이미 바나나가 있으면 생성하지 않음
@@ -162,14 +158,6 @@ public class Monkey extends JLabel implements Moveable {
 //	            }
 //	        }).start();
 //	   }
-	   
-	   public boolean isExistBanana() {
-		return existBanana;
-	}
-
-	public void setExistBanana(boolean existBanana) {
-		this.existBanana = existBanana;
-	}
 
 	public void setState(int state) {
 		   this.state = state;
@@ -185,10 +173,18 @@ public class Monkey extends JLabel implements Moveable {
 		       this.game.getCurrentStage().repaint(); // 화면 갱신
 		       System.out.println("딸기모찌가 제거되었습니다.");
 		   }
-	   }
+	}
 	   
 //--------------------------------------
 	   
+	   public boolean isBananaExist() {
+			return bananaExist;
+		}
+	
+		public void setBananaExist(boolean bananaExist) {
+			this.bananaExist = bananaExist;
+		}
+	
 	   public void up() {
 	   }
 

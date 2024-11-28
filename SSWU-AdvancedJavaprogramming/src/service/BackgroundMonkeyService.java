@@ -21,10 +21,10 @@ public class BackgroundMonkeyService implements Runnable {
 	private int stageNumber;
 	private JPanel stage;
 	private int state;
-	int monkeyX;
-	int monkeyY;
-	int playerX;
-	int playerY;
+	private int monkeyX;
+	private int monkeyY;
+	private int playerX;
+	private int playerY;
 	
 	private boolean isFirstLoop = true; // 첫 루프 여부 체크
 	
@@ -34,23 +34,22 @@ public class BackgroundMonkeyService implements Runnable {
 	private boolean isColliding;
 	private boolean isAttacked;
 	// 무적 상태를 관리하는 플래그
-	private boolean isInvincible;
-	
+	private boolean isInvincible;	
 	// 토끼 상태 확인
 	private boolean touchingRabbit = false;
 	// 토끼가 공격 중인가?
 	private boolean isAttacking = false;
 	// 떡방아 상태 확인
 	private boolean attacked = false;
-	
 
-	
+
 	public BackgroundMonkeyService(Monkey monkey, MoonRabbitGame game, PlayerRabbit player) {
 		this.monkey = monkey;
 		this.game = game;
 		this.player = player;
 		this.stage = game.getCurrentStage();	// 현재 실행 중인 stage 값 받아오기 위함
 		this.stageNumber = game.getStageNumber();
+		this.monkey.setBananaExist(false);
 		// System.out.println("현재 스테이지는 stage " + stageNumber + "입니다.");
 		try {
 			if (stageNumber == 1)	backgroundPath = "image/background1.png";
@@ -63,7 +62,28 @@ public class BackgroundMonkeyService implements Runnable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+    	switch (stageNumber) {
+			case 1:
+				currentPlayer = ((Stage1)stage).getPlayer();
+				break;
+			case 2:
+				currentPlayer = ((Stage2)stage).getPlayer();
+				break;
+			case 3:
+				currentPlayer = ((Stage3)stage).getPlayer();
+				break;
+			case 4:
+				currentPlayer = ((Stage4)stage).getPlayer();
+				break;
+			case 5:
+				currentPlayer = ((Stage5)stage).getPlayer();
+				break;
+			default:
+				break;
+		}
 	}
+	
 		
 	public void run() {
 		while (state != 2) {	
@@ -78,15 +98,11 @@ public class BackgroundMonkeyService implements Runnable {
 			if (state == 0) {
 				checkStageCollision();
 				checkAttacked();
-//                if (stage instanceof Stage3) {
-//                    ((Stage3) stage).loadBanana(); 
-//                } else if (stage instanceof Stage4) {
-//                    ((Stage4) stage).loadBanana(); 
-//                } else {
-//                    ((Stage5) stage).loadBanana(); 
-//                }
 			}
+			
 			checkPlayerCollision();
+			
+			if (!this.monkey.isBananaExist()) throwBanana();
 				
 			try {
 				Thread.sleep(10);
@@ -96,45 +112,35 @@ public class BackgroundMonkeyService implements Runnable {
 		}
 			
 	}
+	
+	private void throwBanana() {
+		if (stage instanceof Stage4) {
+            ((Stage4) stage).loadBanana(this.monkey); // Stage4의 loadBanana 호출
+        }
+//      else {
+//            ((Stage5) stage).loadBanana(this.monkey); // Stage5의 loadBanana 호출
+//      }
+	}
 		
-		private void updateObjState() {
-	        try {	        	
-	            // 매 루프마다 player의 위치를 확인하고, monkey과 비교
-	        	switch (stageNumber) {
-	        		case 1:
-	        			currentPlayer = ((Stage1)stage).getPlayer();
-	        			break;
-	        		case 2:
-	        			currentPlayer = ((Stage2)stage).getPlayer();
-	        			break;
-	        		case 3:
-	        			currentPlayer = ((Stage3)stage).getPlayer();
-	        			break;
-	        		case 4:
-	        			currentPlayer = ((Stage4)stage).getPlayer();
-	        			break;
-	        		case 5:
-	        			currentPlayer = ((Stage5)stage).getPlayer();
-	        			break;
-	        		default:
-	        			break;
-	        	}
-	        	
-	        	// 원숭이와 플레이어 상태 확인
-	        	monkeyX = monkey.getX();
-	        	monkeyY = monkey.getY();
-	        	playerX = currentPlayer.getX();
-	        	playerY = currentPlayer.getY();
-	        	state = monkey.getState();
-	        	
-	        	// 플레이어 무적 확인
-	        	isInvincible = currentPlayer.isInvincible();
-	        	
-	        } catch (Exception e) {
-	        	System.out.println("Error : " + e.getMessage());
-	        }
-	        	
-		}
+	
+	private void updateObjState() {
+        try {	        	
+            // 매 루프마다 player의 위치를 확인하고, monkey과 비교
+        	// 원숭이와 플레이어 상태 확인
+        	monkeyX = monkey.getX();
+        	monkeyY = monkey.getY();
+        	playerX = currentPlayer.getX();
+        	playerY = currentPlayer.getY();
+        	state = monkey.getState();
+        	
+        	// 플레이어 무적 확인
+        	isInvincible = currentPlayer.isInvincible();
+        	
+        } catch (Exception e) {
+        	System.out.println("Error : " + e.getMessage());
+        }
+        	
+	}
 		
 		
 		// 충돌 확인 (1. 플레이어랑 2. 벽이랑 3. 바닥이랑)
@@ -196,8 +202,8 @@ public class BackgroundMonkeyService implements Runnable {
 	        	        // 충돌 확인 로직 -> 몸이랑 닿은 거
 	        	        if (!isInvincible) {
 	        	            if(isColliding) {
-	        	                handleEnemy();
 	        	                startInvincibilityTimer();
+	        	                handleEnemy();
 	        	            }
 	        	        }
 	        	    } catch (Exception e) {
@@ -270,8 +276,11 @@ public class BackgroundMonkeyService implements Runnable {
 		    this.currentPlayer.setStartInvincible(true);
 		}
 		
+		private int count = 0;
 		private void handleEnemy() {
 		    System.out.println("토끼와 닿았습니다!");
+		    count++;
+		    System.out.println(count);
 		    // 목숨 감소 등 충돌 처리
 		}
 

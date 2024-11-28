@@ -12,7 +12,7 @@ import music.BGM;
 public class Stage4 extends JPanel {
    private MoonRabbitGame game; //추가함
     private JLabel frontMap;
-    private JLabel moonLabel;
+	private JLabel moonLabel;
     private JLabel heartLabel;
     private JLabel timerLabel;
     private PlayerRabbit player;
@@ -80,7 +80,7 @@ public class Stage4 extends JPanel {
             this.turtle = new Turtle(750, 145, false, this.game, this.player);
             this.wildboar1 = new WildBoar(750, 145, false, this.game, this.player);
             this.wildboar2 = new WildBoar(750, 145, false, this.game, this.player);
-            this.monkey1 = new Monkey(750, 145, false, this.game, this.player);
+            this.monkey1 = new Monkey(350, 145, false, this.game, this.player);
             this.monkey2 = new Monkey(750, 145, false, this.game, this.player);
             this.monkey3 = new Monkey(750, 145, false, this.game, this.player);
             this.monkey4 = new Monkey(750, 145, false, this.game, this.player);
@@ -94,17 +94,18 @@ public class Stage4 extends JPanel {
             this.frontMap.add(this.monkey3);
             this.frontMap.add(this.monkey4);
             this.frontMap.add(this.monkey5);
-            new Thread(() -> turtle.start()).start(); // Turtle 실행
-            new Thread(() -> wildboar1.start()).start();
-            new Thread(() -> wildboar2.start()).start();
+//            new Thread(() -> turtle.start()).start(); // Turtle 실행
+//            new Thread(() -> wildboar1.start()).start();
+//            new Thread(() -> wildboar2.start()).start();
             new Thread(() -> monkey1.start()).start();
-            new Thread(() -> monkey2.start()).start();
-            new Thread(() -> monkey3.start()).start();
-            new Thread(() -> monkey4.start()).start();
-            new Thread(() -> monkey5.start()).start();
+//            new Thread(() -> monkey2.start()).start();
+//            new Thread(() -> monkey3.start()).start();
+//            new Thread(() -> monkey4.start()).start();
+//            new Thread(() -> monkey5.start()).start();
             
         });
     }
+    
     
     private void initTimer() {
         timer = new javax.swing.Timer(1000, new ActionListener() {
@@ -123,6 +124,7 @@ public class Stage4 extends JPanel {
          timer.start();
      }
     
+    
     public void loadHammerIcon() {
         ThrowHammer throwHammer = new ThrowHammer(this.game, player);
         throwHammer.setBounds(100, 200, throwHammer.getWidth(), throwHammer.getHeight());
@@ -132,9 +134,31 @@ public class Stage4 extends JPanel {
         this.frontMap.repaint();
     }
     
+    
+    public void loadBanana(Monkey monkey) {
+    	ThrowBanana throwBanana = new ThrowBanana(this.game, monkey, player);
+    	monkey.setBananaExist(true);
+    	if (throwBanana.getIcon() == null) {
+    	    System.out.println("바나나 이미지 로드 실패");
+    	}
+    	throwBanana.setBounds(monkey.getX(), monkey.getY(), throwBanana.getWidth(), throwBanana.getHeight());
+    	System.out.println("x: " + monkey.getX() + " y: " + monkey.getY());
+    	this.frontMap.add(throwBanana);
+    	throwBanana.setVisible(true);
+        this.frontMap.revalidate();
+        this.frontMap.repaint();
+    }
+    
+    
     public MoonRabbitGame getGame() {
         return game;
     }  
-   
+    
+    public JLabel getFrontMap() {
+		return frontMap;
+	}
 
+	public void setFrontMap(JLabel frontMap) {
+		this.frontMap = frontMap;
+	}
 }

@@ -94,7 +94,7 @@ public class BackgroundTurtleService implements Runnable {
 			}
 			
 			checkPlayerCollision();
-			game.checkStageCompletion();
+//			game.checkStageCompletion();
 		
 				
 			try {
@@ -205,8 +205,8 @@ public class BackgroundTurtleService implements Runnable {
 	        	        // 충돌 확인 로직 -> 몸이랑 닿은 거
 	        	        if (!isInvincible) {
 	        	            if(isColliding) {
+	        	            	startInvincibilityTimer();
 	        	                handleEnemy();
-	        	                startInvincibilityTimer();
 	        	            }
 	        	        }
 	        	    } catch (Exception e) {

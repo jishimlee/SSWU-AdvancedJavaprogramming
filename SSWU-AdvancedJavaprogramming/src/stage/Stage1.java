@@ -28,7 +28,7 @@ public class Stage1 extends JPanel {
     private Turtle turtle4;
     private Turtle turtle5;
     private Reverse reverseItem; // Reverse 객체 추가
-    //private Score score;
+    private Score score;
     //private Life life;
     
     private BGM bgm;

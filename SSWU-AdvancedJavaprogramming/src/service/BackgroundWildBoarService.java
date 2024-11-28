@@ -62,6 +62,26 @@ public class BackgroundWildBoarService implements Runnable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+    	switch (stageNumber) {
+		case 1:
+			currentPlayer = ((Stage1)stage).getPlayer();
+			break;
+		case 2:
+			currentPlayer = ((Stage2)stage).getPlayer();
+			break;
+		case 3:
+			currentPlayer = ((Stage3)stage).getPlayer();
+			break;
+		case 4:
+			currentPlayer = ((Stage4)stage).getPlayer();
+			break;
+		case 5:
+			currentPlayer = ((Stage5)stage).getPlayer();
+			break;
+		default:
+			break;
+	}
 	}
 	
 	public void run() {
@@ -100,27 +120,7 @@ public class BackgroundWildBoarService implements Runnable {
 	
 	private void updateObjState() {
         try {	        	
-            // 매 루프마다 player의 위치를 확인하고, wildboar과 비교
-        	switch (stageNumber) {
-        		case 1:
-        			currentPlayer = ((Stage1)stage).getPlayer();
-        			break;
-        		case 2:
-        			currentPlayer = ((Stage2)stage).getPlayer();
-        			break;
-        		case 3:
-        			currentPlayer = ((Stage3)stage).getPlayer();
-        			break;
-        		case 4:
-        			currentPlayer = ((Stage4)stage).getPlayer();
-        			break;
-        		case 5:
-        			currentPlayer = ((Stage5)stage).getPlayer();
-        			break;
-        		default:
-        			break;
-        	}
-        	
+            // 매 루프마다 player의 위치를 확인하고, wildboar과 비교      	
         	// 멧돼지와 플레이어 상태 확인
         	wildboarX = wildboar.getX();
         	wildboarY = wildboar.getY();
@@ -197,8 +197,8 @@ public class BackgroundWildBoarService implements Runnable {
         	        // 충돌 확인 로직 -> 몸이랑 닿은 거
         	        if (!isInvincible) {
         	            if(isColliding) {
+        	            	startInvincibilityTimer();
         	                handleEnemy();
-        	                startInvincibilityTimer();
         	            }
         	        }
         	    } catch (Exception e) {
