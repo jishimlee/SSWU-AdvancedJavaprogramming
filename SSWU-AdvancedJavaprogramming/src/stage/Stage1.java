@@ -2,6 +2,8 @@ package stage;
 
 import javax.swing.*;
 
+import Item.Reverse;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,6 +11,8 @@ import java.awt.event.ActionListener;
 import component.*;
 import main.MoonRabbitGame;
 import music.BGM;
+import score.Score;
+import life.*;
 
 public class Stage1 extends JPanel {
 	private MoonRabbitGame game; //추가함
@@ -16,12 +20,17 @@ public class Stage1 extends JPanel {
     private JLabel moonLabel;
     private JLabel heartLabel;
     private JLabel timerLabel;
+    private JLabel scoreLabel;
     private PlayerRabbit player;
     private Turtle turtle1;
     private Turtle turtle2;
     private Turtle turtle3;
     private Turtle turtle4;
     private Turtle turtle5;
+    private Reverse reverseItem; // Reverse 객체 추가
+    //private Score score;
+    //private Life life;
+    
     private BGM bgm;
     
     private javax.swing.Timer timer; // 게임 타이머
@@ -72,8 +81,19 @@ public class Stage1 extends JPanel {
         
         // 오브젝트 추가
         this.frontMap.add(this.player);
-       
+        
+        this.scoreLabel= new JLabel("score : 0");
+        this.scoreLabel.setBounds(900, 30, 150, 30);
+        this.frontMap.add(this.scoreLabel);
+        
+     // Reverse 아이템 초기화
+        this.reverseItem = new Reverse(200, 500); // 위치 초기화
+        this.frontMap.add(this.reverseItem);
     }
+    private void updateScoreDisplay() {
+        this.scoreLabel.setText("score : " + score.getScore());  // 점수 업데이트
+    }
+    
 
     private void initSetting() {
     	this.setSize(1000, 640);
@@ -88,16 +108,13 @@ public class Stage1 extends JPanel {
             this.turtle3 = new Turtle(200, 340, false, this.game, this.player);
             this.turtle4 = new Turtle(600, 340, false, this.game, this.player);
             this.turtle5 = new Turtle(800, 454, false, this.game, this.player);
-            System.out.println(turtle1.hashCode());
-            System.out.println(turtle2.hashCode());
-            System.out.println(turtle3.hashCode());
-
             
             this.frontMap.add(this.turtle1);
             this.frontMap.add(this.turtle2);
             this.frontMap.add(this.turtle3);
             this.frontMap.add(this.turtle4);
             this.frontMap.add(this.turtle5);
+            
             new Thread(() -> turtle1.start()).start(); // Turtle 실행
             new Thread(() -> turtle2.start()).start();
             new Thread(() -> turtle3.start()).start();
@@ -113,6 +130,10 @@ public class Stage1 extends JPanel {
                  if (timeRemaining > 0) {
                      timeRemaining--;
                      timerLabel.setText(timeRemaining + "S");
+                  // Reverse 아이템 상태 업데이트
+                     if (reverseItem != null) {
+                         reverseItem.updateObjState(player);} // Player와의 충돌 검사 및 업데이트
+                     
                  } else {
                      timer.stop();
                      showGameOverImage(); // 게임 오버 이미지 표시

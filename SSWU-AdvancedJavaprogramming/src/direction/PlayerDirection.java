@@ -9,4 +9,5 @@ public enum PlayerDirection {
 	private PlayerDirection() {
 		
 	}
+	
 }

@@ -73,7 +73,7 @@ public class PlayerRabbit extends JLabel {
    
 	private int high;
 	private Turtle turtle;
-   
+	private boolean reversedControls = false;
    
    public PlayerRabbit(MoonRabbitGame game) {
         this.game = game;
@@ -319,6 +319,14 @@ public class PlayerRabbit extends JLabel {
             }).start();
             
          }
+      
+      public boolean isReversedControls() {
+    	    return reversedControls;
+    	}
+
+    	public void setReversedControls(boolean reversedControls) {
+    	    this.reversedControls = reversedControls;
+    	}
       
       public void loseLife() {
           if (lives > 0) {
