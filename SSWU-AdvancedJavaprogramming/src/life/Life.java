@@ -1,41 +1,49 @@
 package life;
-import javax.swing.JOptionPane;
-public class Life {
-	private int life;
-	private boolean gameOver = false;
-	
-	public Life() {
-		life = 3;
-	}
-	public int getLife() {
-		return life;
-	}
-	
-	public void addLife() {
-		life++;
-		System.out.println("목숨이 하나 추가되었습니다");
-	}
-	
-	public void decreaseLife() {
-	    if (life > 0) {
-	        life--;
-	        System.out.println("목숨이 하나 감소되었습니다");
-	        System.out.println(life);
-	    }
+import java.awt.Color;
+import java.awt.Font;
 
-	    // 목숨이 0일 때 게임 오버 처리
-	    if (life == 0) {
-	        System.out.println("game over");
-	        JOptionPane.showMessageDialog(null, "Game Over! 목숨이 0입니다.");
-	        // 게임 종료 처리
-	        gameOver = true;
-	        System.exit(0); // 게임 종료
-	    }
-	}
-	// gameOver 화면 띄울 때 사용하세요!
-	public boolean isGameOver() {
-		return gameOver;
-	}
-	
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
+import main.MoonRabbitGame;
+
+public class Life {
+    private int life;
+    private boolean gameOver;
+    private MoonRabbitGame game;
+
+    public Life() {
+        this.life = 3;  // 게임 시작 시 목숨 3으로 초기화
+        this.gameOver = false;
+    }
+
+    public int getLife() {
+        return life;
+    }
+
+    public void decreaseLife() {
+        if (life > 0) {
+            life--;
+            System.out.println("목숨이 하나 감소되었습니다.");
+            System.out.println("남은 목숨: " + life);
+        }
+
+        // 목숨이 0일 때 게임 오버 처리
+        if (life == 0) {
+            System.out.println("game over");
+            JOptionPane.showMessageDialog(null, "Game Over! 목숨이 0입니다.");
+            
+           
+        }
+    }
+
+    public boolean isGameOver() {
+        return gameOver;
+    }
+
+    public void resetLife() {
+        this.life = 3;  // 목숨 초기화
+        this.gameOver = false;
+    }
 }
 
