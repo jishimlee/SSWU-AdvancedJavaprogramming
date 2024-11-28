@@ -2,7 +2,7 @@ package stage;
 
 import javax.swing.*;
 
-import Item.Reverse;
+//import Item.Reverse;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -22,23 +22,29 @@ public class Stage1 extends JPanel {
     private JLabel timerLabel;
     private JLabel scoreLabel;
     private PlayerRabbit player;
+    private ThrowHammer hammer;
     private Turtle turtle1;
     private Turtle turtle2;
     private Turtle turtle3;
     private Turtle turtle4;
     private Turtle turtle5;
-    private Reverse reverseItem; // Reverse 객체 추가
+    //private Reverse reverseItem; // Reverse 객체 추가
     //private Score score;
     //private Life life;
     
     private BGM bgm;
     
-    private javax.swing.Timer timer; // 게임 타이머
+    public void setHammer(ThrowHammer hammer) {
+		this.hammer = hammer;
+	}
+
+	private javax.swing.Timer timer; // 게임 타이머
     private int timeRemaining = 30; // 남은 시간 (초 단위)
 
     public Stage1(MoonRabbitGame game) {
         this.game = game;
         this.player = new PlayerRabbit(this.game);
+        this.hammer = new ThrowHammer(this.game, this.player);
         initObject();
         initSetting();
         initThread();
@@ -48,7 +54,10 @@ public class Stage1 extends JPanel {
 	public PlayerRabbit getPlayer() {
         return this.player;
     }
-
+	
+	public ThrowHammer getHammer() {
+		return this.hammer;
+	}
 
     private void initObject() {
     	//bgm 추가
@@ -87,12 +96,12 @@ public class Stage1 extends JPanel {
         this.frontMap.add(this.scoreLabel);
         
      // Reverse 아이템 초기화
-        this.reverseItem = new Reverse(200, 500); // 위치 초기화
-        this.frontMap.add(this.reverseItem);
+        /*this.reverseItem = new Reverse(200, 500); // 위치 초기화
+        this.frontMap.add(this.reverseItem);*/
     }
-    private void updateScoreDisplay() {
+    /*private void updateScoreDisplay() {
         this.scoreLabel.setText("score : " + score.getScore());  // 점수 업데이트
-    }
+    }*/
     
 
     private void initSetting() {
@@ -131,12 +140,12 @@ public class Stage1 extends JPanel {
                      timeRemaining--;
                      timerLabel.setText(timeRemaining + "S");
                   // Reverse 아이템 상태 업데이트
-                     if (reverseItem != null) {
-                         reverseItem.updateObjState(player);} // Player와의 충돌 검사 및 업데이트
+                    /* if (reverseItem != null) {
+                         reverseItem.updateObjState(player);}*/ // Player와의 충돌 검사 및 업데이트
                      
                  } else {
                      timer.stop();
-                     showGameOverImage(); // 게임 오버 이미지 표시
+                     showGameOverText();// 게임 오버 이미지 표시
                      game.dispose(); // 게임 창 닫기
                  }
              }
@@ -144,27 +153,27 @@ public class Stage1 extends JPanel {
          timer.start();
      }
     
-    private void showGameOverImage() {
-    	// BGM 정지
+    
+    private void showGameOverText() {
+        // BGM 정지
         if (bgm != null) {
             bgm.stop(); // BGM 클래스에서 제공하는 정지 메서드 호출
         }
 
-        // 새 JFrame을 생성하여 이미지 표시
-        JFrame gameOverFrame = new JFrame("Game Over");
-        gameOverFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        gameOverFrame.setSize(400, 300); // 적절한 크기로 설정
+        // 게임 오버 메시지 JLabel 생성
+        JLabel gameOverLabel = new JLabel("Game Over!", JLabel.CENTER); // 텍스트 중앙 정렬
+        gameOverLabel.setFont(new Font("Arial", Font.BOLD, 50)); // 글씨 크기와 스타일 설정
+        gameOverLabel.setForeground(Color.RED); // 텍스트 색상 설정
 
-        // JLabel에 이미지 설정
-        ImageIcon gameOverIcon = new ImageIcon("image/background1.png"); // 그냥 일단 넣어봄
-        JLabel gameOverLabel = new JLabel(gameOverIcon); 
-        gameOverFrame.add(gameOverLabel);
+        // 게임 화면에 JLabel 추가
+        gameOverLabel.setBounds(0, 0, game.getWidth(), game.getHeight()); // 화면 중앙에 위치
+        gameOverLabel.setLocation(game.getWidth() / 2 - gameOverLabel.getWidth() / 2, game.getHeight() / 2 - gameOverLabel.getHeight() / 2);
 
-        // 창의 크기를 내용물에 맞게 조정
-        gameOverFrame.pack();
-        gameOverFrame.setLocationRelativeTo(null); // 화면 중앙에 배치
-        gameOverFrame.setVisible(true);
+        // 화면에 추가
+        game.add(gameOverLabel);
+        game.repaint(); // 화면 갱신
     }
+
 
      
     
