@@ -84,10 +84,10 @@ public class Stage2 extends JPanel {
             // Stage1 초기화가 완료된 후에 Turtle 생성
             this.turtle1 = new Turtle(750, 145, false, this.game, this.player);
             this.turtle2 = new Turtle(200, 464, false, this.game, this.player);
-            this.toad1 = new Toad(750, 263, false, this.game, this.player);
-            this.toad2 = new Toad(300, 263, false, this.game, this.player);
-            this.toad3 = new Toad(600, 480, false, this.game, this.player);
-            this.toad4 = new Toad(500, 160, false, this.game, this.player);
+            this.toad1 = new Toad(750, 262, false, this.game, this.player);
+            this.toad2 = new Toad(200, 262, false, this.game, this.player);
+            this.toad3 = new Toad(700, 470, true, this.game, this.player);
+            this.toad4 = new Toad(420, 155, false, this.game, this.player);
             this.frontMap.add(this.turtle1);
             this.frontMap.add(this.turtle2);
             this.frontMap.add(this.toad1);

@@ -19,15 +19,15 @@ public class Toad extends JLabel implements Moveable {
 	   private EnemyDirection enemyDirection;
 	   private boolean leftCrash;
 	   private boolean rightCrash;
-	   private static final int SPEED = 3;
-	   private static final int JUMPSPEED = 2;
+	   private static final int SPEED = 1;
+	   private static final int JUMPSPEED = 1;
 	   private MoonRabbitGame game;
 	   private PlayerRabbit player;
 	   private int stageNumber;
 	   private JPanel stage;
 	   
 	   private boolean isJumping; // 점프 상태 플래그
-	   private boolean canJump;	// 검사 가능한지 플래그
+	   private boolean canJump = true;	// 검사 가능한지 플래그
 	   
 	   private ImageIcon toadR;
 	   private ImageIcon toadL;
@@ -102,18 +102,19 @@ public class Toad extends JLabel implements Moveable {
 	   
 	   // 점프 시 펄쩍 뛰어오르게
 	   public void left() {
-		   if (!canJump) return;
+		   if (!canJump) return;	// 점프 중일 때는 점프하지 못하도록 하는 플래그
+		   							// 현재 점프 가능하지 않다면 return
 		   
-		   System.out.println("LEFT");
+		   // System.out.println("LEFT");
 		   this.enemyDirection = EnemyDirection.LEFT;
 		   this.setIcon(this.toadL);
 		   this.left = true;
-		   this.isJumping = true;
 		   
 		   Thread t = new Thread(() -> {
 			   while (this.left) {
 				   if (canJump) {
 					   this.canJump = false;
+					   this.isJumping = true;	// 점프 중일 때는 바닥 검사를 하지 않도록 하는 플래그 (점프 중인가?)
 					   // 점프로 올라갔다가
 					   for (int i = 0; i < 15; i++) {
 						   this.x -= SPEED;
@@ -132,15 +133,13 @@ public class Toad extends JLabel implements Moveable {
 						   this.setLocation(this.x, this.y);
 						   try {
 							Thread.sleep(10);
-						   } catch (InterruptedException e2) {
-							   e2.printStackTrace();
+						   } catch (InterruptedException e) {
+							   e.printStackTrace();
 						   }
-					   }
-					   
+					   } this.isJumping = false;
+			            
 				        try {
 				            Thread.sleep(100); // 점프 딜레이
-				            this.isJumping = false;	// 바닥 검사 재시작
-				            this.canJump = true;
 				        } catch (InterruptedException e) {
 				            e.printStackTrace();
 				        }
@@ -152,24 +151,72 @@ public class Toad extends JLabel implements Moveable {
 	   }
 
 	   public void right() {
-		   if (!canJump) return;
-		   
-		   System.out.println("RIGHT");
-		   this.enemyDirection = EnemyDirection.RIGHT;
-		   this.setIcon(toadR);
-		   this.right = true;
-		   Thread t = new Thread(() -> {
-			   while(this.right) {
-				   this.x += SPEED;
-				   this.setLocation(this.x, this.y);
-				   
-				   try {
-					   Thread.sleep(10L);
-				   } catch (Exception e2) {
-		               System.out.println("오른쪽 이동 중 인터럽트 발생: " + e2.getMessage());
-				   }
-			   }
-		   });
+		   if (!canJump) return;	// 점프 중일 때는 점프하지 못하도록 하는 플래그
+				// 현재 점프 가능하지 않다면 return
+			
+			// System.out.println("LEFT");
+			this.enemyDirection = EnemyDirection.RIGHT;
+			this.setIcon(this.toadR);
+			this.right = true;
+			
+			Thread t = new Thread(() -> {
+				while (this.right) {
+					if (canJump) {
+						this.canJump = false;
+						this.isJumping = true;	// 점프 중일 때는 바닥 검사를 하지 않도록 하는 플래그 (점프 중인가?)
+						// 점프로 올라갔다가
+						System.out.println(x + " " + y);
+						for (int i = 0; i < 15; i++) {
+						  this.x += SPEED;
+						  this.y -= JUMPSPEED;
+						  this.setLocation(this.x, this.y);
+						  try {
+							Thread.sleep(10);
+						  } catch (InterruptedException e) {
+							   e.printStackTrace();
+						  }
+						}
+						
+						// 포물선 모양으로 내려감
+						for (int i = 0; i < 15; i++) {
+						  this.x += SPEED;
+						  this.y += JUMPSPEED;
+						  this.setLocation(this.x, this.y);
+						  try {
+							Thread.sleep(10);
+						  } catch (InterruptedException e) {
+							   e.printStackTrace();
+						  }
+						} this.isJumping = false;	// 바닥 검사 재시작
+						System.out.println(x + " " + y);
+						   
+						try {
+						   Thread.sleep(100); // 점프 딜레이
+						} catch (InterruptedException e) {
+						   e.printStackTrace();
+						}
+					}
+				}
+			});
+			
+//		   if (!canJump) return;
+//		   
+//		   // System.out.println("RIGHT");
+//		   this.enemyDirection = EnemyDirection.RIGHT;
+//		   this.setIcon(toadR);
+//		   this.right = true;
+//		   Thread t = new Thread(() -> {
+//			   while(this.right) {
+//				   this.x += SPEED;
+//				   this.setLocation(this.x, this.y);
+//				   
+//				   try {
+//					   Thread.sleep(10L);
+//				   } catch (Exception e2) {
+//		               System.out.println("오른쪽 이동 중 인터럽트 발생: " + e2.getMessage());
+//				   }
+//			   }
+//		   });
 		   t.start();
 	   }
 	   
