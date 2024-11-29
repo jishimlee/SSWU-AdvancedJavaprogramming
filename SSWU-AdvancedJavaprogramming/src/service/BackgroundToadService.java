@@ -112,6 +112,7 @@ public class BackgroundToadService implements Runnable {
 			}
 			
 			checkPlayerCollision();
+			game.checkStageCompletion();
 				
 			try {
 				Thread.sleep(5);

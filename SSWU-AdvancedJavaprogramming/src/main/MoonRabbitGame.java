@@ -90,9 +90,9 @@ public class MoonRabbitGame extends JFrame {
 	            this.currentStage = stage5;
 	            break;
 	      
-	        default:
-	            JOptionPane.showMessageDialog(null, "준비된 스테이지가 없습니다!");
-	            break;
+	        //default:
+	            //JOptionPane.showMessageDialog(null, "준비된 스테이지가 없습니다!");
+	            //break;
 	    }
 	    cardLayout.show(stagePanel, "Stage" + stageNumber);
 	}
@@ -187,8 +187,10 @@ public class MoonRabbitGame extends JFrame {
 		        Stage1 stage = (Stage1) currentStage;
 		        if (stage.areAllEnemiesDefeated()) {
 		            System.out.println("모든 적이 처치되었습니다. 다음 스테이지로 이동합니다.");
+		            stage.stopTimer();  // 타이머 종료
 		            nextStage();
-		        }}
+		        }
+		        }
 		    
 		        
 		        // Stage2, Stage3 등 다른 스테이지에 대해 동일한 확인 가능
@@ -196,9 +198,35 @@ public class MoonRabbitGame extends JFrame {
 			        Stage2 stage = (Stage2) currentStage;
 			        if (stage.areAllEnemiesDefeated()) {
 			            System.out.println("모든 적이 처치되었습니다. 다음 스테이지로 이동합니다.");
+			            stage.stopTimer();  // 타이머 종료
 			            nextStage();
 			        }
 			    }
+			    if (currentStage instanceof Stage3) {
+			        Stage3 stage = (Stage3) currentStage;
+			        if (stage.areAllEnemiesDefeated()) {
+			            System.out.println("모든 적이 처치되었습니다. 다음 스테이지로 이동합니다.");
+			            stage.stopTimer();  // 타이머 종료
+			            nextStage();
+			        }
+			    }
+			    if (currentStage instanceof Stage4) {
+			        Stage4 stage = (Stage4) currentStage;
+			        if (stage.areAllEnemiesDefeated()) {
+			            System.out.println("모든 적이 처치되었습니다. 다음 스테이지로 이동합니다.");
+			            stage.stopTimer();  // 타이머 종료
+			            nextStage();
+			        }
+			    }
+			    if (currentStage instanceof Stage5) {
+			        Stage5 stage = (Stage5) currentStage;
+			        if (stage.areAllEnemiesDefeated()) {
+			            System.out.println("모든 적이 처치되었습니다. 스테이지 클리어.");
+			            stage.stopTimer();  // 타이머 종료
+			            //스테이지 클리어 화면 띄우기
+			        }
+			    }
+			    
 	    }
 	public Life getLife() {
 	    if (life == null) {

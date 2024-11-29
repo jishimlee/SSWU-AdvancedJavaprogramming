@@ -100,6 +100,7 @@ public class BackgroundWildBoarService implements Runnable {
 			}
 			
 			checkPlayerCollision();
+			
 
 	        // rushState 상태 확인 및 갱신
 	        if (!wildboar.isRushState()) { // rushState가 false인 경우
@@ -109,7 +110,7 @@ public class BackgroundWildBoarService implements Runnable {
 	                // System.out.println("rushState 활성화!");
 	            }
 	        }
-				
+	        game.checkStageCompletion();
 			try {
 				Thread.sleep(10);
 			} catch (InterruptedException e) {

@@ -13,7 +13,6 @@ import main.MoonRabbitGame;
 import music.BGM;
 import score.Score;
 import life.*;
-import Item.Reverse;
 
 public class Stage1 extends JPanel {
 	private MoonRabbitGame game; //추가함
@@ -152,6 +151,12 @@ public class Stage1 extends JPanel {
          });
          timer.start();
      }
+    
+    public void stopTimer() {
+        if (timer != null) {
+            timer.stop();  // 타이머 종료
+        }
+    }
     
     
     private void showGameOverText() {
