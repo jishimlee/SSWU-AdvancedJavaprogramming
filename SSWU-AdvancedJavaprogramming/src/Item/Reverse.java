@@ -11,7 +11,7 @@ public class Reverse extends JLabel{
     private boolean isActive = false;   // Reverse 효과 활성화 여부
     private PlayerRabbit currentPlayer; // 현재 플레이어 참조
     private boolean isColliding;        // 충돌 상태 확인 변수
-    private static final int REVERSE_DURATION = 50000; // 반전 상태 지속 시간 (밀리초)
+    private static final int REVERSE_DURATION = 7000; // 반전 상태 지속 시간 (밀리초)
 
     public Reverse(int x, int y) {
         this.reverseX = x;
@@ -73,7 +73,7 @@ public class Reverse extends JLabel{
         System.out.println("Reverse control effect ended!");
     }
     
-    // Reverse 아이템의 위치를 업데이트 (필요시)
+    /*// Reverse 아이템의 위치를 업데이트 (필요시)
     public void setPosition(int x, int y) {
     	this.reverseX = x;
         this.reverseY = y;
@@ -85,5 +85,5 @@ public class Reverse extends JLabel{
         isPickedUp = false;
         isActive = false;
         this.setVisible(true);
+    }/*/
     }
-}

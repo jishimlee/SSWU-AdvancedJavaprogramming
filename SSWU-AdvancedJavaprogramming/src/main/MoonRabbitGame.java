@@ -112,9 +112,7 @@ public class MoonRabbitGame extends JFrame {
 	                            player.left(); // 일반 상태라면 왼쪽으로 이동
 	                        }
 	                    }
-	                	if(!player.isLeft()) {
-	                		player.left();
-	                	}
+	                	
 	                    break;
 	                case KeyEvent.VK_RIGHT: 
 	                	if (!player.isRight()) {
@@ -124,9 +122,6 @@ public class MoonRabbitGame extends JFrame {
 	                            player.right(); // 일반 상태라면 오른쪽으로 이동
 	                        }
 	                    }
-	                	if(!player.isRight()) {
-	                		player.right();
-	                	}
 	                    break;
 	                case KeyEvent.VK_UP: 
 	                	if(!player.isUp()&&!player.isDown()) {
@@ -174,11 +169,9 @@ public class MoonRabbitGame extends JFrame {
 	                } else {
 	                    player.setRight(false);  // 일반 상태일 때 오른쪽으로 멈추기
 	                }
-	            }if (keyCode == KeyEvent.VK_LEFT) {
-                	player.setLeft(false); // 왼쪽 이동 멈추기
-                } else if (keyCode == KeyEvent.VK_RIGHT) {
-                	player.setRight(false);  // 오른쪽 이동 멈추기
-                } else if (keyCode == KeyEvent.VK_UP) {
+	            }
+	        	
+                 else if (keyCode == KeyEvent.VK_UP) {
                     //up = false;  // 점프 멈추기
                 } else if (keyCode == KeyEvent.VK_DOWN) {
                     //down = false;  // 내려가기 멈추기
@@ -195,7 +188,8 @@ public class MoonRabbitGame extends JFrame {
 		        if (stage.areAllEnemiesDefeated()) {
 		            System.out.println("모든 적이 처치되었습니다. 다음 스테이지로 이동합니다.");
 		            nextStage();
-		        }
+		        }}
+		    
 		        
 		        // Stage2, Stage3 등 다른 스테이지에 대해 동일한 확인 가능
 			    if (currentStage instanceof Stage2) {
@@ -204,6 +198,8 @@ public class MoonRabbitGame extends JFrame {
 			            System.out.println("모든 적이 처치되었습니다. 다음 스테이지로 이동합니다.");
 			            nextStage();
 			        }
+			    }
+	    }
 	public Life getLife() {
 	    if (life == null) {
 	        life = new Life(); // null 상태라면 새로 생성
@@ -234,8 +230,10 @@ public class MoonRabbitGame extends JFrame {
 	}
 
 	public void nextStage() {
+		System.out.println("Moving to the next stage. Current stage: " + stageNumber);
         stageNumber++;
         loadStage(stageNumber);
+        System.out.println("Next stage loaded. New stage: " + stageNumber);
     }
 
 	 

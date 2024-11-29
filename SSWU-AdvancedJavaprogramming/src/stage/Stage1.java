@@ -181,6 +181,7 @@ public class Stage1 extends JPanel {
         return turtle1.getState() == 2 && turtle2.getState() == 2 &&
                turtle3.getState() == 2 && turtle4.getState() == 2 &&
                turtle5.getState() == 2;
+        
     }
     
 

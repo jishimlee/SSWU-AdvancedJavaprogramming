@@ -65,7 +65,7 @@ public class BackgroundTurtleService implements Runnable {
       this.turtle = turtle;
       this.game = game;
       this.player = player;
-      this.hammer = hammer;	// 받아오는 해머가 없는데 왜 쓴 거져?
+      this.hammer = hammer;   // 받아오는 해머가 없는데 왜 쓴 거져?
       this.stage = game.getCurrentStage();
       this.stageNumber = game.getStageNumber();
       this.life = game.getLife();
@@ -115,18 +115,21 @@ public class BackgroundTurtleService implements Runnable {
          // player를 스테이지별로 가져오기
          // turtle의 state를 확인하기
          updateObjState();
-            
+         
          // 충돌여부 확인
          // state == 0일 때, 토끼 목숨 깎이고 2000ms 무적
          // state == 1일 때, 떡 / state == 2, 사라짐, 점수 올라감
          if (state == 0) {
-        	 checkStageCollision();
-        	 checkAttacked();
+            checkStageCollision();
+            checkAttacked();
          }
          checkPlayerCollision();
-         game.checkStageCompletion();
+         
+
          //checkHammerCollision();
-            
+         game.checkStageCompletion();
+         
+         
          try {
             Thread.sleep(10);
          } catch (InterruptedException e) {
@@ -138,7 +141,7 @@ public class BackgroundTurtleService implements Runnable {
             
       private void updateObjState() {
            try {              
-        	  // 매 루프마다 player의 위치를 확인하고, turtle과 비교
+             // 매 루프마다 player의 위치를 확인하고, turtle과 비교
               // 거북이와 플레이어 상태 확인
               turtleX = turtle.getX();
               turtleY = turtle.getY();
@@ -203,7 +206,7 @@ public class BackgroundTurtleService implements Runnable {
       private void checkPlayerCollision() {
          if (state != 2) {
              // 거북이와 플레이어의 충돌 영역 (50 x 50 기준)
-        	 // 플레이어 
+            // 플레이어 
               isColliding = (turtleX < playerX + 25) && (turtleX + 45 > playerX) && 
                                     (turtleY + 10 < playerY + 50) && (turtleY + 50 > playerY);       
               if (state == 0) {
