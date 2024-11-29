@@ -17,6 +17,7 @@ import stage.*;
 import score.*;
 import life.*;
 
+// 커밋 확인
 public class BackgroundTurtleService implements Runnable {
    private BufferedImage img;
    private Turtle turtle;
