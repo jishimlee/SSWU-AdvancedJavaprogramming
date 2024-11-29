@@ -26,8 +26,6 @@ public class BackgroundMonkeyService implements Runnable {
 	private int playerX;
 	private int playerY;
 	
-	private boolean isFirstLoop = true; // 첫 루프 여부 체크
-	
 	private MoonRabbitGame game;
 	private String backgroundPath;
 	PlayerRabbit currentPlayer;

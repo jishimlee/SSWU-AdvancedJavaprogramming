@@ -52,7 +52,7 @@ public class PlayerRabbit extends JLabel {
    private boolean isInvincible = false;
    private boolean startInvincible = false;
 
-   // 이미지
+// 이미지
    private ImageIcon playerR;
    private ImageIcon playerL;
    
@@ -65,7 +65,6 @@ public class PlayerRabbit extends JLabel {
    private boolean isThreadRunning = false;
    public boolean spacePressed = false;
    private boolean APressed = false;
-<<<<<<< HEAD
    
    private ThrowHammer hammer;
    private ImageIcon hammerL;
@@ -81,34 +80,7 @@ public class PlayerRabbit extends JLabel {
    private int high;
    private Turtle turtle;
    private boolean reversedControls = false;
-=======
->>>>>>> refs/remotes/origin/main
 
-<<<<<<< HEAD
-=======
-   private ThrowHammer hammer;
-   private ImageIcon hammerL;
-   private ImageIcon hammerR;
-   private ImageIcon rabbitCrashL;
-   private ImageIcon rabbitCrashR;
-   private ImageIcon rabbitDeadL;
-   private ImageIcon rabbitDeadR;
-   private MoonRabbitGame game;
-   private BackgroundTurtleService turtleService;
-   private Life life;
-   private boolean ceilingAttached = false;
-   private int high;
-   private Turtle turtle;
-   public void setCeilingAttached(boolean attached) {
-       this.ceilingAttached = attached;
-   }
-
-   public boolean isCeilingAttached() {
-       return ceilingAttached;
-   }
-
->>>>>>> refs/remotes/origin/main
-   
    public PlayerRabbit(MoonRabbitGame game) {
         this.game = game;
          this.initObject();
@@ -133,12 +105,8 @@ public class PlayerRabbit extends JLabel {
    
    private void initSetting() {
          this.x = 45;
-<<<<<<< HEAD
          this.y = 555;
-=======
-         this.y = 560;
->>>>>>> refs/remotes/origin/main
-         
+
          this.left = false;
          this.right = false;
          this.up = false;
@@ -303,8 +271,6 @@ public class PlayerRabbit extends JLabel {
             
          }
       
-<<<<<<< HEAD
-      
       // 무적 상태용
       public boolean isInvincible() {
           return isInvincible;
@@ -313,32 +279,6 @@ public class PlayerRabbit extends JLabel {
       public void setInvincible(boolean isInvincible) {
           this.isInvincible = isInvincible;
       }
-=======
->>>>>>> refs/remotes/origin/main
-      
-<<<<<<< HEAD
-      public boolean isStartInvincible() {
-          return startInvincible;
-      }
-          
-          public void setStartInvincible(boolean startInvincible) {
-          this.startInvincible = startInvincible;
-    }
-=======
-//      // 히트박스
-//      public Rectangle getBodyHitbox() {
-//          return new Rectangle(x, y, width, height);
-//      }
-//      
-//      public Rectangle getAttackHitbox() {
-//         // 왼쪽 공격
-//         if (direction == PlayerDirection.LEFT)
-//            return new Rectangle(x-50, y+10, 50, height+10);
-//         // 오른쪽 공격
-//         else
-//            return new Rectangle(x+30, y, 50, height+10);
-//      }
->>>>>>> refs/remotes/origin/main
 
       
       public boolean isSpacePressed() {
@@ -589,52 +529,48 @@ public class PlayerRabbit extends JLabel {
    }
 
 
-public ImageIcon getRabbitCrashL() {
-   return rabbitCrashL;
+	public ImageIcon getRabbitCrashL() {
+	   return rabbitCrashL;
+	}
+	
+	
+	public void setRabbitCrashL(ImageIcon rabbitCrashL) {
+	   this.rabbitCrashL = rabbitCrashL;
+	}
+	
+	
+	public ImageIcon getRabbitCrashR() {
+	   return rabbitCrashR;
+	}
+	
+	
+	public void setRabbitCrashR(ImageIcon rabbitCrashR) {
+	   this.rabbitCrashR = rabbitCrashR;
+	}
+	
+	public boolean isReversedControls() {
+	    return reversedControls;
+	}
+	
+	public void setReversedControls(boolean reversedControls) {
+	    this.reversedControls = reversedControls;
+	}
+	
+	public void setCeilingAttached(boolean attached) {
+	    this.ceilingAttached = attached;
+	}
+	
+	public boolean isCeilingAttached() {
+	    return ceilingAttached;
+	}
+	
+	public boolean isStartInvincible() {
+		return startInvincible;
+	}
+	
+	
+	public void setStartInvincible(boolean startInvincible) {
+		this.startInvincible = startInvincible;
+	}
+
 }
-
-
-public void setRabbitCrashL(ImageIcon rabbitCrashL) {
-   this.rabbitCrashL = rabbitCrashL;
-}
-
-
-public ImageIcon getRabbitCrashR() {
-   return rabbitCrashR;
-}
-
-
-public void setRabbitCrashR(ImageIcon rabbitCrashR) {
-   this.rabbitCrashR = rabbitCrashR;
-}
-<<<<<<< HEAD
-
-public boolean isReversedControls() {
-    return reversedControls;
-}
-
-public void setReversedControls(boolean reversedControls) {
-    this.reversedControls = reversedControls;
-}
-
-public void setCeilingAttached(boolean attached) {
-    this.ceilingAttached = attached;
-}
-
-public boolean isCeilingAttached() {
-    return ceilingAttached;
-}
-
-}
-=======
-   
-   
-//   public boolean isInvincible() {
-//      return isInvincible;
-//   }
-//
-//   public void setInvincible(boolean isInvincible) {
-//      this.isInvincible = isInvincible;
-//   }
-}
->>>>>>> refs/remotes/origin/main
