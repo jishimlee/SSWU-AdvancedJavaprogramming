@@ -124,6 +124,7 @@ public class BackgroundTurtleService implements Runnable {
         	 checkAttacked();
          }
          checkPlayerCollision();
+         game.checkStageCompletion();
          //checkHammerCollision();
             
          try {

@@ -15,7 +15,7 @@ import score.*;
 import life.*;
 
 public class MoonRabbitGame extends JFrame {
-	private int stageNumber = 4;	// 1~5, 시작 전후 화면은 별도의 번호로 설정하도록 함 -> 다음 스테이지로 넘어갈 때 이 Number도 업데이트 해줘야 됨
+	private int stageNumber = 1;	// 1~5, 시작 전후 화면은 별도의 번호로 설정하도록 함 -> 다음 스테이지로 넘어갈 때 이 Number도 업데이트 해줘야 됨
 	private CardLayout cardLayout;
 	private JPanel stagePanel;
 	private PlayerRabbit player;
@@ -27,8 +27,8 @@ public class MoonRabbitGame extends JFrame {
 	
 	public MoonRabbitGame() {
 		initLayout();
-		// showGameIntro(); // 게임 설명 화면 표시
-        loadStage(stageNumber);
+		showGameIntro(); // 게임 설명 화면 표시
+        //loadStage(stageNumber);
         initListener();
         this.setVisible(true);
         this.score = new Score();
@@ -44,6 +44,15 @@ public class MoonRabbitGame extends JFrame {
         cardLayout = new CardLayout();
         stagePanel = new JPanel(cardLayout);
         this.setContentPane(stagePanel);
+    }
+	
+	private void showGameIntro() {
+        GameIntro introPanel = new GameIntro(() -> {
+            // 설명 종료 후 첫 번째 스테이지 로드
+            loadStage(stageNumber);
+        });
+        stagePanel.add(introPanel, "Intro");
+        cardLayout.show(stagePanel, "Intro");
     }
 	
 	private void loadStage(int stageNumber) {
@@ -96,11 +105,25 @@ public class MoonRabbitGame extends JFrame {
 	            
 	            switch(e.getKeyCode()) {
 	                case KeyEvent.VK_LEFT: 
+	                	if (!player.isLeft()) {
+	                        if (player.isReversedControls()) { // 반전 상태 확인
+	                            player.right(); // 반전 상태라면 오른쪽으로 이동
+	                        } else {
+	                            player.left(); // 일반 상태라면 왼쪽으로 이동
+	                        }
+	                    }
 	                	if(!player.isLeft()) {
 	                		player.left();
 	                	}
 	                    break;
 	                case KeyEvent.VK_RIGHT: 
+	                	if (!player.isRight()) {
+	                        if (player.isReversedControls()) { // 반전 상태 확인
+	                            player.left(); // 반전 상태라면 왼쪽으로 이동
+	                        } else {
+	                            player.right(); // 일반 상태라면 오른쪽으로 이동
+	                        }
+	                    }
 	                	if(!player.isRight()) {
 	                		player.right();
 	                	}
@@ -139,7 +162,19 @@ public class MoonRabbitGame extends JFrame {
 	        public void keyReleased(KeyEvent e) {  // 메서드 이름 수정
 	            
 	        	int keyCode = e.getKeyCode();
-                if (keyCode == KeyEvent.VK_LEFT) {
+	        	if (keyCode == KeyEvent.VK_LEFT) {
+	                if (player.isReversedControls()) {  // Reverse 상태일 때
+	                    player.setRight(false);  // 반대 방향인 오른쪽으로 멈추기
+	                } else {
+	                    player.setLeft(false);  // 일반 상태일 때 왼쪽으로 멈추기
+	                }
+	            } else if (keyCode == KeyEvent.VK_RIGHT) {
+	                if (player.isReversedControls()) {  // Reverse 상태일 때
+	                    player.setLeft(false);  // 반대 방향인 왼쪽으로 멈추기
+	                } else {
+	                    player.setRight(false);  // 일반 상태일 때 오른쪽으로 멈추기
+	                }
+	            }if (keyCode == KeyEvent.VK_LEFT) {
                 	player.setLeft(false); // 왼쪽 이동 멈추기
                 } else if (keyCode == KeyEvent.VK_RIGHT) {
                 	player.setRight(false);  // 오른쪽 이동 멈추기
@@ -151,6 +186,24 @@ public class MoonRabbitGame extends JFrame {
 	        }
 	    });
 	}
+	    
+	    public void checkStageCompletion() {
+		    // 현재 스테이지의 모든 적이 상태 2인지 확인
+		    JPanel currentStage = getCurrentStage();
+		    if (currentStage instanceof Stage1) {
+		        Stage1 stage = (Stage1) currentStage;
+		        if (stage.areAllEnemiesDefeated()) {
+		            System.out.println("모든 적이 처치되었습니다. 다음 스테이지로 이동합니다.");
+		            nextStage();
+		        }
+		        
+		        // Stage2, Stage3 등 다른 스테이지에 대해 동일한 확인 가능
+			    if (currentStage instanceof Stage2) {
+			        Stage2 stage = (Stage2) currentStage;
+			        if (stage.areAllEnemiesDefeated()) {
+			            System.out.println("모든 적이 처치되었습니다. 다음 스테이지로 이동합니다.");
+			            nextStage();
+			        }
 	public Life getLife() {
 	    if (life == null) {
 	        life = new Life(); // null 상태라면 새로 생성

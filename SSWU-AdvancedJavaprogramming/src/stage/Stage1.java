@@ -13,6 +13,7 @@ import main.MoonRabbitGame;
 import music.BGM;
 import score.Score;
 import life.*;
+import Item.Reverse;
 
 public class Stage1 extends JPanel {
 	private MoonRabbitGame game; //추가함
@@ -28,7 +29,7 @@ public class Stage1 extends JPanel {
     private Turtle turtle3;
     private Turtle turtle4;
     private Turtle turtle5;
-    // private Reverse reverseItem; // Reverse 객체 추가
+    private Reverse reverseItem; // Reverse 객체 추가
     private Score score;
     
     private BGM bgm;
@@ -95,12 +96,12 @@ public class Stage1 extends JPanel {
         this.frontMap.add(this.scoreLabel);
         
      // Reverse 아이템 초기화
-        /*this.reverseItem = new Reverse(200, 500); // 위치 초기화
-        this.frontMap.add(this.reverseItem);*/
+        this.reverseItem = new Reverse(200, 500); // 위치 초기화
+        this.frontMap.add(this.reverseItem);
     }
-    /*private void updateScoreDisplay() {
+    private void updateScoreDisplay() {
         this.scoreLabel.setText("score : " + score.getScore());  // 점수 업데이트
-    }*/
+    }
     
 
     private void initSetting() {
@@ -139,8 +140,8 @@ public class Stage1 extends JPanel {
                      timeRemaining--;
                      timerLabel.setText(timeRemaining + "S");
                   // Reverse 아이템 상태 업데이트
-                    /* if (reverseItem != null) {
-                         reverseItem.updateObjState(player);}*/ // Player와의 충돌 검사 및 업데이트
+                    if (reverseItem != null) {
+                         reverseItem.updateObjState(player);} // Player와의 충돌 검사 및 업데이트
                      
                  } else {
                      timer.stop();
