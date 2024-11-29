@@ -3,6 +3,7 @@ package component;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.SwingUtilities;
 import javax.xml.stream.events.StartDocument;
 import direction.PlayerDirection;
 import service.Moveable;
@@ -14,7 +15,11 @@ import java.util.List;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import javax.imageio.ImageIO;
+import service.*;
+import life.*;
 
 public class PlayerRabbit extends JLabel {
    // 위치 상태
@@ -61,19 +66,21 @@ public class PlayerRabbit extends JLabel {
    public boolean spacePressed = false;
    private boolean APressed = false;
    
+   private ThrowHammer hammer;
+   private ImageIcon hammerL;
+   private ImageIcon hammerR;
+   private ImageIcon rabbitCrashL;
+   private ImageIcon rabbitCrashR;
+   private ImageIcon rabbitDeadL;
+   private ImageIcon rabbitDeadR;
+   private MoonRabbitGame game;
+   private BackgroundTurtleService turtleService;
+   private Life life;
+   private boolean ceilingAttached = false;
+   private int high;
+   private Turtle turtle;
+   private boolean reversedControls = false;
 
-	private ThrowHammer hammer;
-	private ImageIcon hammerL;
-	private ImageIcon hammerR;
-	private MoonRabbitGame game;
-   
-	// 목숨 상태
-	private int lives = 3; // 목숨 개수 초기값
-	private List<JLabel> hearts; 
-   
-	private int high;
-	private Turtle turtle;
-	private boolean reversedControls = false;
    
    public PlayerRabbit(MoonRabbitGame game) {
         this.game = game;
@@ -81,112 +88,57 @@ public class PlayerRabbit extends JLabel {
          this.initSetting();
          this.initBackgroundRabbitService();
    }
-
-//<<<<<<< HEAD
-//   private void initObject() {
-//        this.playerR = new ImageIcon("image/rabbitR.png");
-//        this.playerL = new ImageIcon("image/rabbitL.png");
-//        this.hitplayerL = new ImageIcon("image/rabbitHitL.png");
-//        this.hitplayerR = new ImageIcon("image/rabbitHitR.png");
-//        this.throwplayerL = new ImageIcon("image/rabbitthrowL.png");
-//        this.throwplayerR = new ImageIcon("image/rabbitthrowR.png");
-//        hammerL = new ImageIcon("image/hammerL.png");
-//       hammerR = new ImageIcon("image/hammerR.png");
-//   }
-//   private void initSetting() {
-//         this.x = 45;
-//         this.y = 555;
-//         
-//         this.left = false;
-//         this.right = false;
-//         this.up = false;
-//         this.down = false;
-//         this.hitLeft = false;
-//         this.hitRight = false;
-//         this.leftWallCrash = false;
-//         this.rightWallCrash = false;
-//      
-//         this.setIcon(this.playerR);
-//         this.setSize(30, 50);
-//         this.setLocation(this.x, this.y);
-//         
-//         //목숨 초기화
-//         hearts = new ArrayList<>();
-//         for (int i = 0; i < lives; i++) {
-//             JLabel heart = new JLabel(new ImageIcon("image/heart.png"));
-//             heart.setSize(30, 30);
-//             heart.setLocation(10 + (i * 35), 10); // 하트 간격
-//             game.add(heart); // 게임 화면에 추가
-//             hearts.add(heart);
-//         }
-//   }
-//   
-//   public void updateAttackState() {
-//       if (spacePressed) {
-//           setAttackIcon();
-//           System.out.println("Attack!");
-//           new Timer().schedule(new TimerTask() {
-//              
-//               public void run() {
-//                   resetPlayerIcon();
-//                   spacePressed = false; 
-//               }
-//           }, 300);  
-//       }
-//   }
-//   
-//   public void updateThrowAttackState() {
-//      if (APressed) {
-//           setThrowAttackIcon();
-//=======
    
-	private void initObject() {
-	     this.playerR = new ImageIcon("image/rabbitR.png");
-	     this.playerL = new ImageIcon("image/rabbitL.png");
-	     this.hitplayerL = new ImageIcon("image/rabbitHitL.png");
-	     this.hitplayerR = new ImageIcon("image/rabbitHitR.png");
-	     this.throwplayerL = new ImageIcon("image/rabbitthrowL.png");
-	     this.throwplayerR = new ImageIcon("image/rabbitthrowR.png");
-	     hammerL = new ImageIcon("image/hammerL.png");
-		 hammerR = new ImageIcon("image/hammerR.png");
-	}
-	
-	private void initSetting() {
-	      this.x = 45;
-	      this.y = 555;
-	      
-	      this.left = false;
-	      this.right = false;
-	      this.up = false;
-	      this.down = false;
-	      this.hitLeft = false;
-	      this.hitRight = false;
-	      this.leftWallCrash = false;
-	      this.rightWallCrash = false;
-	   
-	      this.setIcon(this.playerR);
-	      this.setSize(30, 50);
-	      this.setLocation(this.x, this.y);
-	}
-	
-	public void updateAttackState() {
-	    if (spacePressed) {
-	        setAttackIcon();
-	        System.out.println("Attack!");
-	        new Timer().schedule(new TimerTask() {
-	           
-	            public void run() {
-	                resetPlayerIcon();
-	                spacePressed = false; 
-	            }
-	        }, 300);  
-	    }
-	}
-	
-	public void updateThrowAttackState() {
-		if (APressed) {
-	        setThrowAttackIcon();
-//>>>>>>> branch 'main' of https://github.com/jishimlee/SSWU-AdvancedJavaprogramming.git
+   
+   private void initObject() {
+        this.playerR = new ImageIcon("image/rabbitR.png");
+        this.playerL = new ImageIcon("image/rabbitL.png");
+        this.hitplayerL = new ImageIcon("image/rabbitHitL.png");
+        this.hitplayerR = new ImageIcon("image/rabbitHitR.png");
+        this.throwplayerL = new ImageIcon("image/rabbitthrowL.png");
+        this.throwplayerR = new ImageIcon("image/rabbitthrowR.png");
+        this.rabbitCrashL = new ImageIcon("image/rabbitCrashL.png");
+        this.rabbitCrashR = new ImageIcon("image/rabbitCrashR.png");
+        
+        hammerL = new ImageIcon("image/hammerL.png");
+       hammerR = new ImageIcon("image/hammerR.png");
+   }
+   
+   private void initSetting() {
+         this.x = 45;
+         this.y = 560;
+         
+         this.left = false;
+         this.right = false;
+         this.up = false;
+         this.down = false;
+         this.hitLeft = false;
+         this.hitRight = false;
+         this.leftWallCrash = false;
+         this.rightWallCrash = false;
+      
+         this.setIcon(this.playerR);
+         this.setSize(30, 50);
+         this.setLocation(this.x, this.y);
+   }
+   
+   public void updateAttackState() {
+       if (spacePressed) {
+           setAttackIcon();
+           System.out.println("Attack!");
+           new Timer().schedule(new TimerTask() {
+              
+               public void run() {
+                   resetPlayerIcon();
+                   spacePressed = false; 
+               }
+           }, 300);  
+       }
+   }
+   
+   public void updateThrowAttackState() {
+      if (APressed) {
+           setThrowAttackIcon();
 
            new Timer().schedule(new TimerTask() {
               
@@ -220,14 +172,14 @@ public class PlayerRabbit extends JLabel {
        }
    }
    
-   private void resetPlayerIcon() {
+   public void resetPlayerIcon() {
        if (direction == PlayerDirection.LEFT) {
            setIcon(playerL);
        } else {
            setIcon(playerR);
        }
    }
-
+   
    public void left() {
        if (!this.left && !this.leftWallCrash) { 
           // 벽에 충돌하지 않으면 왼쪽으로 이동
@@ -303,7 +255,7 @@ public class PlayerRabbit extends JLabel {
 
       public void down() {
          
-            down =true;
+            down = true;
             
             new Thread(() -> {
                while(down) {
@@ -320,28 +272,7 @@ public class PlayerRabbit extends JLabel {
             
          }
       
-      public boolean isReversedControls() {
-    	    return reversedControls;
-    	}
-
-    	public void setReversedControls(boolean reversedControls) {
-    	    this.reversedControls = reversedControls;
-    	}
       
-      public void loseLife() {
-          if (lives > 0) {
-              lives--; // 목숨 감소
-              JLabel heart = hearts.remove(hearts.size() - 1); // 마지막 하트 제거
-              game.remove(heart); // 게임 화면에서 하트 제거
-              game.repaint(); // 화면 갱신
-              if (lives == 0) {
-                  System.out.println("Game Over!"); // 게임 종료 처리
-                  // 추가 게임 오버 로직
-              }
-          }
-      }
-     
-
       // 무적 상태용
       public boolean isInvincible() {
           return isInvincible;
@@ -352,11 +283,11 @@ public class PlayerRabbit extends JLabel {
       }
       
       public boolean isStartInvincible() {
-    		return startInvincible;
+          return startInvincible;
       }
-    	   
-    	   public void setStartInvincible(boolean startInvincible) {
-    		this.startInvincible = startInvincible;
+          
+          public void setStartInvincible(boolean startInvincible) {
+          this.startInvincible = startInvincible;
     }
 
       
@@ -491,22 +422,6 @@ public class PlayerRabbit extends JLabel {
       this.game = game;
    }
 
-   public int getLives() {
-      return lives;
-   }
-
-   public void setLives(int lives) {
-      this.lives = lives;
-   }
-
-   public List<JLabel> getHearts() {
-      return hearts;
-   }
-
-   public void setHearts(List<JLabel> hearts) {
-      this.hearts = hearts;
-   }
-
    public boolean isThreadRunning() {
       return isThreadRunning;
    }
@@ -622,4 +537,41 @@ public class PlayerRabbit extends JLabel {
    public void setPlayerL(ImageIcon playerL) {
       this.playerL = playerL;
    }
+
+
+public ImageIcon getRabbitCrashL() {
+   return rabbitCrashL;
+}
+
+
+public void setRabbitCrashL(ImageIcon rabbitCrashL) {
+   this.rabbitCrashL = rabbitCrashL;
+}
+
+
+public ImageIcon getRabbitCrashR() {
+   return rabbitCrashR;
+}
+
+
+public void setRabbitCrashR(ImageIcon rabbitCrashR) {
+   this.rabbitCrashR = rabbitCrashR;
+}
+
+public boolean isReversedControls() {
+    return reversedControls;
+}
+
+public void setReversedControls(boolean reversedControls) {
+    this.reversedControls = reversedControls;
+}
+
+public void setCeilingAttached(boolean attached) {
+    this.ceilingAttached = attached;
+}
+
+public boolean isCeilingAttached() {
+    return ceilingAttached;
+}
+
 }
