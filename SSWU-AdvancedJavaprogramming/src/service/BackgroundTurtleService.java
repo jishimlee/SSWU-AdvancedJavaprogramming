@@ -64,8 +64,8 @@ public class BackgroundTurtleService implements Runnable {
       this.turtle = turtle;
       this.game = game;
       this.player = player;
-      this.hammer = hammer;
-      this.stage = game.getCurrentStage();   // 현재 실행 중인 stage 값 받아오기 위함
+      this.hammer = hammer;	// 받아오는 해머가 없는데 왜 쓴 거져?
+      this.stage = game.getCurrentStage();
       this.stageNumber = game.getStageNumber();
       this.life = game.getLife();
       this.score = game.getScore();
@@ -203,7 +203,7 @@ public class BackgroundTurtleService implements Runnable {
              // 거북이와 플레이어의 충돌 영역 (50 x 50 기준)
         	 // 플레이어 
               isColliding = (turtleX < playerX + 27) && (turtleX + 53 > playerX) && 
-                                    (turtleY < playerY + 50) && (turtleY + 50 > playerY);       
+                                    (turtleY + 10 < playerY + 50) && (turtleY + 50 > playerY);       
               if (state == 0) {
                   try {
                       // 충돌 확인 로직 -> 몸이랑 닿은 거
@@ -257,10 +257,10 @@ public class BackgroundTurtleService implements Runnable {
            if (isAttacking && !isColliding && turtle.getState() == 0) {
                // 공격 방향에 따라 범위를 설정
                if (player.getDirection() == PlayerDirection.LEFT) { // 왼쪽으로 공격할 때
-                   isAttacked = (playerX - 60 <= turtleX && turtleX <= playerX) && 
+                   isAttacked = (playerX - 50 <= turtleX && turtleX <= playerX) && 
                                 (playerY - 50 <= turtleY && turtleY <= playerY + 40); // 왼쪽 공격 범위
                } else if (player.getDirection() == PlayerDirection.RIGHT) { // 오른쪽으로 공격할 때
-                   isAttacked = (playerX + 30 <= turtleX && turtleX <= playerX + 90) && 
+                   isAttacked = (playerX + 30 <= turtleX && turtleX <= playerX + 80) && 
                                 (playerY - 50 <= turtleY && turtleY <= playerY + 40); // 오른쪽 공격 범위
                }
                
