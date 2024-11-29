@@ -262,7 +262,7 @@ public class BackgroundToadService implements Runnable {
 	private void checkPlayerCollision() {
 	    if (state != 2) {
 	        // 두꺼비와 플레이어의 충돌 영역 (40 x 40 기준)
-	        isColliding = (toadX < playerX + 30) && (toadX + 40 > playerX) && 
+	        isColliding = (toadX < playerX + 25) && (toadX + 35 > playerX) && 
 	                              (toadY < playerY + 40) && (toadY + 40 > playerY);
 
         	if (state == 0) {

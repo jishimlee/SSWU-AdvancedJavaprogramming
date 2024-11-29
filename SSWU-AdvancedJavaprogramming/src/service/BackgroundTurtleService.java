@@ -202,7 +202,7 @@ public class BackgroundTurtleService implements Runnable {
          if (state != 2) {
              // 거북이와 플레이어의 충돌 영역 (50 x 50 기준)
         	 // 플레이어 
-              isColliding = (turtleX < playerX + 27) && (turtleX + 53 > playerX) && 
+              isColliding = (turtleX < playerX + 25) && (turtleX + 45 > playerX) && 
                                     (turtleY + 10 < playerY + 50) && (turtleY + 50 > playerY);       
               if (state == 0) {
                   try {

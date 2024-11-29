@@ -195,7 +195,7 @@ public class BackgroundMonkeyService implements Runnable {
 		private void checkPlayerCollision() {
 			if (state != 2) {
 				// 원숭이와 플레이어의 충돌 영역 (50 x 50 기준)
-	        	isColliding = (monkeyX < playerX + 30) && (monkeyX + 50 > playerX) && 
+	        	isColliding = (monkeyX < playerX + 25) && (monkeyX + 45 > playerX) && 
 	        	                      (monkeyY < playerY + 50) && (monkeyY + 50 > playerY);       
 	        	if (state == 0) {
 	        	    try {
@@ -217,8 +217,8 @@ public class BackgroundMonkeyService implements Runnable {
 		                if (isColliding) {
 		                    handleTtoek();
 		                }
-		            } catch (Exception e2) {
-		                System.out.println("Error : " + e2.getMessage());
+		            } catch (Exception e) {
+		                System.out.println("Error : " + e.getMessage());
 		            }
 	            }
 			}

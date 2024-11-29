@@ -234,7 +234,7 @@ public class PlayerRabbit extends JLabel {
 
    public void up() {
        if (!this.up && !this.down) {
-          direction = PlayerDirection.UP;
+//          direction = PlayerDirection.UP;
            up = true;
            new Thread(() -> {
                try {
