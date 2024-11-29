@@ -70,7 +70,7 @@ public class BackgroundTurtleService implements Runnable {
       this.life = game.getLife();
       this.score = game.getScore();
       
-      System.out.println("현재 스테이지는 stage " + stage + "입니다.");
+//      System.out.println("현재 스테이지는 stage " + stageNumber + "입니다.");
       
       try {
          if (stageNumber == 1)   backgroundPath = "image/background1.png";
@@ -83,6 +83,29 @@ public class BackgroundTurtleService implements Runnable {
       } catch (Exception e) {
          e.printStackTrace();
       }
+      
+     switch (stageNumber) {
+        case 1:
+           currentPlayer = ((Stage1)stage).getPlayer();
+           currentHammer = ((Stage1)stage).getHammer();
+           break;
+        case 2:
+           currentPlayer = ((Stage2)stage).getPlayer(); 
+          // currentHammer = ((Stage2)stage).getHammer();
+           break;
+        case 3:
+           currentPlayer = ((Stage3)stage).getPlayer();
+           //currentHammer = ((Stage3)stage).getHammer();
+           break;
+        case 4:
+           currentPlayer = ((Stage4)stage).getPlayer();
+           break;
+        case 5:
+           currentPlayer = ((Stage5)stage).getPlayer();
+           break;
+        default:
+           break;
+     }
    }
       
    public void run() {
@@ -95,7 +118,10 @@ public class BackgroundTurtleService implements Runnable {
          // 충돌여부 확인
          // state == 0일 때, 토끼 목숨 깎이고 2000ms 무적
          // state == 1일 때, 떡 / state == 2, 사라짐, 점수 올라감
-         if (state == 0) checkStageCollision();
+         if (state == 0) {
+        	 checkStageCollision();
+        	 checkAttacked();
+         }
          checkPlayerCollision();
          //checkHammerCollision();
             
@@ -110,30 +136,7 @@ public class BackgroundTurtleService implements Runnable {
             
       private void updateObjState() {
            try {              
-               // 매 루프마다 player의 위치를 확인하고, turtle과 비교
-              switch (stageNumber) {
-                 case 1:
-                    currentPlayer = ((Stage1)stage).getPlayer();
-                    currentHammer = ((Stage1)stage).getHammer();
-                    break;
-                 case 2:
-                    currentPlayer = ((Stage2)stage).getPlayer(); 
-                   // currentHammer = ((Stage2)stage).getHammer();
-                    break;
-                 case 3:
-                    currentPlayer = ((Stage3)stage).getPlayer();
-                    //currentHammer = ((Stage3)stage).getHammer();
-                    break;
-                 case 4:
-                    currentPlayer = ((Stage4)stage).getPlayer();
-                    break;
-                 case 5:
-                    currentPlayer = ((Stage5)stage).getPlayer();
-                    break;
-                 default:
-                    break;
-              }
-              
+        	  // 매 루프마다 player의 위치를 확인하고, turtle과 비교
               // 거북이와 플레이어 상태 확인
               turtleX = turtle.getX();
               turtleY = turtle.getY();
@@ -157,13 +160,13 @@ public class BackgroundTurtleService implements Runnable {
    
                       // 좌측 및 우측 벽 충돌 검사
                       if (isRed(leftColor)) {
-                          System.out.println("왼쪽 충돌");
+//                          System.out.println("왼쪽 충돌");
                           turtle.setLeft(false);
                           if (!turtle.isRight()) {
                               turtle.right();
                           }
                       } else if (isRed(rightColor)) {
-                          System.out.println("오른쪽 충돌");
+//                          System.out.println("오른쪽 충돌");
                           turtle.setRight(false);
                           if (!turtle.isLeft()) {
                               turtle.left();
@@ -177,13 +180,13 @@ public class BackgroundTurtleService implements Runnable {
                               && (rightBottom.getRed() != 255 || rightBottom.getGreen() != 0 || rightBottom.getBlue() != 0);
    
                       if (leftBottomMissing && turtle.isLeft()) {
-                          System.out.println("왼쪽 바닥 없음");
+//                          System.out.println("왼쪽 바닥 없음");
                           turtle.setLeft(false);
                           if (!turtle.isRight()) {
                               turtle.right();
                           }
                       } else if (rightBottomMissing && turtle.isRight()) {
-                          System.out.println("오른쪽 바닥 없음");
+//                          System.out.println("오른쪽 바닥 없음");
                           turtle.setRight(false);
                           if (!turtle.isLeft()) {
                               turtle.left();
@@ -197,8 +200,9 @@ public class BackgroundTurtleService implements Runnable {
       
       private void checkPlayerCollision() {
          if (state != 2) {
-            // 거북이와 플레이어의 충돌 영역 (50 x 50 기준)
-              isColliding = (turtleX < playerX + 30) && (turtleX + 50 > playerX) && 
+             // 거북이와 플레이어의 충돌 영역 (50 x 50 기준)
+        	 // 플레이어 
+              isColliding = (turtleX < playerX + 27) && (turtleX + 53 > playerX) && 
                                     (turtleY < playerY + 50) && (turtleY + 50 > playerY);       
               if (state == 0) {
                   try {
@@ -234,15 +238,16 @@ public class BackgroundTurtleService implements Runnable {
           if (player.isSpacePressed() && !isAttacking) {
               isAttacking = true;
               System.out.println("공격 중");
+              System.out.println("isAttacking = " + isAttacking + " && isColliding = " + isColliding);
               
-              // 일정 시간 동안 공격 상태 유지 (100ms)
+              // 일정 시간 동안 공격 상태 유지 (300ms)
               new Timer().schedule(new TimerTask() {
                   @Override
                   public void run() {
                       isAttacking = false;
                       System.out.println("공격 끝");
                   }
-              }, 100); // 100ms 후 공격 종료
+              }, 300); // 300ms 후 공격 종료
           }
 
            // 떡방아에 닿았을 때

@@ -6,8 +6,8 @@ import javax.swing.JPanel;
 
 import direction.EnemyDirection;
 import main.MoonRabbitGame;
+import service.BackgroundToadService;
 import service.Moveable;
-import service.ToadService;
 
 public class Toad extends JLabel implements Moveable {
 	   private int x;
@@ -83,20 +83,7 @@ public class Toad extends JLabel implements Moveable {
 	   
 	   private void initBackgroundToadService() {
 		   System.out.println("스레드 시작");
-		   (new Thread(new ToadService(this, this.game, this.player))).start();
-	   }
-
-	   
-	   // 위층으로 점프 (up 메서드 시 위로 올라가기만 하고 좌우 이동 없음)
-	   public void up() {
-		   
-	   }
-
-	   
-	   // 랜덤으로 아래로 내려갈 수 있도록 구현하려 하는데 언제 내려갈지 고민
-	   // e.g., 좌우 왕복을 n회 했으면 아래로 내려갈 수 있는 조건 충족 등...
-	   public void down() {
-		   
+		   (new Thread(new BackgroundToadService(this, this.game, this.player))).start();
 	   }
 	   
 	   
@@ -198,25 +185,6 @@ public class Toad extends JLabel implements Moveable {
 					}
 				}
 			});
-			
-//		   if (!canJump) return;
-//		   
-//		   // System.out.println("RIGHT");
-//		   this.enemyDirection = EnemyDirection.RIGHT;
-//		   this.setIcon(toadR);
-//		   this.right = true;
-//		   Thread t = new Thread(() -> {
-//			   while(this.right) {
-//				   this.x += SPEED;
-//				   this.setLocation(this.x, this.y);
-//				   
-//				   try {
-//					   Thread.sleep(10L);
-//				   } catch (Exception e2) {
-//		               System.out.println("오른쪽 이동 중 인터럽트 발생: " + e2.getMessage());
-//				   }
-//			   }
-//		   });
 		   t.start();
 	   }
 	   
@@ -234,6 +202,14 @@ public class Toad extends JLabel implements Moveable {
 		          this.game.getCurrentStage().repaint(); // 화면 갱신
 		          System.out.println("송편이 제거되었습니다.");
 		      }
+	   }
+	   
+	   
+	   public void up() {
+	   }
+
+	   
+	   public void down() {
 	   }
 	   
 	   

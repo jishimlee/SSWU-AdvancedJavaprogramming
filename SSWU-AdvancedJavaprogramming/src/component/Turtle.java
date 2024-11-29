@@ -83,7 +83,7 @@ public class Turtle extends JLabel implements Moveable {
    }
    
    private void initBackgroundTurtleService() {
-	   System.out.println("스레드 시작");
+//	   System.out.println("스레드 시작");
 	   (new Thread(new BackgroundTurtleService(this, this.game, this.player))).start();
    }
 
