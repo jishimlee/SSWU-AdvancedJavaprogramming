@@ -63,8 +63,10 @@ public class BackgroundBananaService implements Runnable {
 		isColliding = (bananaX < playerX + 28) && (playerX < bananaX + 28) && 
                 (bananaY < playerY + 40) && (bananaY + 30 > playerY);
 		
+		// 닿을 경우 (무적이 아닌 상태)
 		if (isColliding && !isInvincible) {
 			player.setCantMove(true);
+			this.banana.setBananaState(1);
 			
 			// 플레이어 아이콘 변경
 			if (player.getDirection() == PlayerDirection.LEFT) {

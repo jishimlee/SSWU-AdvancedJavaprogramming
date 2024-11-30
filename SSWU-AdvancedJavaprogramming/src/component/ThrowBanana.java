@@ -14,7 +14,8 @@ import stage.Stage4;
 public class ThrowBanana extends JLabel {
     private int x;
     private int y;
-    private int bananaState;	// 0 화면에 있음, 1 화면에서 사라짐
+    // 0 화면에 있음, 1 화면에서 사라짐(또는 이미 닿아서 인식하지 않게 처리)
+    private int bananaState;
 
 	private PlayerRabbit player;
 	private ThrowBanana throwBanana;
@@ -64,30 +65,14 @@ public class ThrowBanana extends JLabel {
 	    timer.schedule(new TimerTask() {
 	        @Override
 	        public void run() {
-	            // 바나나 객체 제거
-	    		if (stage instanceof Stage4) {
-	                ((Stage4) stage).getFrontMap().remove(ThrowBanana.this);
-	                ((Stage4) stage).getFrontMap().repaint();
-	                throwBanana.setBananaState(1);	// 0일 때는 충돌감지 안 하도록
-//	                System.out.println("바나나 제거됨");
-	    		}
-	            // 다른 스테이지 구현 시 추가
-
-	            // 두 번째 타이머: 추가 0.5초 후 monkey 상태 업데이트
-	            new Timer().schedule(new TimerTask() {
-	                @Override
-	                public void run() {
-	                    // monkey 상태 업데이트
-	                    monkey.setBananaExist(false);
-//	                    System.out.println("0.5초 후 BananaExist: " + monkey.isBananaExist());
-	                }
-	            }, 500); // 500ms (0.5초) 후 실행
-
-	            // 첫 번째 타이머 종료
-	            timer.cancel();
+	            if (bananaState == 0) { // 상태 확인
+	                setBananaState(1); // 바나나 상태를 1로 설정하며 제거 로직 실행
+	            }
+	            timer.cancel(); // 타이머 종료
 	        }
 	    }, BANANA_LIFETIME); // BANANA_LIFETIME (3초) 후 실행
 	}
+
 	
 	private void checkCollision() {
 		(new Thread(new BackgroundBananaService(this, this.player))).start();
@@ -116,8 +101,28 @@ public class ThrowBanana extends JLabel {
 	}
 
 	public void setBananaState(int bananaState) {
-		this.bananaState = bananaState;
+	    this.bananaState = bananaState;
+
+	    if (bananaState == 1) {
+	        // 바나나 제거 로직
+	        if (stage instanceof Stage4) {
+	            ((Stage4) stage).getFrontMap().remove(this); // 바나나 제거
+	            ((Stage4) stage).getFrontMap().repaint();
+	        }
+
+	        // 500ms 뒤에 monkey 상태 업데이트
+	        Timer delayTimer = new Timer();
+	        delayTimer.schedule(new TimerTask() {
+	            @Override
+	            public void run() {
+	                monkey.setBananaExist(false);
+	                delayTimer.cancel(); // 타이머 종료
+	            }
+	        }, 500); // 500ms 후 실행
+	    }
 	}
+
+
 
 	public static int getBananaLifetime() {
 		return BANANA_LIFETIME;
