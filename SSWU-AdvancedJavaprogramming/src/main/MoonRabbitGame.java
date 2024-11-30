@@ -27,8 +27,7 @@ public class MoonRabbitGame extends JFrame {
 
 	public MoonRabbitGame() {
 		initLayout();
-//		showGameIntro(); // 게임 설명 화면 표시
-        loadStage(stageNumber);
+		showGameIntro(); // 게임 설명 화면 표시
         initListener();
         this.setVisible(true);
         this.score = new Score();

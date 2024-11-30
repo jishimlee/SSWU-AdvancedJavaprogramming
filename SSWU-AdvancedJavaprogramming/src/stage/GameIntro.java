@@ -2,6 +2,8 @@ package stage;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -41,5 +43,20 @@ public class GameIntro extends JPanel {
 	                }
 	            }
 	        });
+	        // 방향키 입력 막기
+	        /*this.setFocusable(true);
+	        this.addKeyListener(new KeyAdapter() {
+	            @Override
+	            public void keyPressed(KeyEvent e) {
+	                int keyCode = e.getKeyCode();
+	                // 방향키일 경우 이벤트 소비 (기본 동작 방지)
+	                if (keyCode == KeyEvent.VK_UP || keyCode == KeyEvent.VK_DOWN ||
+	                    keyCode == KeyEvent.VK_LEFT || keyCode == KeyEvent.VK_RIGHT) {
+	                    e.consume();
+	                }
+	            }
+	        });*/
+	        
+	        
 	    }
 }

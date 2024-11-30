@@ -142,7 +142,7 @@ public class Stage1 extends JPanel {
                      
                  } else {
                      timer.stop();
-                     showGameOverText();// 게임 오버 이미지 표시
+                     showGameOverImage();// 게임 오버 이미지 표시
                      game.dispose(); // 게임 창 닫기
                  }
              }
@@ -156,24 +156,23 @@ public class Stage1 extends JPanel {
         }
     }
     
-    private void showGameOverText() {
-        // BGM 정지
+    private void showGameOverImage() {
+    	// BGM 정지
         if (bgm != null) {
             bgm.stop(); // BGM 클래스에서 제공하는 정지 메서드 호출
         }
-
-        // 게임 오버 메시지 JLabel 생성
-        JLabel gameOverLabel = new JLabel("Game Over!", JLabel.CENTER); // 텍스트 중앙 정렬
-        gameOverLabel.setFont(new Font("Arial", Font.BOLD, 50)); // 글씨 크기와 스타일 설정
-        gameOverLabel.setForeground(Color.RED); // 텍스트 색상 설정
-
-        // 게임 화면에 JLabel 추가
-        gameOverLabel.setBounds(0, 0, game.getWidth(), game.getHeight()); // 화면 중앙에 위치
-        gameOverLabel.setLocation(game.getWidth() / 2 - gameOverLabel.getWidth() / 2, game.getHeight() / 2 - gameOverLabel.getHeight() / 2);
-
-        // 화면에 추가
-        game.add(gameOverLabel);
-        game.repaint(); // 화면 갱신
+        // 새 JFrame을 생성하여 이미지 표시
+        JFrame gameOverFrame = new JFrame("Game Over");
+        gameOverFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        gameOverFrame.setSize(400, 300); // 적절한 크기로 설정
+        // JLabel에 이미지 설정
+        ImageIcon gameOverIcon = new ImageIcon("image/background1.png"); // 그냥 일단 넣어봄
+        JLabel gameOverLabel = new JLabel(gameOverIcon); 
+        gameOverFrame.add(gameOverLabel);
+        // 창의 크기를 내용물에 맞게 조정
+        gameOverFrame.pack();
+        gameOverFrame.setLocationRelativeTo(null); // 화면 중앙에 배치
+        gameOverFrame.setVisible(true);
     }
 
     
