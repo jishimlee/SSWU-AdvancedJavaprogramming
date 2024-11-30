@@ -31,6 +31,8 @@ public class Stage2 extends JPanel {
     private Reverse reverseItem;
     private Life life;
     private int lifeCount;
+    
+    private BGM bgm;
 
     private javax.swing.Timer timer; // 게임 타이머
     private int timeRemaining = 60; // 남은 시간 (초 단위)
@@ -55,7 +57,8 @@ public class Stage2 extends JPanel {
 
     private void initObject() {
     	//bgm 추가
-    	//new BGM();
+    	this.bgm = new BGM();
+    	bgm.play();
         // 배경 이미지 설정
         this.frontMap = new JLabel(new ImageIcon("image/stage2.png"));
         this.frontMap.setBounds(0, 0, 1000, 640); // 배경 이미지 크기 설정, 겹치는거 아닌가..?
@@ -152,17 +155,25 @@ public class Stage2 extends JPanel {
         }
     }
     
+    public void stopBGM() {
+        // 배경 음악 종료
+        if (bgm != null) {
+            bgm.stop();
+            //bgm.close();
+        }
+    }
+    
     private void showGameOverImage() {
     	// BGM 정지
         if (bgm != null) {
             bgm.stop(); // BGM 클래스에서 제공하는 정지 메서드 호출
         }
-        // 새 JFrame을 생성하여 이미지 표시
+     // 새 JFrame을 생성하여 이미지 표시
         JFrame gameOverFrame = new JFrame("Game Over");
         gameOverFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gameOverFrame.setSize(400, 300); // 적절한 크기로 설정
         // JLabel에 이미지 설정
-        ImageIcon gameOverIcon = new ImageIcon("image/background1.png"); // 그냥 일단 넣어봄
+        ImageIcon gameOverIcon = new ImageIcon("image/gameover.png"); // 그냥 일단 넣어봄
         JLabel gameOverLabel = new JLabel(gameOverIcon); 
         gameOverFrame.add(gameOverLabel);
         // 창의 크기를 내용물에 맞게 조정

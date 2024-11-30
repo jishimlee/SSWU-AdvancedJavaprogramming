@@ -155,6 +155,12 @@ public class Stage1 extends JPanel {
             timer.stop();  // 타이머 종료
         }
     }
+    public void stopBGM() {
+        // 배경 음악 종료
+        if (bgm != null) {
+            bgm.stop();
+        }
+    }
     
     private void showGameOverImage() {
     	// BGM 정지
@@ -166,7 +172,7 @@ public class Stage1 extends JPanel {
         gameOverFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gameOverFrame.setSize(400, 300); // 적절한 크기로 설정
         // JLabel에 이미지 설정
-        ImageIcon gameOverIcon = new ImageIcon("image/background1.png"); // 그냥 일단 넣어봄
+        ImageIcon gameOverIcon = new ImageIcon("image/gameover.png"); // 그냥 일단 넣어봄
         JLabel gameOverLabel = new JLabel(gameOverIcon); 
         gameOverFrame.add(gameOverLabel);
         // 창의 크기를 내용물에 맞게 조정

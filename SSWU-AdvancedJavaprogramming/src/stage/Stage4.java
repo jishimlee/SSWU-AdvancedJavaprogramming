@@ -6,21 +6,13 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
 import Item.Reverse;
 import life.Life;
-import component.Monkey;
-import component.PlayerRabbit;
-import component.ThrowBanana;
-import component.ThrowHammer;
-import component.Turtle;
-import component.WildBoar;
+import component.*;
 import main.MoonRabbitGame;
+import music.BGM;
 
 public class Stage4 extends JPanel {
    private MoonRabbitGame game; //추가함
@@ -35,6 +27,7 @@ public class Stage4 extends JPanel {
     private Reverse reverseItem;
     private Life life;
     private int lifeCount;
+    private BGM bgm;
     
     private javax.swing.Timer timer; // 게임 타이머
     private int timeRemaining = 80; // 남은 시간 (초 단위)
@@ -55,7 +48,8 @@ public class Stage4 extends JPanel {
     
     private void initObject() {
        //bgm 추가
-       //new BGM();
+    	this.bgm = new BGM(); // BGM 클래스의 생성자 호출
+        bgm.play(); // BGM 재생 시작
         // 배경 이미지 설정
         this.frontMap = new JLabel(new ImageIcon("image/stage4.png"));
         this.frontMap.setBounds(0, 0, 1000, 640); // 배경 이미지 크기 설정, 겹치는거 아닌가..?
@@ -142,7 +136,7 @@ public class Stage4 extends JPanel {
                           reverseItem.updateObjState(player);} // Player와의 충돌 검사 및 업데이트
                  } else {
                      timer.stop();
-                     JOptionPane.showMessageDialog(Stage4.this, "Time's up! Game over.");
+                     showGameOverImage();
                      game.dispose(); // 게임 창 닫기
                  }
              }
@@ -154,6 +148,30 @@ public class Stage4 extends JPanel {
         if (timer != null) {
             timer.stop();  // 타이머 종료
         }
+    }
+    public void stopBGM() {
+        // 배경 음악 종료
+        if (bgm != null) {
+            bgm.stop();
+        }
+    }
+    private void showGameOverImage() {
+    	// BGM 정지
+        if (bgm != null) {
+            bgm.stop(); // BGM 클래스에서 제공하는 정지 메서드 호출
+        }
+        // 새 JFrame을 생성하여 이미지 표시
+        JFrame gameOverFrame = new JFrame("Game Over");
+        gameOverFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        gameOverFrame.setSize(400, 300); // 적절한 크기로 설정
+        // JLabel에 이미지 설정
+        ImageIcon gameOverIcon = new ImageIcon("image/gameover.png"); // 그냥 일단 넣어봄
+        JLabel gameOverLabel = new JLabel(gameOverIcon); 
+        gameOverFrame.add(gameOverLabel);
+        // 창의 크기를 내용물에 맞게 조정
+        gameOverFrame.pack();
+        gameOverFrame.setLocationRelativeTo(null); // 화면 중앙에 배치
+        gameOverFrame.setVisible(true);
     }
     
     public boolean areAllEnemiesDefeated() {
