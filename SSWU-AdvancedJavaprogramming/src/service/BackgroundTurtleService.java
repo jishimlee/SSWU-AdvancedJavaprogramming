@@ -26,8 +26,8 @@ public class BackgroundTurtleService implements Runnable {
    private int stageNumber;
    private JPanel stage;
    private int state;
-   private Score score = new Score();
-   private Life life = new Life();
+   private Score score;
+   private Life life;
    private MoonRabbitGame game;
    private Stage1 stage1;
    public boolean turtleAttacked = false; 
