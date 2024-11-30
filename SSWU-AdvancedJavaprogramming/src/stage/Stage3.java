@@ -2,6 +2,8 @@ package stage;
 
 import javax.swing.*;
 
+import Item.Reverse;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,6 +25,7 @@ public class Stage3 extends JPanel {
     private WildBoar wildboar2;
     private WildBoar wildboar3;
     private WildBoar wildboar4;
+    private Reverse reverseItem;
     
     private javax.swing.Timer timer; // 게임 타이머
     private int timeRemaining = 60; // 남은 시간 (초 단위)
@@ -64,6 +67,10 @@ public class Stage3 extends JPanel {
         this.timerLabel.setFont(new Font("Lexend", Font.BOLD, 25));
         this.timerLabel.setForeground(Color.WHITE);
         this.frontMap.add(this.timerLabel);
+        
+     // Reverse 아이템 초기화
+        this.reverseItem = new Reverse(200, 500); // 위치 초기화
+        this.frontMap.add(this.reverseItem);
 
         
      // 오브젝트 추가
@@ -105,6 +112,9 @@ public class Stage3 extends JPanel {
                      if (timeRemaining > 0) {
                          timeRemaining--;
                          timerLabel.setText(timeRemaining + "S");
+                      // Reverse 아이템 상태 업데이트
+                         if (reverseItem != null) {
+                              reverseItem.updateObjState(player);} // Player와의 충돌 검사 및 업데이트
                      } else {
                          timer.stop();
                          JOptionPane.showMessageDialog(Stage3.this, "Time's up! Game over.");
@@ -114,6 +124,12 @@ public class Stage3 extends JPanel {
              });
              timer.start();
          }
+        
+        public void stopTimer() {
+            if (timer != null) {
+                timer.stop();  // 타이머 종료
+            }
+        }
         
         public boolean areAllEnemiesDefeated() {
             return toad1.getState() == 2 && toad2.getState() == 2 &&

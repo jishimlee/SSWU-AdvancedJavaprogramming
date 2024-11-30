@@ -2,6 +2,8 @@ package stage;
 
 import javax.swing.*;
 
+import Item.Reverse;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,6 +11,8 @@ import java.awt.event.ActionListener;
 import component.*;
 import main.MoonRabbitGame;
 import music.BGM;
+import score.Score;
+import life.*;
 
 public class Stage2 extends JPanel {
    private MoonRabbitGame game; //추가함
@@ -16,6 +20,7 @@ public class Stage2 extends JPanel {
     private JLabel moonLabel;
     private JLabel heartLabel;
     private JLabel timerLabel;
+    private JLabel scoreLabel;
     private PlayerRabbit player;
     private Turtle turtle1;
     private Turtle turtle2;
@@ -23,7 +28,7 @@ public class Stage2 extends JPanel {
     private Toad toad2;
     private Toad toad3;
     private Toad toad4;
-    
+    private Reverse reverseItem;
 
     private javax.swing.Timer timer; // 게임 타이머
     private int timeRemaining = 60; // 남은 시간 (초 단위)
@@ -72,6 +77,10 @@ public class Stage2 extends JPanel {
 
         // 오브젝트 추가
         this.frontMap.add(this.player);
+        
+     // Reverse 아이템 초기화
+        this.reverseItem = new Reverse(200, 500); // 위치 초기화
+        this.frontMap.add(this.reverseItem);
     }
     
     private void initSetting() {
@@ -111,6 +120,10 @@ public class Stage2 extends JPanel {
                 if (timeRemaining > 0) {
                     timeRemaining--;
                     timerLabel.setText(timeRemaining + "S");
+                 // Reverse 아이템 상태 업데이트
+                    if (reverseItem != null) {
+                         reverseItem.updateObjState(player);} // Player와의 충돌 검사 및 업데이트
+                     
                 } else {
                     timer.stop();
                     JOptionPane.showMessageDialog(Stage2.this, "Time's up! Game over.");
@@ -119,6 +132,12 @@ public class Stage2 extends JPanel {
             }
         });
         timer.start();
+    }
+    
+    public void stopTimer() {
+        if (timer != null) {
+            timer.stop();  // 타이머 종료
+        }
     }
     
     public boolean areAllEnemiesDefeated() {

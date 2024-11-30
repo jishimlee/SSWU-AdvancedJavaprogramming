@@ -101,7 +101,8 @@ public class BackgroundMonkeyService implements Runnable {
 			checkPlayerCollision();
 			
 			if (!this.monkey.isBananaExist()) throwBanana();
-				
+			
+			game.checkStageCompletion();	
 			try {
 				Thread.sleep(10);
 			} catch (InterruptedException e) {

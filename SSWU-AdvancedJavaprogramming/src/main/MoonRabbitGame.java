@@ -27,8 +27,8 @@ public class MoonRabbitGame extends JFrame {
 	
 	public MoonRabbitGame() {
 		initLayout();
-		// showGameIntro(); // 게임 설명 화면 표시
-        loadStage(stageNumber);
+		showGameIntro(); // 게임 설명 화면 표시
+        //loadStage(stageNumber);
         initListener();
         this.setVisible(true);
         this.score = new Score();
@@ -44,6 +44,15 @@ public class MoonRabbitGame extends JFrame {
         cardLayout = new CardLayout();
         stagePanel = new JPanel(cardLayout);
         this.setContentPane(stagePanel);
+    }
+	
+	private void showGameIntro() {
+        GameIntro introPanel = new GameIntro(() -> {
+            // 설명 종료 후 첫 번째 스테이지 로드
+            loadStage(stageNumber);
+        });
+        stagePanel.add(introPanel, "Intro");
+        cardLayout.show(stagePanel, "Intro");
     }
 	
 	private void loadStage(int stageNumber) {
@@ -81,9 +90,9 @@ public class MoonRabbitGame extends JFrame {
 	            this.currentStage = stage5;
 	            break;
 	      
-	        default:
-	            JOptionPane.showMessageDialog(null, "준비된 스테이지가 없습니다!");
-	            break;
+	        //default:
+	            //JOptionPane.showMessageDialog(null, "준비된 스테이지가 없습니다!");
+	            //break;
 	    }
 	    cardLayout.show(stagePanel, "Stage" + stageNumber);
 	}
@@ -96,14 +105,23 @@ public class MoonRabbitGame extends JFrame {
 	            
 	            switch(e.getKeyCode()) {
 	                case KeyEvent.VK_LEFT: 
-	                	if(!player.isLeft()) {
-	                		player.left();
-	                	}
+	                	if (!player.isLeft()) {
+	                        if (player.isReversedControls()) { // 반전 상태 확인
+	                            player.right(); // 반전 상태라면 오른쪽으로 이동
+	                        } else {
+	                            player.left(); // 일반 상태라면 왼쪽으로 이동
+	                        }
+	                    }
+	                	
 	                    break;
 	                case KeyEvent.VK_RIGHT: 
-	                	if(!player.isRight()) {
-	                		player.right();
-	                	}
+	                	if (!player.isRight()) {
+	                        if (player.isReversedControls()) { // 반전 상태 확인
+	                            player.left(); // 반전 상태라면 왼쪽으로 이동
+	                        } else {
+	                            player.right(); // 일반 상태라면 오른쪽으로 이동
+	                        }
+	                    }
 	                    break;
 	                case KeyEvent.VK_UP: 
 	                	if(!player.isUp()&&!player.isDown()) {
@@ -139,11 +157,21 @@ public class MoonRabbitGame extends JFrame {
 	        public void keyReleased(KeyEvent e) {  // 메서드 이름 수정
 	            
 	        	int keyCode = e.getKeyCode();
-                if (keyCode == KeyEvent.VK_LEFT) {
-                	player.setLeft(false); // 왼쪽 이동 멈추기
-                } else if (keyCode == KeyEvent.VK_RIGHT) {
-                	player.setRight(false);  // 오른쪽 이동 멈추기
-                } else if (keyCode == KeyEvent.VK_UP) {
+	        	if (keyCode == KeyEvent.VK_LEFT) {
+	                if (player.isReversedControls()) {  // Reverse 상태일 때
+	                    player.setRight(false);  // 반대 방향인 오른쪽으로 멈추기
+	                } else {
+	                    player.setLeft(false);  // 일반 상태일 때 왼쪽으로 멈추기
+	                }
+	            } else if (keyCode == KeyEvent.VK_RIGHT) {
+	                if (player.isReversedControls()) {  // Reverse 상태일 때
+	                    player.setLeft(false);  // 반대 방향인 왼쪽으로 멈추기
+	                } else {
+	                    player.setRight(false);  // 일반 상태일 때 오른쪽으로 멈추기
+	                }
+	            }
+	        	
+                 else if (keyCode == KeyEvent.VK_UP) {
                     //up = false;  // 점프 멈추기
                 } else if (keyCode == KeyEvent.VK_DOWN) {
                     //down = false;  // 내려가기 멈추기
@@ -151,6 +179,55 @@ public class MoonRabbitGame extends JFrame {
 	        }
 	    });
 	}
+	    
+	    public void checkStageCompletion() {
+		    // 현재 스테이지의 모든 적이 상태 2인지 확인
+		    JPanel currentStage = getCurrentStage();
+		    if (currentStage instanceof Stage1) {
+		        Stage1 stage = (Stage1) currentStage;
+		        if (stage.areAllEnemiesDefeated()) {
+		            System.out.println("모든 적이 처치되었습니다. 다음 스테이지로 이동합니다.");
+		            stage.stopTimer();  // 타이머 종료
+		            nextStage();
+		        }
+		        }
+		    
+		        
+		        // Stage2, Stage3 등 다른 스테이지에 대해 동일한 확인 가능
+			    if (currentStage instanceof Stage2) {
+			        Stage2 stage = (Stage2) currentStage;
+			        if (stage.areAllEnemiesDefeated()) {
+			            System.out.println("모든 적이 처치되었습니다. 다음 스테이지로 이동합니다.");
+			            stage.stopTimer();  // 타이머 종료
+			            nextStage();
+			        }
+			    }
+			    if (currentStage instanceof Stage3) {
+			        Stage3 stage = (Stage3) currentStage;
+			        if (stage.areAllEnemiesDefeated()) {
+			            System.out.println("모든 적이 처치되었습니다. 다음 스테이지로 이동합니다.");
+			            stage.stopTimer();  // 타이머 종료
+			            nextStage();
+			        }
+			    }
+			    if (currentStage instanceof Stage4) {
+			        Stage4 stage = (Stage4) currentStage;
+			        if (stage.areAllEnemiesDefeated()) {
+			            System.out.println("모든 적이 처치되었습니다. 다음 스테이지로 이동합니다.");
+			            stage.stopTimer();  // 타이머 종료
+			            nextStage();
+			        }
+			    }
+			    if (currentStage instanceof Stage5) {
+			        Stage5 stage = (Stage5) currentStage;
+			        if (stage.areAllEnemiesDefeated()) {
+			            System.out.println("모든 적이 처치되었습니다. 스테이지 클리어.");
+			            stage.stopTimer();  // 타이머 종료
+			            //스테이지 클리어 화면 띄우기
+			        }
+			    }
+			    
+	    }
 	public Life getLife() {
 	    if (life == null) {
 	        life = new Life(); // null 상태라면 새로 생성
@@ -181,8 +258,10 @@ public class MoonRabbitGame extends JFrame {
 	}
 
 	public void nextStage() {
+		System.out.println("Moving to the next stage. Current stage: " + stageNumber);
         stageNumber++;
         loadStage(stageNumber);
+        System.out.println("Next stage loaded. New stage: " + stageNumber);
     }
 
 	 

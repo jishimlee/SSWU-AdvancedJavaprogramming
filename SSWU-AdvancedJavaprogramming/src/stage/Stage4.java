@@ -1,6 +1,7 @@
 package stage;
 
 import javax.swing.*;
+import Item.Reverse;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,6 +25,7 @@ public class Stage4 extends JPanel {
     private Monkey monkey3;
     private Monkey monkey4;
     private Monkey monkey5;
+    private Reverse reverseItem;
     
     private javax.swing.Timer timer; // 게임 타이머
     private int timeRemaining = 80; // 남은 시간 (초 단위)
@@ -68,6 +70,10 @@ public class Stage4 extends JPanel {
         
      // 오브젝트 추가
         this.frontMap.add(this.player);
+        
+     // Reverse 아이템 초기화
+        this.reverseItem = new Reverse(200, 500); // 위치 초기화
+        this.frontMap.add(this.reverseItem);
     }
     
     private void initSetting() {
@@ -94,14 +100,14 @@ public class Stage4 extends JPanel {
             this.frontMap.add(this.monkey3);
             this.frontMap.add(this.monkey4);
             this.frontMap.add(this.monkey5);
-//            new Thread(() -> turtle.start()).start(); // Turtle 실행
-//            new Thread(() -> wildboar1.start()).start();
-//            new Thread(() -> wildboar2.start()).start();
+            new Thread(() -> turtle.start()).start(); // Turtle 실행
+            new Thread(() -> wildboar1.start()).start();
+            new Thread(() -> wildboar2.start()).start();
             new Thread(() -> monkey1.start()).start();
-//            new Thread(() -> monkey2.start()).start();
-//            new Thread(() -> monkey3.start()).start();
-//            new Thread(() -> monkey4.start()).start();
-//            new Thread(() -> monkey5.start()).start();
+            new Thread(() -> monkey2.start()).start();
+            new Thread(() -> monkey3.start()).start();
+            new Thread(() -> monkey4.start()).start();
+            new Thread(() -> monkey5.start()).start();
             
         });
     }
@@ -114,6 +120,9 @@ public class Stage4 extends JPanel {
                  if (timeRemaining > 0) {
                      timeRemaining--;
                      timerLabel.setText(timeRemaining + "S");
+                  // Reverse 아이템 상태 업데이트
+                     if (reverseItem != null) {
+                          reverseItem.updateObjState(player);} // Player와의 충돌 검사 및 업데이트
                  } else {
                      timer.stop();
                      JOptionPane.showMessageDialog(Stage4.this, "Time's up! Game over.");
@@ -123,7 +132,18 @@ public class Stage4 extends JPanel {
          });
          timer.start();
      }
-    
+    public void stopTimer() {
+        if (timer != null) {
+            timer.stop();  // 타이머 종료
+        }
+    }
+    public boolean areAllEnemiesDefeated() {
+        return turtle.getState() == 2 && wildboar1.getState() == 2 &&
+        		wildboar2.getState() == 2 && monkey1.getState() == 2 &&
+        				monkey2.getState() == 2 && monkey3.getState() == 2 
+        				&& monkey4.getState() == 2 && monkey5.getState() == 2;
+        
+    }
     
     public void loadHammerIcon() {
         ThrowHammer throwHammer = new ThrowHammer(this.game, player);

@@ -28,7 +28,7 @@ public class Stage1 extends JPanel {
     private Turtle turtle3;
     private Turtle turtle4;
     private Turtle turtle5;
-    // private Reverse reverseItem; // Reverse 객체 추가
+    private Reverse reverseItem; // Reverse 객체 추가
     private Score score;
     
     private BGM bgm;
@@ -95,12 +95,12 @@ public class Stage1 extends JPanel {
         this.frontMap.add(this.scoreLabel);
         
      // Reverse 아이템 초기화
-        /*this.reverseItem = new Reverse(200, 500); // 위치 초기화
-        this.frontMap.add(this.reverseItem);*/
+        this.reverseItem = new Reverse(200, 500); // 위치 초기화
+        this.frontMap.add(this.reverseItem);
     }
-    /*private void updateScoreDisplay() {
+    private void updateScoreDisplay() {
         this.scoreLabel.setText("score : " + score.getScore());  // 점수 업데이트
-    }*/
+    }
     
 
     private void initSetting() {
@@ -139,8 +139,8 @@ public class Stage1 extends JPanel {
                      timeRemaining--;
                      timerLabel.setText(timeRemaining + "S");
                   // Reverse 아이템 상태 업데이트
-                    /* if (reverseItem != null) {
-                         reverseItem.updateObjState(player);}*/ // Player와의 충돌 검사 및 업데이트
+                    if (reverseItem != null) {
+                         reverseItem.updateObjState(player);} // Player와의 충돌 검사 및 업데이트
                      
                  } else {
                      timer.stop();
@@ -151,6 +151,12 @@ public class Stage1 extends JPanel {
          });
          timer.start();
      }
+    
+    public void stopTimer() {
+        if (timer != null) {
+            timer.stop();  // 타이머 종료
+        }
+    }
     
     
     private void showGameOverText() {
@@ -180,6 +186,7 @@ public class Stage1 extends JPanel {
         return turtle1.getState() == 2 && turtle2.getState() == 2 &&
                turtle3.getState() == 2 && turtle4.getState() == 2 &&
                turtle5.getState() == 2;
+        
     }
     
 
