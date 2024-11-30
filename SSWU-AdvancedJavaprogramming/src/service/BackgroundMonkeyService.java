@@ -50,35 +50,30 @@ public class BackgroundMonkeyService implements Runnable {
 		this.monkey.setBananaExist(false);
 		// System.out.println("현재 스테이지는 stage " + stageNumber + "입니다.");
 		try {
-			if (stageNumber == 1)	backgroundPath = "image/background1.png";
-			else if (stageNumber == 2) backgroundPath = "image/background2.png";
-			else if (stageNumber == 3) backgroundPath = "image/background3.png";
-			else if (stageNumber == 4) backgroundPath = "image/background4.png";
-			else if (stageNumber == 5) backgroundPath = "image/background5.png";
+			if (stageNumber == 1) {
+				backgroundPath = "image/background1.png";
+				((Stage1)stage).getPlayer();
+			}
+			else if (stageNumber == 2) {
+				backgroundPath = "image/background2.png";
+				currentPlayer = ((Stage2)stage).getPlayer();
+			}
+			else if (stageNumber == 3) {
+				backgroundPath = "image/background3.png";
+				currentPlayer = ((Stage3)stage).getPlayer();
+			}
+			else if (stageNumber == 4) {
+				backgroundPath = "image/background4.png";
+				currentPlayer = ((Stage4)stage).getPlayer();
+			}
+			else if (stageNumber == 5) {
+				backgroundPath = "image/background5.png";
+				currentPlayer = ((Stage5)stage).getPlayer();
+			}
 			
 			img = ImageIO.read(new File(backgroundPath));
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-		
-    	switch (stageNumber) {
-			case 1:
-				currentPlayer = ((Stage1)stage).getPlayer();
-				break;
-			case 2:
-				currentPlayer = ((Stage2)stage).getPlayer();
-				break;
-			case 3:
-				currentPlayer = ((Stage3)stage).getPlayer();
-				break;
-			case 4:
-				currentPlayer = ((Stage4)stage).getPlayer();
-				break;
-			case 5:
-				currentPlayer = ((Stage5)stage).getPlayer();
-				break;
-			default:
-				break;
 		}
 	}
 	

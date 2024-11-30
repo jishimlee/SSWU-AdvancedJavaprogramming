@@ -14,7 +14,10 @@ import stage.Stage4;
 public class ThrowBanana extends JLabel {
     private int x;
     private int y;
+    private int bananaState;	// 0 화면에 있음, 1 화면에서 사라짐
+
 	private PlayerRabbit player;
+	private ThrowBanana throwBanana;
 	private Monkey monkey;
 	private MoonRabbitGame game;
 	private JPanel stage;
@@ -24,6 +27,7 @@ public class ThrowBanana extends JLabel {
 	private ImageIcon banana;
 	
 	public ThrowBanana(MoonRabbitGame game, Monkey monkey, PlayerRabbit player) {
+		this.throwBanana = this;
 		this.game = game;
 		this.monkey = monkey;
 		this.player = player;
@@ -44,9 +48,10 @@ public class ThrowBanana extends JLabel {
 	
 	public void initSetting() {
 		this.x = monkey.getX() + 9;
-		this.y = monkey.getY() + 5;
+		this.y = monkey.getY() + 10;
+//		System.out.println("바나나 초기화 위치: x=" + x + ", y=" + y);
 
-		System.out.println("빠나나");
+//		System.out.println("빠나나");
 		this.setSize(31, 39);
 		this.setLocation(x, y);
 	}
@@ -63,7 +68,8 @@ public class ThrowBanana extends JLabel {
 	    		if (stage instanceof Stage4) {
 	                ((Stage4) stage).getFrontMap().remove(ThrowBanana.this);
 	                ((Stage4) stage).getFrontMap().repaint();
-	                System.out.println("바나나 제거됨");
+	                throwBanana.setBananaState(1);	// 0일 때는 충돌감지 안 하도록
+//	                System.out.println("바나나 제거됨");
 	    		}
 	            // 다른 스테이지 구현 시 추가
 
@@ -84,7 +90,7 @@ public class ThrowBanana extends JLabel {
 	}
 	
 	private void checkCollision() {
-		(new Thread(new BackgroundBananaService(this.player))).start();
+		(new Thread(new BackgroundBananaService(this, this.player))).start();
 	}
 
 
@@ -103,6 +109,14 @@ public class ThrowBanana extends JLabel {
 
 	public void setY(int y) {
 		this.y = y;
+	}
+	
+	public int getBananaState() {
+		return bananaState;
+	}
+
+	public void setBananaState(int bananaState) {
+		this.bananaState = bananaState;
 	}
 
 	public static int getBananaLifetime() {

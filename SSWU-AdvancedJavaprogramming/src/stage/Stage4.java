@@ -161,8 +161,8 @@ public class Stage4 extends JPanel {
     	if (throwBanana.getIcon() == null) {
     	    System.out.println("바나나 이미지 로드 실패");
     	}
-    	throwBanana.setBounds(monkey.getX(), monkey.getY(), throwBanana.getWidth(), throwBanana.getHeight());
-    	System.out.println("x: " + monkey.getX() + " y: " + monkey.getY());
+    	throwBanana.setBounds(monkey.getX(), monkey.getY(),
+    			throwBanana.getWidth(), throwBanana.getHeight());
     	this.frontMap.add(throwBanana);
     	throwBanana.setVisible(true);
         this.frontMap.revalidate();

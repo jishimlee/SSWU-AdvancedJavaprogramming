@@ -57,7 +57,7 @@ public class Monkey extends JLabel implements Moveable {
 	   
 	   
 	   public void start() {
-		   System.out.println("start() 호출됨");
+//		   System.out.println("start() 호출됨");
 		   this.initBackgroundMonkeyService();
 		   this.state = 0;
 		   if (startLeft) this.left();
@@ -87,7 +87,7 @@ public class Monkey extends JLabel implements Moveable {
 
 	   
 	   private void initBackgroundMonkeyService() {
-		   System.out.println("스레드 시작");
+//		   System.out.println("스레드 시작");
 		   (new Thread(new BackgroundMonkeyService(this, this.game, this.player))).start();
 	   }
 

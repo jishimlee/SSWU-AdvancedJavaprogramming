@@ -51,8 +51,11 @@ public class PlayerRabbit extends JLabel {
    // 무적 상태
    private boolean isInvincible = false;
    private boolean startInvincible = false;
+   
+   // 움직임 방지 상태
+   private boolean cantMove = false;
 
-// 이미지
+   // 이미지
    private ImageIcon playerR;
    private ImageIcon playerL;
    
@@ -180,6 +183,8 @@ public class PlayerRabbit extends JLabel {
    }
    
    public void left() {
+	   if (cantMove) return;
+	   
        if (!this.left && !this.leftWallCrash) { 
           // 벽에 충돌하지 않으면 왼쪽으로 이동
           direction = PlayerDirection.LEFT;
@@ -207,6 +212,8 @@ public class PlayerRabbit extends JLabel {
    }
 
    public void right() {
+	   if (cantMove) return;
+	   
        if (!this.right && !this.rightWallCrash) { // 벽에 충돌하지 않으면 오른쪽으로 이동
           direction = PlayerDirection.RIGHT;
            right = true;
@@ -232,6 +239,8 @@ public class PlayerRabbit extends JLabel {
    }
 
    public void up() {
+	   if (cantMove) return;
+	   
        if (!this.up && !this.down) {
 //          direction = PlayerDirection.UP;
            up = true;
@@ -571,6 +580,15 @@ public class PlayerRabbit extends JLabel {
 	
 	public void setStartInvincible(boolean startInvincible) {
 		this.startInvincible = startInvincible;
+	}
+	
+	public boolean isCantMove() {
+		   return cantMove;
+	}
+
+
+	public void setCantMove(boolean cantMove) {
+		this.cantMove = cantMove;
 	}
 
 }

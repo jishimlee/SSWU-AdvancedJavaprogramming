@@ -55,11 +55,26 @@ public class BackgroundTigerService implements Runnable {
 		this.stage = game.getCurrentStage();
 		this.stageNumber = game.getStageNumber();
 		try {
-			if (stageNumber == 1) backgroundPath = "image/background1.png";
-			else if (stageNumber == 2) backgroundPath = "image/background2.png";
-			else if (stageNumber == 3) backgroundPath = "image/background3.png";
-			else if (stageNumber == 4) backgroundPath = "image/background4.png";
-			else if (stageNumber == 5) backgroundPath = "image/background5.png";
+			if (stageNumber == 1) {
+				backgroundPath = "image/background1.png";
+				((Stage1)stage).getPlayer();
+			}
+			else if (stageNumber == 2) {
+				backgroundPath = "image/background2.png";
+				currentPlayer = ((Stage2)stage).getPlayer();
+			}
+			else if (stageNumber == 3) {
+				backgroundPath = "image/background3.png";
+				currentPlayer = ((Stage3)stage).getPlayer();
+			}
+			else if (stageNumber == 4) {
+				backgroundPath = "image/background4.png";
+				currentPlayer = ((Stage4)stage).getPlayer();
+			}
+			else if (stageNumber == 5) {
+				backgroundPath = "image/background5.png";
+				currentPlayer = ((Stage5)stage).getPlayer();
+			}
 			
 			img = ImageIO.read(new File(backgroundPath));
 		} catch (Exception e) {
@@ -111,27 +126,7 @@ public class BackgroundTigerService implements Runnable {
 	
 	public void updateObjState() {
         try {	        	
-            // 매 루프마다 player의 위치를 확인하고, tiger과 비교
-        	switch (stageNumber) {
-        		case 1:
-        			currentPlayer = ((Stage1)stage).getPlayer();
-        			break;
-        		case 2:
-        			currentPlayer = ((Stage2)stage).getPlayer();
-        			break;
-        		case 3:
-        			currentPlayer = ((Stage3)stage).getPlayer();
-        			break;
-        		case 4:
-        			currentPlayer = ((Stage4)stage).getPlayer();
-        			break;
-        		case 5:
-        			currentPlayer = ((Stage5)stage).getPlayer();
-        			break;
-        		default:
-        			break;
-        	}
-        	
+            // 매 루프마다 player의 위치를 확인하고, tiger과 비교       	
         	// 호랑이와 플레이어 상태 확인
         	tigerX = tiger.getX();
         	tigerY = tiger.getY();
