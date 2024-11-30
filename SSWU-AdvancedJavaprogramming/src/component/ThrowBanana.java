@@ -8,6 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import main.MoonRabbitGame;
+import service.BackgroundBananaService;
 import stage.Stage4;
 
 public class ThrowBanana extends JLabel {
@@ -28,6 +29,7 @@ public class ThrowBanana extends JLabel {
 		this.player = player;
 		initObject();
 		initSetting();
+		checkCollision();
 		
         // 일정 시간 후 바나나 제거
         startBananaLifetime();
@@ -79,6 +81,10 @@ public class ThrowBanana extends JLabel {
 	            timer.cancel();
 	        }
 	    }, BANANA_LIFETIME); // BANANA_LIFETIME (3초) 후 실행
+	}
+	
+	private void checkCollision() {
+		(new Thread(new BackgroundBananaService(this.player))).start();
 	}
 
 

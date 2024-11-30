@@ -7,17 +7,16 @@ import main.MoonRabbitGame;
 
 public class BackgroundBananaService implements Runnable {
 	private MoonRabbitGame game;
-	private PlayerRabbit player;
-	private int stageNumber;
-	private JPanel stage;
-	
+	private PlayerRabbit player;	
+	private int playerX;
+	private int playerY;	
 	// 토끼 무적을 체크하는 플래그
 	private boolean isInvincible;
-	
-	BackgroundBananaService(PlayerRabbit player, MoonRabbitGame game) {
+
+
+	public BackgroundBananaService(PlayerRabbit player) {
 		this.game = game;
-		this.stage = game.getCurrentStage();
-		this.stageNumber = game.getStageNumber();
+		this.player = player;
 	}
 	
 	public void run() {
@@ -33,16 +32,11 @@ public class BackgroundBananaService implements Runnable {
 	
     private void updateObjState() {
         try {              
-          // 매 루프마다 player의 위치를 확인하고, turtle과 비교
-           // 거북이와 플레이어 상태 확인
-           turtleX = turtle.getX();
-           turtleY = turtle.getY();
-           playerY = player.getY();
-           state = turtle.getState();
+            playerX = player.getX();
+            playerY = player.getY();
         } catch (Exception e) {
            System.out.println("Error : " + e.getMessage());
         }
-           
    }
 	
 	private void checkRabbitInvincible() {
