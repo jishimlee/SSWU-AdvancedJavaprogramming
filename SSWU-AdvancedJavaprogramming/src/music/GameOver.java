@@ -1,23 +1,22 @@
 package music;
 
 import java.io.File;
+
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
-import javax.sound.sampled.Clip;
 
-
-public class BGM {
+public class GameOver {
 	private Clip clip;
 	 
-	public BGM() {
+	public GameOver() {
 		try {
-			AudioInputStream ais = AudioSystem.getAudioInputStream(new File("music/bgm.wav"));
+			AudioInputStream ais = AudioSystem.getAudioInputStream(new File("game-over/bgm.wav"));
 			clip = AudioSystem.getClip();
 			clip.open(ais);
 			FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-			gainControl.setValue(-30.0f); // Reduce volume by 10 decibels.
+			gainControl.setValue(-30.0f);
 			clip.start();
 			clip.loop(Clip.LOOP_CONTINUOUSLY); // 반복 재생 (옵션)
 		} catch (Exception e) {
