@@ -30,8 +30,9 @@ public class Stage2 extends JPanel {
     private Toad toad4;
     private Reverse reverseItem;
     private Life life;
+    private Score score;
     private int lifeCount;
-
+    private int currentScore;
     private javax.swing.Timer timer; // 게임 타이머
     private int timeRemaining = 60; // 남은 시간 (초 단위)
     
@@ -42,7 +43,9 @@ public class Stage2 extends JPanel {
         // life 개수 받아오기
         this.life = game.getLife();
         this.lifeCount = life.getLifeCount();
-        
+        this.score = game.getScore();
+        this.currentScore = score.getCurrentScore();
+        score.setStage(this);
         initObject();
         initSetting();
         initThread();
@@ -91,6 +94,12 @@ public class Stage2 extends JPanel {
      // Reverse 아이템 초기화
         this.reverseItem = new Reverse(200, 500); // 위치 초기화
         this.frontMap.add(this.reverseItem);
+
+       this.scoreLabel = new JLabel("score: "+ score.getCurrentScore());
+        this.scoreLabel.setBounds(350, 35, 150, 50); // 위치 조정
+        this.scoreLabel.setFont(new Font("Lexend", Font.BOLD, 25));
+        this.scoreLabel.setForeground(Color.WHITE);
+        this.frontMap.add(this.scoreLabel);
     }
     
     private void initSetting() {
@@ -211,7 +220,18 @@ public class Stage2 extends JPanel {
         this.frontMap.remove(this.heartLabel2);
         this.frontMap.remove(this.heartLabel3);
     }
-    
+    public void updateScore() {
+        System.out.println("updateScore called");
+
+        // scoreUp 조건 없이 바로 점수 업데이트
+        this.currentScore = score.getCurrentScore();
+        System.out.println("Updated Score: " + currentScore);
+        scoreLabel.setText("score: " + currentScore);
+        
+        // 화면 업데이트
+        this.frontMap.revalidate();
+        this.frontMap.repaint();
+    }
     public MoonRabbitGame getGame() {
         return game;
     }   
