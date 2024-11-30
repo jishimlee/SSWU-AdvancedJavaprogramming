@@ -10,7 +10,7 @@ import component.*;
 import life.Life;
 import main.MoonRabbitGame;
 import music.BGM;
-
+import score.Score;
 public class Stage5 extends JPanel {
    private MoonRabbitGame game; //추가함
     private JLabel frontMap;
