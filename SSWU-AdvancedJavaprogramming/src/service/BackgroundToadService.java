@@ -11,6 +11,8 @@ import javax.swing.JPanel;
 
 import component.PlayerRabbit;
 import component.Toad;
+import direction.PlayerDirection;
+import life.Life;
 import main.MoonRabbitGame;
 import stage.Stage1;
 import stage.Stage2;
@@ -25,13 +27,13 @@ public class BackgroundToadService implements Runnable {
 	private int stageNumber;
 	private JPanel stage;
 	private int state;
-	int toadX;
-	int toadY;
-	int playerX;
-	int playerY;
-	private boolean isRed(Color color) {
-	    return color.getRed() == 255 && color.getGreen() == 0 && color.getBlue() == 0;
-	}
+	private int toadX;
+	private int toadY;
+	private int playerX;
+	private int playerY;
+	
+	// 목숨 관리용 변수
+	private Life life;
 	
 	private MoonRabbitGame game;
 	private String backgroundPath;
@@ -54,8 +56,9 @@ public class BackgroundToadService implements Runnable {
 		this.player = player;
 		this.stage = game.getCurrentStage();	// 현재 실행 중인 stage 값 받아오기 위함
 		this.stageNumber = game.getStageNumber();
-		// System.out.println("현재 스테이지는 stage " + stageNumber + "입니다.");
+		this.life = game.getLife();
 		
+		// System.out.println("현재 스테이지는 stage " + stageNumber + "입니다.");
 		try {
 			if (stageNumber == 1) {
 				backgroundPath = "image/background1.png";
@@ -148,7 +151,7 @@ public class BackgroundToadService implements Runnable {
 	        	if (!canGo) {	// 갈 수 없으면
 	        		changeDirection();	// 방향 변경
 	        	} else if (canGo && !toad.isJumping()) { 
-	        		System.out.println("로깅");
+//	        		System.out.println("로깅");
 	        		toad.setCanJump(true);
 	        	}
 		    }  catch (Exception e) {
@@ -160,7 +163,7 @@ public class BackgroundToadService implements Runnable {
 	// canjump랑 jumping이랑 cango 잘 만져보기
 	private void changeDirection() {
 //		System.out.println("Right: " + toad.isRight() + " / Left: " + toad.isLeft());
-		// 오른쪽 이동 중이었다면
+//		오른쪽 이동 중이었다면
 		if (!toad.isJumping()) {
 			if (toad.isRight()) {
 				toad.setRight(false);
@@ -249,11 +252,11 @@ public class BackgroundToadService implements Runnable {
 	// 플레이어랑 충돌 확인
 	private void checkPlayerCollision() {
 	    if (state != 2) {
-	        // 두꺼비와 플레이어의 충돌 영역 (40 x 40 기준)
-	        isColliding = (toadX < playerX + 25) && (toadX + 35 > playerX) && 
-	                              (toadY < playerY + 40) && (toadY + 40 > playerY);
 
         	if (state == 0) {
+    	        // 두꺼비와 플레이어의 충돌 영역 (40 x 40 기준)
+    	        isColliding = (toadX < playerX + 25) && (toadX + 35 > playerX) && 
+    	                              (toadY < playerY + 40) && (toadY + 40 > playerY);
         	    try {
         	        // 충돌 확인 로직 -> 몸이랑 닿은 거
         	        if (!isInvincible) {
@@ -268,6 +271,9 @@ public class BackgroundToadService implements Runnable {
         	}
         	
             else if (state == 1) {
+    	        // 두꺼비와 플레이어의 충돌 영역 (40 x 40 기준)
+    	        isColliding = (toadX < playerX + 33) && (toadX + 40 > playerX) && 
+    	                              (toadY < playerY + 40) && (toadY + 40 > playerY);
 	            try {
 	                // 충돌 확인 로직
 	                if (isColliding) {
@@ -299,10 +305,10 @@ public class BackgroundToadService implements Runnable {
 	    }
 
 	    if (isAttacking && !isColliding && toad.getState() == 0) {
-	        if (player.isLeft()) { // 왼쪽으로 공격할 때
+	        if (player.getDirection() == PlayerDirection.LEFT) { // 왼쪽으로 공격할 때
 	            isAttacked = (playerX - 60 <= toadX && toadX <= playerX) && 
 	                         (playerY - 50 <= toadY && toadY <= playerY + 40); // 왼쪽 공격 범위
-	        } else if (player.isRight()) { // 오른쪽으로 공격할 때
+	        } else if (player.getDirection() == PlayerDirection.RIGHT) { // 오른쪽으로 공격할 때
 	            isAttacked = (playerX + 30 <= toadX && toadX <= playerX + 90) && 
 	                         (playerY - 50 <= toadY && toadY <= playerY + 40); // 오른쪽 공격 범위
 	        }
@@ -320,7 +326,9 @@ public class BackgroundToadService implements Runnable {
 
 	private void handleEnemy() {
 	    System.out.println("토끼와 닿았습니다!");
+	    
 	    // 목숨 감소 등 충돌 처리
+	    this.life.decreaseLife();
 	}
 
 
@@ -344,121 +352,8 @@ public class BackgroundToadService implements Runnable {
 	    toad.repaint();
 	    stage.repaint();
 	}
+	
+	private boolean isRed(Color color) {
+	    return color.getRed() == 255 && color.getGreen() == 0 && color.getBlue() == 0;
+	}
 }
-
-
-
-//private void checkWall() {
-//    // 바로 옆
-//    Color leftColor = new Color(img.getRGB(toadX - 7, toadY + 25));
-//    Color rightColor = new Color(img.getRGB(toadX + 50 + 7, toadY + 25));
-//
-//    // 좌측 및 우측 벽 충돌 검사
-//        if (isRed(leftColor)) {
-//            System.out.println("왼쪽 충돌");
-//            toad.setLeft(false);
-//            if (!toad.isRight() && toad.isCanJump()) {
-//                toad.right();
-//            }
-//        } else if (isRed(rightColor)) {
-//            System.out.println("오른쪽 충돌");
-//            toad.setRight(false);
-//            if (!toad.isLeft() && toad.isCanJump()) {
-//                toad.left();
-//            }
-//        }
-//    
-//    // 도착할 벽도 확인
-//        Color expectedLeft;
-//        if (toad.getX() - 5 - (15 * toad.getSpeed()) >= 0) {
-//            expectedLeft = new Color(img.getRGB(toad.getX() - 5 - (15 * toad.getSpeed()), toad.getY() + 40 + 10));
-//        } else {
-//            expectedLeft = Color.RED; // 벽이 없다고 가정
-//        }
-//
-//        Color expectedRight;
-//        if (toad.getX() + 40 + 5 + (15 * toad.getSpeed()) < img.getWidth()) {
-//            expectedRight = new Color(img.getRGB(toad.getX() + 40 + 5 + (15 * toad.getSpeed()), toad.getY() + 40 + 10));
-//        } else {
-//            expectedRight = Color.RED; // 벽이 없다고 가정
-//        }
-//
-//        // 도착지가 빨간색도 파란색도 아니면
-//    boolean expectedLeftMissing = (expectedLeft.getRed() != 0 || expectedLeft.getGreen() != 0 || expectedLeft.getBlue() != 255) 
-//            && (expectedLeft .getRed() != 255 || expectedLeft.getGreen() != 0 || expectedLeft.getBlue() != 0);
-//    boolean expectedRightMissing = (expectedRight.getRed() != 0 || expectedRight.getGreen() != 0 || expectedRight.getBlue() != 255) 
-//            && (expectedRight.getRed() != 255 || expectedRight.getGreen() != 0 || expectedRight.getBlue() != 0);
-//        
-//        // 점프할 수 있는 상태면
-//            if (expectedLeftMissing && toad.isLeft()) {
-//                System.out.println("왼쪽 벽에 닿을 예정임");
-//                if (!toad.isRight() && toad.isCanJump()) {
-//                    toad.setLeft(false);
-//                    toad.right();
-//                }
-//            } else if (expectedRightMissing && toad.isRight()) {
-//                System.out.println("오른쪽 벽에 닿을 예정임");
-//                if (!toad.isLeft() && toad.isCanJump()) {
-//                    toad.setRight(false);
-//                    toad.left();
-//                }
-//            }
-//}
-//
-//private void checkExpectedWall() {
-//	
-//}
-//
-//// 바닥이 있어야 계속 이동
-//private void checkbottom() {
-//    // 바닥 없음 확인
-//    Color leftBottom = new Color(img.getRGB(toadX - 2, toadY + 46));
-//    Color rightBottom = new Color(img.getRGB(toadX + 40 + 2, toadY + 45));
-//            
-//    boolean leftBottomMissing = (leftBottom.getRed() != 0 || leftBottom.getGreen() != 0 || leftBottom.getBlue() != 255) 
-//            && (leftBottom.getRed() != 255 || leftBottom.getGreen() != 0 || leftBottom.getBlue() != 0);
-//    boolean rightBottomMissing = (rightBottom.getRed() != 0 || rightBottom.getGreen() != 0 || rightBottom.getBlue() != 255) 
-//            && (rightBottom.getRed() != 255 || rightBottom.getGreen() != 0 || rightBottom.getBlue() != 0);
-//    
-//    // 바닥 없는지 체크
-//    if (leftBottomMissing && toad.isLeft()) {
-//        //System.out.println("왼쪽 바닥 없음");
-//        toad.setLeft(false); // 바닥 없으면 left 멈춤
-//        if (!toad.isRight() && toad.isCanJump()) {	// 오른쪽 이동 중이 아니고 점프 가능 상태
-//            toad.right();
-//        }
-//    } else if (rightBottomMissing && toad.isRight()) {
-//        //System.out.println("오른쪽 바닥 없음");
-//        toad.setRight(false);
-//        if (!toad.isLeft() && toad.isCanJump()) {
-//            toad.left();
-//        }
-//    }
-//}
-//
-//private void checkExpectedBottom() {
-//    // 도착할 바닥 체크
-//    Color expectedLeftBottom = new Color(img.getRGB(toad.getX() - 5 - (15 * toad.getSpeed()), toad.getY() + 40 + 10));
-//    Color expectedRightBottom = new Color(img.getRGB(toad.getX() + 40 + 5 + (15 * toad.getSpeed()), toad.getY() + 40 + 10));
-//    
-//    // 도착지가 빨간색도 파란색도 아니면
-//    boolean expectedLeftBottomMissing = (expectedLeftBottom.getRed() != 0 || expectedLeftBottom.getGreen() != 0 || expectedLeftBottom.getBlue() != 255) 
-//            && (expectedLeftBottom.getRed() != 255 || expectedLeftBottom.getGreen() != 0 || expectedLeftBottom.getBlue() != 0);
-//    boolean expectedRightBottomMissing = (expectedRightBottom.getRed() != 0 || expectedRightBottom.getGreen() != 0 || expectedRightBottom.getBlue() != 255) 
-//            && (expectedRightBottom.getRed() != 255 || expectedRightBottom.getGreen() != 0 || expectedRightBottom.getBlue() != 0);
-//    
-//    // 점프할 수 있는 상태면
-//    if (expectedLeftBottomMissing && toad.isLeft()) {
-//        // System.out.println("왼쪽 바닥에 착지할 수 없음");
-//        toad.setLeft(false);
-//        if (!toad.isRight() && toad.isCanJump()) {
-//            toad.right();
-//        }
-//    } else if (expectedRightBottomMissing && toad.isRight()) {
-//        // System.out.println("오른쪽 바닥에 착지할 수 없음");
-//        toad.setRight(false);
-//        if (!toad.isLeft() && toad.isCanJump()) {
-//            toad.left();
-//        }
-//    }
-//}

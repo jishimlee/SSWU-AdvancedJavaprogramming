@@ -280,7 +280,8 @@ public class BackgroundMonkeyService implements Runnable {
 		    this.currentPlayer.setStartInvincible(true);
 		}
 		
-		private int count = 0;
+//		private int count = 0;
+		
 		private void handleEnemy() {
 		    System.out.println("원숭이가 토끼와 닿았습니다!");
 		    this.life.decreaseLife();

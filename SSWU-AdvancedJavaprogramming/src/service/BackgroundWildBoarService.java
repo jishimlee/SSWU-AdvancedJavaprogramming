@@ -12,7 +12,9 @@ import javax.swing.JPanel;
 import component.PlayerRabbit;
 import component.WildBoar;
 import direction.PlayerDirection;
+import life.Life;
 import main.MoonRabbitGame;
+import score.Score;
 import stage.*;
 
 public class BackgroundWildBoarService implements Runnable {
@@ -26,6 +28,9 @@ public class BackgroundWildBoarService implements Runnable {
 	int wildboarY;
 	int playerX;
 	int playerY;
+	
+	// 목숨 관리용 변수
+	private Life life;
 	
 	private MoonRabbitGame game;
 	private String backgroundPath;
@@ -50,7 +55,9 @@ public class BackgroundWildBoarService implements Runnable {
 		this.player = player;
 		this.stage = game.getCurrentStage();
 		this.stageNumber = game.getStageNumber();
-		// System.out.println("현재 스테이지는 stage " + stageNumber + "입니다.");
+		this.life = game.getLife();
+		
+//		System.out.println("현재 스테이지는 stage " + stageNumber + "입니다.");
 		try {
 			if (stageNumber == 1) {
 				backgroundPath = "image/background1.png";
@@ -275,7 +282,9 @@ public class BackgroundWildBoarService implements Runnable {
 	
 	private void handleEnemy() {
 	    System.out.println("토끼와 닿았습니다!");
+	    
 	    // 목숨 감소 등 충돌 처리
+	    this.life.decreaseLife();
 	}
 	
 	private void handleAttacked() {

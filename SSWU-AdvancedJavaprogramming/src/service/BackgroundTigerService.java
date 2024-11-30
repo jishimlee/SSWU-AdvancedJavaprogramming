@@ -12,7 +12,9 @@ import javax.swing.JPanel;
 import component.PlayerRabbit;
 import component.Tiger;
 import direction.PlayerDirection;
+import life.Life;
 import main.MoonRabbitGame;
+import score.Score;
 import stage.Stage1;
 import stage.Stage2;
 import stage.Stage3;
@@ -30,6 +32,9 @@ public class BackgroundTigerService implements Runnable {
 	int tigerY;
 	int playerX;
 	int playerY;
+	
+	// 목숨 관리용 변수
+	private Life life;
 	
 	private MoonRabbitGame game;
 	private String backgroundPath;
@@ -54,6 +59,8 @@ public class BackgroundTigerService implements Runnable {
 		this.player = player;
 		this.stage = game.getCurrentStage();
 		this.stageNumber = game.getStageNumber();
+		this.life = game.getLife();
+		
 		try {
 			if (stageNumber == 1) {
 				backgroundPath = "image/background1.png";
@@ -286,7 +293,9 @@ public class BackgroundTigerService implements Runnable {
 	
 	private void handleEnemy() {
 	    System.out.println("토끼와 닿았습니다!");
+	    
 	    // 목숨 감소 등 충돌 처리
+	    this.life.decreaseLife();
 	}
 	
 	private void handleAttacked() {

@@ -31,16 +31,12 @@ public class BackgroundTurtleService implements Runnable {
    private MoonRabbitGame game;
    private Stage1 stage1;
    public boolean turtleAttacked = false; 
-   int turtleX;
-   int turtleY;
-   int playerX;
-   int playerY;
-   int hammerX;
+   private int turtleX;
+   private int turtleY;
+   private int playerX;
+   private int playerY;
+   private int hammerX;
    int hammerY;
-   
-   private boolean isRed(Color color) {
-       return color.getRed() == 255 && color.getGreen() == 0 && color.getBlue() == 0;
-   }
    
    
    private String backgroundPath;
@@ -284,8 +280,8 @@ public class BackgroundTurtleService implements Runnable {
       
       public void handleEnemy() {
            System.out.println("토끼와 닿았습니다!");
+           
            // Life 객체를 통해 목숨 감소 처리
-            
            this.life.decreaseLife();  // 게임의 Life 객체에서 목숨 감소
            
            if (player.getDirection() == PlayerDirection.LEFT) {
@@ -340,5 +336,9 @@ public class BackgroundTurtleService implements Runnable {
           turtle.repaint();
           stage.repaint();
           game.getScore().addScore(100);
+      }
+      
+      private boolean isRed(Color color) {
+          return color.getRed() == 255 && color.getGreen() == 0 && color.getBlue() == 0;
       }
 }
