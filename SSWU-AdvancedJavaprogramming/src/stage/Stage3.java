@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import component.*;
+import life.Life;
 import main.MoonRabbitGame;
 import music.BGM;
 
@@ -16,7 +17,7 @@ public class Stage3 extends JPanel {
    private MoonRabbitGame game; //추가함
     private JLabel frontMap;
     private JLabel moonLabel;
-    private JLabel heartLabel;
+    private JLabel heartLabel, heartLabel2, heartLabel3;
     private JLabel timerLabel;
     private PlayerRabbit player;
     private Toad toad1;
@@ -26,6 +27,8 @@ public class Stage3 extends JPanel {
     private WildBoar wildboar3;
     private WildBoar wildboar4;
     private Reverse reverseItem;
+    private Life life;
+    private int lifeCount;
     
     private javax.swing.Timer timer; // 게임 타이머
     private int timeRemaining = 60; // 남은 시간 (초 단위)
@@ -33,6 +36,11 @@ public class Stage3 extends JPanel {
     public Stage3(MoonRabbitGame game) {
         this.game = game;
         this.player = new PlayerRabbit(this.game);
+        
+        // life 개수 받아오기
+        this.life = game.getLife();
+        this.lifeCount = life.getLifeCount();
+        
         initObject();
         initSetting();
         initThread();
@@ -54,8 +62,12 @@ public class Stage3 extends JPanel {
         this.setVisible(true);
         
         this.heartLabel = new JLabel(new ImageIcon("image/heart.png"));
-        this.heartLabel.setBounds(50, 40, 50, 50); // setLocation + setSize
-        this.frontMap.add(this.heartLabel);
+        this.heartLabel2 = new JLabel(new ImageIcon("image/heart.png"));
+        this.heartLabel3 = new JLabel(new ImageIcon("image/heart.png"));
+        this.heartLabel.setBounds(50, 42, 50, 50);
+        this.heartLabel2.setBounds(100, 42, 50, 50);
+        this.heartLabel3.setBounds(150, 42, 50, 50);
+        this.loadLifeIcon();
 
         this.moonLabel = new JLabel(new ImageIcon("image/moon3.png"));
         this.moonLabel.setBounds(480, 40, 50, 50);
@@ -80,6 +92,8 @@ public class Stage3 extends JPanel {
         private void initSetting() {
             this.setSize(1010, 670);
             this.setPreferredSize(new Dimension(1010, 670));
+            this.life.setStage(this);
+            this.life.setStageNumber(3);
          }
         
         private void initThread() {
@@ -145,6 +159,31 @@ public class Stage3 extends JPanel {
             throwHammer.setVisible(true);
             this.frontMap.revalidate();
             this.frontMap.repaint();
+        }
+        
+        public void loadLifeIcon() {
+        	System.out.println("loadLifeIcon");
+        	deleteAllLifeIcon();
+        	this.lifeCount = life.getLifeCount();
+        	System.out.println("목숨이 " + this.lifeCount + "개입니다.");
+        	if (this.lifeCount == 3) {
+                this.frontMap.add(this.heartLabel);
+                this.frontMap.add(this.heartLabel2);
+                this.frontMap.add(this.heartLabel3);
+        	} else if (this.lifeCount == 2) {
+                this.frontMap.add(this.heartLabel);
+                this.frontMap.add(this.heartLabel2);
+        	} else if (this.lifeCount == 1) {
+                this.frontMap.add(this.heartLabel);
+        	}
+            this.frontMap.revalidate();
+            this.frontMap.repaint();
+        }
+        
+        public void deleteAllLifeIcon() {
+            this.frontMap.remove(this.heartLabel);
+            this.frontMap.remove(this.heartLabel2);
+            this.frontMap.remove(this.heartLabel3);
         }
         
         

@@ -1,31 +1,40 @@
 package stage;
 
-import javax.swing.*;
-import Item.Reverse;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import component.*;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+
+import Item.Reverse;
+import life.Life;
+import component.Monkey;
+import component.PlayerRabbit;
+import component.ThrowBanana;
+import component.ThrowHammer;
+import component.Turtle;
+import component.WildBoar;
 import main.MoonRabbitGame;
-import music.BGM;
 
 public class Stage4 extends JPanel {
    private MoonRabbitGame game; //추가함
     private JLabel frontMap;
 	private JLabel moonLabel;
-    private JLabel heartLabel;
+    private JLabel heartLabel, heartLabel2, heartLabel3;
     private JLabel timerLabel;
     private PlayerRabbit player;
     private Turtle turtle;
-    private WildBoar wildboar1;
-    private WildBoar wildboar2;
-    private Monkey monkey1;
-    private Monkey monkey2;
-    private Monkey monkey3;
-    private Monkey monkey4;
-    private Monkey monkey5;
+    private WildBoar wildboar1, wildboar2;
+    private Monkey monkey1, monkey2, monkey3, monkey4, monkey5;
     private Reverse reverseItem;
+    private Life life;
+    private int lifeCount;
     
     private javax.swing.Timer timer; // 게임 타이머
     private int timeRemaining = 80; // 남은 시간 (초 단위)
@@ -33,14 +42,15 @@ public class Stage4 extends JPanel {
     public Stage4(MoonRabbitGame game) {
         this.game = game;
         this.player = new PlayerRabbit(this.game);
+        
+        // life 개수 받아오기
+        this.life = game.getLife();
+        this.lifeCount = life.getLifeCount();
+        
         initObject();
         initSetting();
         initThread();
         initTimer(); 
-    }
-    
-    public PlayerRabbit getPlayer() {
-        return this.player;
     }
     
     private void initObject() {
@@ -52,26 +62,30 @@ public class Stage4 extends JPanel {
         this.setLayout(null); 
         this.add(this.frontMap); 
         this.setVisible(true);
-        
-        this.heartLabel = new JLabel(new ImageIcon("image/heart.png"));
-        this.heartLabel.setBounds(50, 40, 50, 50); // setLocation + setSize
-        this.frontMap.add(this.heartLabel);
 
+        this.heartLabel = new JLabel(new ImageIcon("image/heart.png"));
+        this.heartLabel2 = new JLabel(new ImageIcon("image/heart.png"));
+        this.heartLabel3 = new JLabel(new ImageIcon("image/heart.png"));
+        this.heartLabel.setBounds(50, 42, 50, 50);
+        this.heartLabel2.setBounds(100, 42, 50, 50);
+        this.heartLabel3.setBounds(150, 42, 50, 50);
+        this.loadLifeIcon();
+        
         this.moonLabel = new JLabel(new ImageIcon("image/moon4.png"));
         this.moonLabel.setBounds(480, 40, 50, 50);
         this.frontMap.add(this.moonLabel);
         
-     // 남은 시간 표시 라벨
+        // 남은 시간 표시 라벨
         this.timerLabel = new JLabel(timeRemaining + "S");
         this.timerLabel.setBounds(870, 35, 150, 50); // 위치 조정
         this.timerLabel.setFont(new Font("Lexend", Font.BOLD, 25));
         this.timerLabel.setForeground(Color.WHITE);
         this.frontMap.add(this.timerLabel);
         
-     // 오브젝트 추가
+        // 오브젝트 추가
         this.frontMap.add(this.player);
         
-     // Reverse 아이템 초기화
+        // Reverse 아이템 초기화
         this.reverseItem = new Reverse(200, 500); // 위치 초기화
         this.frontMap.add(this.reverseItem);
     }
@@ -79,6 +93,8 @@ public class Stage4 extends JPanel {
     private void initSetting() {
         this.setSize(1010, 670);
         this.setPreferredSize(new Dimension(1010, 670));
+        this.life.setStage(this);
+        this.life.setStageNumber(4);
      }
     
     private void initThread() {
@@ -100,6 +116,7 @@ public class Stage4 extends JPanel {
             this.frontMap.add(this.monkey3);
             this.frontMap.add(this.monkey4);
             this.frontMap.add(this.monkey5);
+            
             new Thread(() -> turtle.start()).start(); // Turtle 실행
             new Thread(() -> wildboar1.start()).start();
             new Thread(() -> wildboar2.start()).start();
@@ -132,11 +149,13 @@ public class Stage4 extends JPanel {
          });
          timer.start();
      }
+
     public void stopTimer() {
         if (timer != null) {
             timer.stop();  // 타이머 종료
         }
     }
+    
     public boolean areAllEnemiesDefeated() {
         return turtle.getState() == 2 && wildboar1.getState() == 2 &&
         		wildboar2.getState() == 2 && monkey1.getState() == 2 &&
@@ -154,7 +173,6 @@ public class Stage4 extends JPanel {
         this.frontMap.repaint();
     }
     
-    
     public void loadBanana(Monkey monkey) {
     	ThrowBanana throwBanana = new ThrowBanana(this.game, monkey, player);
     	monkey.setBananaExist(true);
@@ -169,6 +187,34 @@ public class Stage4 extends JPanel {
         this.frontMap.repaint();
     }
     
+    public void loadLifeIcon() {
+    	System.out.println("loadLifeIcon");
+    	deleteAllLifeIcon();
+    	this.lifeCount = life.getLifeCount();
+    	System.out.println("목숨이 " + this.lifeCount + "개입니다.");
+    	if (this.lifeCount == 3) {
+            this.frontMap.add(this.heartLabel);
+            this.frontMap.add(this.heartLabel2);
+            this.frontMap.add(this.heartLabel3);
+    	} else if (this.lifeCount == 2) {
+            this.frontMap.add(this.heartLabel);
+            this.frontMap.add(this.heartLabel2);
+    	} else if (this.lifeCount == 1) {
+            this.frontMap.add(this.heartLabel);
+    	}
+        this.frontMap.revalidate();
+        this.frontMap.repaint();
+    }
+    
+    public void deleteAllLifeIcon() {
+        this.frontMap.remove(this.heartLabel);
+        this.frontMap.remove(this.heartLabel2);
+        this.frontMap.remove(this.heartLabel3);
+    }
+    
+    public PlayerRabbit getPlayer() {
+        return this.player;
+    }
     
     public MoonRabbitGame getGame() {
         return game;

@@ -76,7 +76,7 @@ public class BackgroundTurtleService implements Runnable {
 		try {
 			if (stageNumber == 1) {
 				backgroundPath = "image/background1.png";
-				((Stage1)stage).getPlayer();
+				currentPlayer = ((Stage1)stage).getPlayer();
 			}
 			else if (stageNumber == 2) {
 				backgroundPath = "image/background2.png";
@@ -262,19 +262,19 @@ public class BackgroundTurtleService implements Runnable {
                }
                
                 // 디버깅용 출력 (공격 범위와 충돌 체크)
-               if (player.getDirection() == PlayerDirection.LEFT) {
-                  System.out.println("Left");
-                  System.out.println("X 공격 범위 체크: " + (playerX - 60) + " ~ " + playerX);
-                  System.out.println("Y 공격 범위 체크: " + (playerY - 50) + " ~ " + (playerY + 40));
-               }
-               else {
-                  System.out.println("Right");
-                  System.out.println("X 공격 범위 체크: " + (playerX + 30) + " ~ " + (playerX + 90));
-                  System.out.println("Y 공격 범위 체크: " + (playerY - 50) + " ~ " + (playerY + 40));
-               }
-                System.out.println("플레이어 X: " + playerX + ", 거북이 X: " + turtleX);
-                System.out.println("플레이어 Y: " + playerY + ", 거북이 Y: " + turtleY);
-                System.out.println("isAttacked: " + isAttacked);
+//               if (player.getDirection() == PlayerDirection.LEFT) {
+//                  System.out.println("Left");
+//                  System.out.println("X 공격 범위 체크: " + (playerX - 60) + " ~ " + playerX);
+//                  System.out.println("Y 공격 범위 체크: " + (playerY - 50) + " ~ " + (playerY + 40));
+//               }
+//               else {
+//                  System.out.println("Right");
+//                  System.out.println("X 공격 범위 체크: " + (playerX + 30) + " ~ " + (playerX + 90));
+//                  System.out.println("Y 공격 범위 체크: " + (playerY - 50) + " ~ " + (playerY + 40));
+//               }
+//                System.out.println("플레이어 X: " + playerX + ", 거북이 X: " + turtleX);
+//                System.out.println("플레이어 Y: " + playerY + ", 거북이 Y: " + turtleY);
+//                System.out.println("isAttacked: " + isAttacked);
            }
            
            if (isAttacked) handleAttacked();
@@ -286,7 +286,7 @@ public class BackgroundTurtleService implements Runnable {
            System.out.println("토끼와 닿았습니다!");
            // Life 객체를 통해 목숨 감소 처리
             
-           game.getLife().decreaseLife();  // 게임의 Life 객체에서 목숨 감소
+           this.life.decreaseLife();  // 게임의 Life 객체에서 목숨 감소
            
            if (player.getDirection() == PlayerDirection.LEFT) {
                player.setIcon(player.getRabbitCrashL()); // 왼쪽으로 이동 중이면 왼쪽 충돌 아이콘 설정

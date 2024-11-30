@@ -3,16 +3,22 @@ package service;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.util.*;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-import component.PlayerRabbit;
 import component.Monkey;
+import component.PlayerRabbit;
 import direction.PlayerDirection;
+import life.Life;
 import main.MoonRabbitGame;
-import stage.*;
+import stage.Stage1;
+import stage.Stage2;
+import stage.Stage3;
+import stage.Stage4;
+import stage.Stage5;
 
 public class BackgroundMonkeyService implements Runnable {
 	private BufferedImage img;
@@ -25,6 +31,9 @@ public class BackgroundMonkeyService implements Runnable {
 	private int monkeyY;
 	private int playerX;
 	private int playerY;
+	
+	// 목숨 관리용 변수
+	private Life life;
 	
 	private MoonRabbitGame game;
 	private String backgroundPath;
@@ -47,6 +56,7 @@ public class BackgroundMonkeyService implements Runnable {
 		this.player = player;
 		this.stage = game.getCurrentStage();	// 현재 실행 중인 stage 값 받아오기 위함
 		this.stageNumber = game.getStageNumber();
+		this.life = game.getLife();
 		this.monkey.setBananaExist(false);
 		// System.out.println("현재 스테이지는 stage " + stageNumber + "입니다.");
 		try {
@@ -272,9 +282,11 @@ public class BackgroundMonkeyService implements Runnable {
 		
 		private int count = 0;
 		private void handleEnemy() {
-		    System.out.println("토끼와 닿았습니다!");
-		    count++;
-		    System.out.println(count);
+		    System.out.println("원숭이가 토끼와 닿았습니다!");
+		    this.life.decreaseLife();
+		    
+//		    count++;
+//		    System.out.println(count);
 		    // 목숨 감소 등 충돌 처리
 		}
 

@@ -18,24 +18,19 @@ public class Stage1 extends JPanel {
 	private MoonRabbitGame game; //추가함
     private JLabel frontMap;
     private JLabel moonLabel;
-    private JLabel heartLabel;
+    private JLabel heartLabel, heartLabel2, heartLabel3;
     private JLabel timerLabel;
     private JLabel scoreLabel;
     private PlayerRabbit player;
     private ThrowHammer hammer;
-    private Turtle turtle1;
-    private Turtle turtle2;
-    private Turtle turtle3;
-    private Turtle turtle4;
-    private Turtle turtle5;
+    private Turtle turtle1, turtle2, turtle3, turtle4, turtle5;
     private Reverse reverseItem; // Reverse 객체 추가
     private Score score;
+    private Life life;
+    private int lifeCount;
     
     private BGM bgm;
-    
-    public void setHammer(ThrowHammer hammer) {
-		this.hammer = hammer;
-	}
+
 
 	private javax.swing.Timer timer; // 게임 타이머
     private int timeRemaining = 30; // 남은 시간 (초 단위)
@@ -43,20 +38,17 @@ public class Stage1 extends JPanel {
     public Stage1(MoonRabbitGame game) {
         this.game = game;
         this.player = new PlayerRabbit(this.game);
-        this.hammer = new ThrowHammer(this.game, this.player);
+        //this.hammer = new ThrowHammer(this.game, this.player);
+        
+        // life 개수 받아오기
+        this.life = game.getLife();
+        this.lifeCount = life.getLifeCount();
+        
         initObject();
         initSetting();
         initThread();
         initTimer(); 
     }
-
-	public PlayerRabbit getPlayer() {
-        return this.player;
-    }
-	
-	public ThrowHammer getHammer() {
-		return this.hammer;
-	}
 
     private void initObject() {
     	//bgm 추가
@@ -69,12 +61,16 @@ public class Stage1 extends JPanel {
         this.add(this.frontMap); 
         this.setVisible(true);
 
-        this.player.setHigh(130);	// 플레이어 점프 높이 설정
-        this.player.setBounds(100, 300, 50, 50); // 플레이어 위치 및 크기 설정
+//        this.player.setHigh(130);	// 플레이어 점프 높이 설정
+//        this.player.setBounds(100, 300, 50, 50); // 플레이어 위치 및 크기 설정
 
         this.heartLabel = new JLabel(new ImageIcon("image/heart.png"));
-        this.heartLabel.setBounds(50, 40, 50, 50); // setLocation + setSize
-        this.frontMap.add(this.heartLabel);
+        this.heartLabel2 = new JLabel(new ImageIcon("image/heart.png"));
+        this.heartLabel3 = new JLabel(new ImageIcon("image/heart.png"));
+        this.heartLabel.setBounds(50, 42, 50, 50);
+        this.heartLabel2.setBounds(100, 42, 50, 50);
+        this.heartLabel3.setBounds(150, 42, 50, 50);
+        this.loadLifeIcon();
 
         this.moonLabel = new JLabel(new ImageIcon("image/moon1.png"));
         this.moonLabel.setBounds(480, 40, 50, 50);
@@ -106,6 +102,8 @@ public class Stage1 extends JPanel {
     private void initSetting() {
     	this.setSize(1000, 640);
         this.setPreferredSize(new Dimension(1010, 670));
+        this.life.setStage(this);
+        this.life.setStageNumber(1);
     }
 
     private void initThread() {
@@ -158,7 +156,6 @@ public class Stage1 extends JPanel {
         }
     }
     
-    
     private void showGameOverText() {
         // BGM 정지
         if (bgm != null) {
@@ -179,8 +176,6 @@ public class Stage1 extends JPanel {
         game.repaint(); // 화면 갱신
     }
 
-
-     
     
     public boolean areAllEnemiesDefeated() {
         return turtle1.getState() == 2 && turtle2.getState() == 2 &&
@@ -189,8 +184,6 @@ public class Stage1 extends JPanel {
         
     }
     
-
-
     
     public void loadHammerIcon() {
         ThrowHammer throwHammer = new ThrowHammer(this.game, player);
@@ -201,8 +194,45 @@ public class Stage1 extends JPanel {
         this.frontMap.repaint();
     }
     
+    public void loadLifeIcon() {
+    	System.out.println("loadLifeIcon");
+    	deleteAllLifeIcon();
+    	this.lifeCount = life.getLifeCount();
+    	System.out.println("목숨이 " + this.lifeCount + "개입니다.");
+    	if (this.lifeCount == 3) {
+            this.frontMap.add(this.heartLabel);
+            this.frontMap.add(this.heartLabel2);
+            this.frontMap.add(this.heartLabel3);
+    	} else if (this.lifeCount == 2) {
+            this.frontMap.add(this.heartLabel);
+            this.frontMap.add(this.heartLabel2);
+    	} else if (this.lifeCount == 1) {
+            this.frontMap.add(this.heartLabel);
+    	}
+        this.frontMap.revalidate();
+        this.frontMap.repaint();
+    }
+    
+    public void deleteAllLifeIcon() {
+        this.frontMap.remove(this.heartLabel);
+        this.frontMap.remove(this.heartLabel2);
+        this.frontMap.remove(this.heartLabel3);
+    }
+    
     public MoonRabbitGame getGame() {
         return game;
     }
+    
+    public void setHammer(ThrowHammer hammer) {
+		this.hammer = hammer;
+	}
+    
+	public PlayerRabbit getPlayer() {
+        return this.player;
+    }
+	
+	public ThrowHammer getHammer() {
+		return this.hammer;
+	}
 
 }

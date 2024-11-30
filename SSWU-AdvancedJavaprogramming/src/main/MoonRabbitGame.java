@@ -15,7 +15,7 @@ import score.*;
 import life.*;
 
 public class MoonRabbitGame extends JFrame {
-	private int stageNumber = 4;	// 1~5, 시작 전후 화면은 별도의 번호로 설정하도록 함 -> 다음 스테이지로 넘어갈 때 이 Number도 업데이트 해줘야 됨
+	private int stageNumber = 1;	// 1~5, 시작 전후 화면은 별도의 번호로 설정하도록 함 -> 다음 스테이지로 넘어갈 때 이 Number도 업데이트 해줘야 됨
 	private CardLayout cardLayout;
 	private JPanel stagePanel;
 	private PlayerRabbit player;
@@ -24,16 +24,17 @@ public class MoonRabbitGame extends JFrame {
 	private MoonRabbitGame game = MoonRabbitGame.this;
 	private Score score;
 	private Life life;
-	
+
 	public MoonRabbitGame() {
 		initLayout();
-		showGameIntro(); // 게임 설명 화면 표시
-        //loadStage(stageNumber);
+//		showGameIntro(); // 게임 설명 화면 표시
+        loadStage(stageNumber);
         initListener();
         this.setVisible(true);
         this.score = new Score();
-        this.life = new Life();
+        this.life = new Life(this.game);
 	}
+	
 	private void initLayout() {
         this.setTitle("달토끼전");
         this.setSize(1010, 670);
@@ -228,17 +229,19 @@ public class MoonRabbitGame extends JFrame {
 			    }
 			    
 	    }
+	    
 	public Life getLife() {
 	    if (life == null) {
-	        life = new Life(); // null 상태라면 새로 생성
-	        System.out.println("Life 객체가 null이어서 새로 생성했습니다.");
+	        life = new Life(this.game); // null 상태라면 새로 생성
+	        System.out.println("Life 생성");
 	    }
 	    return life;
 	}
+	
 	public Score getScore() {
 	    if (score == null) {
 	        score = new Score(); // null 상태라면 새로 생성
-	        System.out.println("Score 객체가 null이어서 새로 생성했습니다.");
+	        System.out.println("Score 생성");
 	    }
 	    return score;
 	}
@@ -248,7 +251,8 @@ public class MoonRabbitGame extends JFrame {
 	        score.resetScore();  // 게임 종료 시 점수 리셋
 	        life.resetLife();    // 목숨 리셋 (Life 객체에서 처리)
 	        System.out.println("게임이 종료되었습니다. 최종 점수: " + score.getScore());
-	    }
+	}
+	 
 	public JPanel getCurrentStage() {
 	    return this.currentStage;
 	}
