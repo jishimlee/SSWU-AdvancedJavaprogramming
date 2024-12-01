@@ -190,10 +190,17 @@ public class Stage5 extends JPanel {
         gameOverFrame.setVisible(true);
     }
     public boolean areAllEnemiesDefeated() {
+    	 System.out.println("turtle 상태: " + turtle.getState());
+    	 System.out.println("wildboar1 상태: " + wildboar1.getState());
+    	 System.out.println("wildboar2: " + wildboar2.getState());
+    	 System.out.println("tiger1 상태: " + tiger1.getState());
+    	 System.out.println("tiger2 상태: " + tiger2.getState());
+    	 System.out.println("tiger3 상태: " + tiger3.getState());
+    	 System.out.println("tiger4 상태: " + tiger4.getState());
         return turtle.getState() == 2 && wildboar1.getState() == 2 &&
-        		wildboar2.getState() == 2 && tiger1.getState() == 2 &&
-        				tiger2.getState() == 2 && tiger3.getState() == 2 
-				&& tiger4.getState() == 2;
+        		wildboar2.getState() == 2 && tiger4.getState() == 2 &&
+        				tiger3.getState() == 2 && tiger2.getState() == 2 
+				&& tiger1.getState() == 2;
         
     }
     

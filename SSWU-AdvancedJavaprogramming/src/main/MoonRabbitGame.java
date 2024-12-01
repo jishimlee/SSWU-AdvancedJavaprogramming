@@ -19,7 +19,7 @@ import score.*;
 import life.*;
 
 public class MoonRabbitGame extends JFrame {
-	private int stageNumber = 1;	// 1~5, 시작 전후 화면은 별도의 번호로 설정하도록 함 -> 다음 스테이지로 넘어갈 때 이 Number도 업데이트 해줘야 됨
+	private int stageNumber = 5;	// 1~5, 시작 전후 화면은 별도의 번호로 설정하도록 함 -> 다음 스테이지로 넘어갈 때 이 Number도 업데이트 해줘야 됨
 	private CardLayout cardLayout;
 	private JPanel stagePanel;
 	private PlayerRabbit player;
@@ -225,10 +225,13 @@ public class MoonRabbitGame extends JFrame {
 			    }
 			    if (currentStage instanceof Stage5) {
 			        Stage5 stage = (Stage5) currentStage;
+			        System.out.println("현재 스테이지는 Stage5."); // 로그 추가
 			        if (stage.areAllEnemiesDefeated()) {
 			            System.out.println("모든 적이 처치되었습니다. 스테이지 클리어.");
-			            stage.stopTimer();  // 타이머 종료
+			            
 			            //스테이지 클리어 화면 띄우기
+			            System.out.println("Game Clear 호출 중...");
+			            stage.stopTimer();  // 타이머 종료
 			            showGameClearScreen();
 			        }
 			    }
@@ -236,16 +239,13 @@ public class MoonRabbitGame extends JFrame {
 	    }
 	    
 	    private void showGameClearScreen() {
-	        // 현재 JFrame 가져오기
-	        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(getCurrentStage());
-	        if (frame != null) {
-	            frame.getContentPane().removeAll(); // 기존 화면 제거
-	            frame.add(new GameClear()); // GameClearPanel 추가
-	            frame.revalidate(); // 컴포넌트 갱신
-	            frame.repaint();    // 화면 다시 그리기
-	        }else {
-	            System.err.println("JFrame not found!");
-	        }
+	        SwingUtilities.invokeLater(() -> {
+	            this.getContentPane().removeAll(); // 기존 화면 제거
+	            this.getContentPane().add(new GameClear()); // GameClear 패널 추가
+	            this.revalidate(); // UI 갱신
+	            this.repaint();    // 화면 다시 그리기
+	            System.out.println("Game Clear 화면 표시 완료");
+	        });
 	    }
 	    public void showGameOverScreen() {
 	        // JFrame의 ContentPane을 사용해 화면 교체
