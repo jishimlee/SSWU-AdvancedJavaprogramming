@@ -8,4 +8,6 @@
 저작권 정보<br/><br/>
 game over.mp3, game-over.wav<br/>
 CC0 1.0 Universal made by DayDreamSound<br/>
-https://youtu.be/kfnh9QAfDgA
+https://youtu.be/kfnh9QAfDgA<br/><br/>
+retro-game-music.mp3, retro-game-music.wav
+Music by <a href="https://pixabay.com/ko/users/moodmode-33139253/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=245230">Vlad Krotov</a> from <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=245230">Pixabay</a>
