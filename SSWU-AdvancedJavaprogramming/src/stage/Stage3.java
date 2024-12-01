@@ -84,7 +84,7 @@ public class Stage3 extends JPanel {
         
      // 남은 시간 표시 라벨
         this.timerLabel = new JLabel(timeRemaining + "S");
-        this.timerLabel.setBounds(870, 35, 150, 50); // 위치 조정
+        this.timerLabel.setBounds(350, 35, 150, 50); // 위치 조정
         this.timerLabel.setFont(new Font("Lexend", Font.BOLD, 25));
         this.timerLabel.setForeground(Color.WHITE);
         this.frontMap.add(this.timerLabel);
@@ -98,7 +98,7 @@ public class Stage3 extends JPanel {
         this.frontMap.add(this.player);
         
         this.scoreLabel = new JLabel("score: "+ score.getCurrentScore());
-        this.scoreLabel.setBounds(350, 35, 150, 50); // 위치 조정
+        this.scoreLabel.setBounds(800, 35, 150, 50); // 위치 조정
         this.scoreLabel.setFont(new Font("Lexend", Font.BOLD, 25));
         this.scoreLabel.setForeground(Color.WHITE);
         this.frontMap.add(this.scoreLabel);
