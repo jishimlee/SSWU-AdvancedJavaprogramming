@@ -6,23 +6,30 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import Item.Reverse;
 import life.Life;
-import component.*;
+import component.Monkey;
+import component.PlayerRabbit;
+import component.ThrowBanana;
+import component.ThrowHammer;
+import component.Turtle;
+import component.WildBoar;
 import main.MoonRabbitGame;
-
-import music.BGM;
-
 import score.Score;
 
 public class Stage4 extends JPanel {
    private MoonRabbitGame game; //추가함
     private JLabel frontMap;
-	private JLabel moonLabel;
+   private JLabel moonLabel;
     private JLabel heartLabel, heartLabel2, heartLabel3;
     private JLabel timerLabel;
+    private JLabel scoreLabel;
     private PlayerRabbit player;
     private Turtle turtle;
     private WildBoar wildboar1, wildboar2;
@@ -30,13 +37,9 @@ public class Stage4 extends JPanel {
     private Reverse reverseItem;
     private Life life;
     private int lifeCount;
-
-    private BGM bgm;
-    
-
+    private ThrowHammer throwHammer;
     private Score score;
     private int currentScore;
-    private JLabel scoreLabel;
     private javax.swing.Timer timer; // 게임 타이머
     private int timeRemaining = 80; // 남은 시간 (초 단위)
     
@@ -47,9 +50,11 @@ public class Stage4 extends JPanel {
         // life 개수 받아오기
         this.life = game.getLife();
         this.lifeCount = life.getLifeCount();
+        
         this.score = game.getScore();
         this.currentScore = score.getCurrentScore();
         score.setStage(this);
+        
         initObject();
         initSetting();
         initThread();
@@ -58,8 +63,7 @@ public class Stage4 extends JPanel {
     
     private void initObject() {
        //bgm 추가
-    	this.bgm = new BGM(); // BGM 클래스의 생성자 호출
-        bgm.play(); // BGM 재생 시작
+       //new BGM();
         // 배경 이미지 설정
         this.frontMap = new JLabel(new ImageIcon("image/stage4.png"));
         this.frontMap.setBounds(0, 0, 1000, 640); // 배경 이미지 크기 설정, 겹치는거 아닌가..?
@@ -81,7 +85,7 @@ public class Stage4 extends JPanel {
         
         // 남은 시간 표시 라벨
         this.timerLabel = new JLabel(timeRemaining + "S");
-        this.timerLabel.setBounds(210, 37, 150, 50); // 위치 조정
+        this.timerLabel.setBounds(870, 35, 150, 50); // 위치 조정
         this.timerLabel.setFont(new Font("Lexend", Font.BOLD, 25));
         this.timerLabel.setForeground(Color.WHITE);
         this.frontMap.add(this.timerLabel);
@@ -90,10 +94,11 @@ public class Stage4 extends JPanel {
         this.frontMap.add(this.player);
         
         // Reverse 아이템 초기화
-        this.reverseItem = new Reverse(200, 500); // 위치 초기화
+        this.reverseItem = new Reverse(200, 450); // 위치 초기화
         this.frontMap.add(this.reverseItem);
+        
         this.scoreLabel = new JLabel("score: "+ score.getCurrentScore());
-        this.scoreLabel.setBounds(800, 37, 150, 50); // 위치 조정
+        this.scoreLabel.setBounds(350, 35, 150, 50); // 위치 조정
         this.scoreLabel.setFont(new Font("Lexend", Font.BOLD, 25));
         this.scoreLabel.setForeground(Color.WHITE);
         this.frontMap.add(this.scoreLabel);
@@ -108,14 +113,14 @@ public class Stage4 extends JPanel {
     
     private void initThread() {
        SwingUtilities.invokeLater(() -> {
-            this.turtle = new Turtle(750, 250, false, this.game, this.player);
-            this.wildboar1 = new WildBoar(350, 250, false, this.game, this.player);
+            this.turtle = new Turtle(750, 145, false, this.game, this.player);
+            this.wildboar1 = new WildBoar(750, 145, false, this.game, this.player);
             this.wildboar2 = new WildBoar(750, 145, false, this.game, this.player);
             this.monkey1 = new Monkey(350, 145, false, this.game, this.player);
-            this.monkey2 = new Monkey(270, 353, false, this.game, this.player);
-            this.monkey3 = new Monkey(750, 455, false, this.game, this.player);
-            this.monkey4 = new Monkey(750, 560, false, this.game, this.player);
-            this.monkey5 = new Monkey(750, 250, false, this.game, this.player);
+            this.monkey2 = new Monkey(750, 145, false, this.game, this.player);
+            this.monkey3 = new Monkey(750, 145, false, this.game, this.player);
+            this.monkey4 = new Monkey(750, 145, false, this.game, this.player);
+            this.monkey5 = new Monkey(750, 145, false, this.game, this.player);
             
             this.frontMap.add(this.turtle);
             this.frontMap.add(this.wildboar1);
@@ -151,7 +156,7 @@ public class Stage4 extends JPanel {
                           reverseItem.updateObjState(player);} // Player와의 충돌 검사 및 업데이트
                  } else {
                      timer.stop();
-                     showGameOverImage();
+                     JOptionPane.showMessageDialog(Stage4.this, "Time's up! Game over.");
                      game.dispose(); // 게임 창 닫기
                  }
              }
@@ -164,77 +169,56 @@ public class Stage4 extends JPanel {
             timer.stop();  // 타이머 종료
         }
     }
-    public void stopBGM() {
-        // 배경 음악 종료
-        if (bgm != null) {
-            bgm.stop();
-        }
-    }
-    private void showGameOverImage() {
-    	// BGM 정지
-        if (bgm != null) {
-            bgm.stop(); // BGM 클래스에서 제공하는 정지 메서드 호출
-        }
-        // 새 JFrame을 생성하여 이미지 표시
-        JFrame gameOverFrame = new JFrame("Game Over");
-        gameOverFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        gameOverFrame.setSize(400, 300); // 적절한 크기로 설정
-        // JLabel에 이미지 설정
-        ImageIcon gameOverIcon = new ImageIcon("image/gameover.png"); // 그냥 일단 넣어봄
-        JLabel gameOverLabel = new JLabel(gameOverIcon); 
-        gameOverFrame.add(gameOverLabel);
-        // 창의 크기를 내용물에 맞게 조정
-        gameOverFrame.pack();
-        gameOverFrame.setLocationRelativeTo(null); // 화면 중앙에 배치
-        gameOverFrame.setVisible(true);
-    }
     
     public boolean areAllEnemiesDefeated() {
         return turtle.getState() == 2 && wildboar1.getState() == 2 &&
-        		wildboar2.getState() == 2 && monkey1.getState() == 2 &&
-        				monkey2.getState() == 2 && monkey3.getState() == 2 
-        				&& monkey4.getState() == 2 && monkey5.getState() == 2;
+              wildboar2.getState() == 2 && monkey1.getState() == 2 &&
+                    monkey2.getState() == 2 && monkey3.getState() == 2 
+                    && monkey4.getState() == 2 && monkey5.getState() == 2;
         
     }
     
     public void loadHammerIcon() {
-        ThrowHammer throwHammer = new ThrowHammer(this.game, player);
-        throwHammer.setBounds(100, 200, throwHammer.getWidth(), throwHammer.getHeight());
-        this.frontMap.add(throwHammer);
-        throwHammer.setVisible(true);
-        this.frontMap.revalidate();
-        this.frontMap.repaint();
+        // 이미 생성된 상태인지 확인
+        if (throwHammer == null) {
+            throwHammer = new ThrowHammer(this.game, player);
+            throwHammer.setBounds(100, 200, throwHammer.getWidth(), throwHammer.getHeight());
+            this.frontMap.add(throwHammer);
+            throwHammer.setVisible(true);
+            this.frontMap.revalidate();
+            this.frontMap.repaint();
+        }
     }
     
     public void loadBanana(Monkey monkey) {
-    	ThrowBanana throwBanana = new ThrowBanana(this.game, monkey, player);
-    	monkey.setBananaExist(true);
-    	if (throwBanana.getIcon() == null) {
-    	    System.out.println("바나나 이미지 로드 실패");
-    	}
-    	throwBanana.setBounds(monkey.getX(), monkey.getY(),
-    			throwBanana.getWidth(), throwBanana.getHeight());
-    	this.frontMap.add(throwBanana);
-    	throwBanana.setVisible(true);
+       ThrowBanana throwBanana = new ThrowBanana(this.game, monkey, player);
+       monkey.setBananaExist(true);
+       if (throwBanana.getIcon() == null) {
+           System.out.println("바나나 이미지 로드 실패");
+       }
+       throwBanana.setBounds(monkey.getX(), monkey.getY(),
+             throwBanana.getWidth(), throwBanana.getHeight());
+       this.frontMap.add(throwBanana);
+       throwBanana.setVisible(true);
         this.frontMap.revalidate();
         this.frontMap.repaint();
     }
     
     public void loadLifeIcon() {
-    	System.out.println("loadLifeIcon");
-    	deleteAllLifeIcon();
-    	this.lifeCount = life.getLifeCount();
-    	System.out.println("목숨이 " + this.lifeCount + "개입니다.");
-    	if (this.lifeCount == 3) {
+       System.out.println("loadLifeIcon");
+       deleteAllLifeIcon();
+       this.lifeCount = life.getLifeCount();
+       System.out.println("목숨이 " + this.lifeCount + "개입니다.");
+       if (this.lifeCount == 3) {
             this.frontMap.add(this.heartLabel);
             this.frontMap.add(this.heartLabel2);
             this.frontMap.add(this.heartLabel3);
-    	} else if (this.lifeCount == 2) {
+       } else if (this.lifeCount == 2) {
             this.frontMap.add(this.heartLabel);
             this.frontMap.add(this.heartLabel2);
-    	} else if (this.lifeCount == 1) {
+       } else if (this.lifeCount == 1) {
             this.frontMap.add(this.heartLabel);
-    	}
+       }
         this.frontMap.revalidate();
         this.frontMap.repaint();
     }
@@ -265,10 +249,18 @@ public class Stage4 extends JPanel {
     }  
     
     public JLabel getFrontMap() {
-		return frontMap;
-	}
+      return frontMap;
+   }
 
-	public void setFrontMap(JLabel frontMap) {
-		this.frontMap = frontMap;
-	}
+   public void setFrontMap(JLabel frontMap) {
+      this.frontMap = frontMap;
+   }
+   
+   public ThrowHammer getThrowHammer() {
+      return this.throwHammer;
+   }
+    
+    public void setThrowHammer(ThrowHammer throwHammer) {
+      this.throwHammer = throwHammer;
+   }
 }
