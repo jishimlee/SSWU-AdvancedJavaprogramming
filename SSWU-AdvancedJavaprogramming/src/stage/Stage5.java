@@ -122,8 +122,8 @@ public class Stage5 extends JPanel {
             this.wildboar2 = new WildBoar(750, 460, false, this.game, this.player);
             this.tiger1 = new Tiger(360, 460, false, this.game, this.player);
             this.tiger2 = new Tiger(700, 560, false, this.game, this.player);
-            this.tiger3 = new Tiger(150, 35, false, this.game, this.player);
-            this.tiger4 = new Tiger(750, 35, false, this.game, this.player);
+            this.tiger3 = new Tiger(150, 460, false, this.game, this.player);
+            this.tiger4 = new Tiger(750, 560, false, this.game, this.player);
             this.frontMap.add(this.turtle);
             this.frontMap.add(this.wildboar1);
             this.frontMap.add(this.wildboar2);
@@ -199,7 +199,7 @@ public class Stage5 extends JPanel {
     	 System.out.println("tiger4 상태: " + tiger4.getState());
         return turtle.getState() == 2 && wildboar1.getState() == 2 &&
         		wildboar2.getState() == 2 && tiger4.getState() == 2 &&
-        				tiger3.getState() == 2 && tiger2.getState() == 2 
+	        				tiger3.getState() == 2 && tiger2.getState() == 2 
 				&& tiger1.getState() == 2;
         
     }

@@ -193,6 +193,7 @@ public class MoonRabbitGame extends JFrame {
 		        if (stage.areAllEnemiesDefeated()) {
 		            System.out.println("모든 적이 처치되었습니다. 다음 스테이지로 이동합니다.");
 		            stage.stopTimer();  // 타이머 종료
+		            stage.stopBGM();
 		            nextStage();
 		        }
 		        }
@@ -204,6 +205,7 @@ public class MoonRabbitGame extends JFrame {
 			        if (stage.areAllEnemiesDefeated()) {
 			            System.out.println("모든 적이 처치되었습니다. 다음 스테이지로 이동합니다.");
 			            stage.stopTimer();  // 타이머 종료
+			            stage.stopBGM();
 			            nextStage();
 			        }
 			    }
@@ -212,6 +214,7 @@ public class MoonRabbitGame extends JFrame {
 			        if (stage.areAllEnemiesDefeated()) {
 			            System.out.println("모든 적이 처치되었습니다. 다음 스테이지로 이동합니다.");
 			            stage.stopTimer();  // 타이머 종료
+			            stage.stopBGM();
 			            nextStage();
 			        }
 			    }
@@ -220,6 +223,7 @@ public class MoonRabbitGame extends JFrame {
 			        if (stage.areAllEnemiesDefeated()) {
 			            System.out.println("모든 적이 처치되었습니다. 다음 스테이지로 이동합니다.");
 			            stage.stopTimer();  // 타이머 종료
+			            stage.stopBGM();
 			            nextStage();
 			        }
 			    }
@@ -232,6 +236,7 @@ public class MoonRabbitGame extends JFrame {
 			            //스테이지 클리어 화면 띄우기
 			            System.out.println("Game Clear 호출 중...");
 			            stage.stopTimer();  // 타이머 종료
+			            stage.stopBGM();
 			            showGameClearScreen();
 			        }
 			    }
