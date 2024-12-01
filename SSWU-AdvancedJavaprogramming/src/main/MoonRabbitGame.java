@@ -240,21 +240,12 @@ public class MoonRabbitGame extends JFrame {
 	        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(getCurrentStage());
 	        if (frame != null) {
 	            frame.getContentPane().removeAll(); // 기존 화면 제거
-	            frame.add(new GameClearPanel()); // GameClearPanel 추가
+	            frame.add(new GameClear()); // GameClearPanel 추가
 	            frame.revalidate(); // 컴포넌트 갱신
 	            frame.repaint();    // 화면 다시 그리기
 	        }
 	    }
-	    public class GameClearPanel extends JPanel {
-	        public GameClearPanel() {
-	            this.setLayout(new BorderLayout());
-
-	            // 게임 클리어 이미지 표시
-	            JLabel imageLabel = new JLabel("img/stageclear.png");
-	            //imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
-	            this.add(imageLabel, BorderLayout.CENTER);
-	        }
-	    }
+	   
 
 	    
 	public Life getLife() {

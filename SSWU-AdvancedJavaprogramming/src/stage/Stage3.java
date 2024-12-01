@@ -32,12 +32,10 @@ public class Stage3 extends JPanel {
     private Life life;
     private Score score;
     private int lifeCount;
-<<<<<<< HEAD
     private BGM bgm;
     
-=======
+
     private int currentScore;
->>>>>>> branch 'main' of https://github.com/jishimlee/SSWU-AdvancedJavaprogramming.git
     private javax.swing.Timer timer; // 게임 타이머
     private int timeRemaining = 60; // 남은 시간 (초 단위)
     
@@ -94,7 +92,12 @@ public class Stage3 extends JPanel {
      // Reverse 아이템 초기화
         this.reverseItem = new Reverse(200, 500); // 위치 초기화
         this.frontMap.add(this.reverseItem);
-
+        
+        this.scoreLabel = new JLabel("score: "+ score.getCurrentScore());
+        this.scoreLabel.setBounds(350, 35, 150, 50); // 위치 조정
+        this.scoreLabel.setFont(new Font("Lexend", Font.BOLD, 25));
+        this.scoreLabel.setForeground(Color.WHITE);
+        this.frontMap.add(this.scoreLabel);
         
      // 오브젝트 추가
         this.frontMap.add(this.player);

@@ -32,13 +32,11 @@ public class Stage2 extends JPanel {
     private Life life;
     private Score score;
     private int lifeCount;
-<<<<<<< HEAD
     
     private BGM bgm;
 
-=======
+
     private int currentScore;
->>>>>>> branch 'main' of https://github.com/jishimlee/SSWU-AdvancedJavaprogramming.git
     private javax.swing.Timer timer; // 게임 타이머
     private int timeRemaining = 60; // 남은 시간 (초 단위)
     

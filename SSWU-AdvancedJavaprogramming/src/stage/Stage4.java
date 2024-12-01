@@ -12,11 +12,10 @@ import Item.Reverse;
 import life.Life;
 import component.*;
 import main.MoonRabbitGame;
-<<<<<<< HEAD
+
 import music.BGM;
-=======
+
 import score.Score;
->>>>>>> branch 'main' of https://github.com/jishimlee/SSWU-AdvancedJavaprogramming.git
 
 public class Stage4 extends JPanel {
    private MoonRabbitGame game; //추가함
@@ -31,14 +30,13 @@ public class Stage4 extends JPanel {
     private Reverse reverseItem;
     private Life life;
     private int lifeCount;
-<<<<<<< HEAD
+
     private BGM bgm;
     
-=======
+
     private Score score;
     private int currentScore;
     private JLabel scoreLabel;
->>>>>>> branch 'main' of https://github.com/jishimlee/SSWU-AdvancedJavaprogramming.git
     private javax.swing.Timer timer; // 게임 타이머
     private int timeRemaining = 80; // 남은 시간 (초 단위)
     
