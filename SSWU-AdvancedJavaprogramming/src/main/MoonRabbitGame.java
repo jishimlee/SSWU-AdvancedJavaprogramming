@@ -243,9 +243,20 @@ public class MoonRabbitGame extends JFrame {
 	            frame.add(new GameClear()); // GameClearPanel 추가
 	            frame.revalidate(); // 컴포넌트 갱신
 	            frame.repaint();    // 화면 다시 그리기
+	        }else {
+	            System.err.println("JFrame not found!");
 	        }
 	    }
-	   
+	    public void showGameOverScreen() {
+	        // JFrame의 ContentPane을 사용해 화면 교체
+	        SwingUtilities.invokeLater(() -> {
+	            this.getContentPane().removeAll(); // 기존 화면 제거
+	            this.getContentPane().add(new GameOver()); // GameOver 패널 추가
+	            this.revalidate(); // UI 갱신
+	            this.repaint();    // 화면 다시 그리기
+	            System.out.println("Game Over 화면 표시 완료");
+	        });
+	    }
 
 	    
 	public Life getLife() {

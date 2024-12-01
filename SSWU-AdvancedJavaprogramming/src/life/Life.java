@@ -1,8 +1,10 @@
 package life;
 
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import main.MoonRabbitGame;
 import stage.*;
@@ -24,6 +26,8 @@ public class Life extends JLabel {
 		this.stage = game.getCurrentStage();	// 현재 실행 중인 stage 값 받아오기 위함
 		this.stageNumber = game.getStageNumber();
     }
+	
+
 
     public void decreaseLife() {
         if (lifeCount > 0) lifeCount--;
@@ -43,8 +47,9 @@ public class Life extends JLabel {
         // 목숨이 0일 때 게임 오버 처리
         if (lifeCount == 0) {
         	this.gameOver = true;
+        	
             System.out.println("game over");
-            JOptionPane.showMessageDialog(null, "Game Over! 목숨이 0입니다."); 
+            game.showGameOverScreen();
         }
     }
     
