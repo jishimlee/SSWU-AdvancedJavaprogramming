@@ -1,15 +1,19 @@
 package main;
 
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import component.*;
+import direction.PlayerDirection;
 import stage.*;
 import score.*;
 import life.*;
@@ -24,13 +28,14 @@ public class MoonRabbitGame extends JFrame {
 	private MoonRabbitGame game = MoonRabbitGame.this;
 	private Score score;
 	private Life life;
+	public boolean enemyAttacked = false;
 
 	public MoonRabbitGame() {
 		initLayout();
 		showGameIntro(); // 게임 설명 화면 표시
         initListener();
         this.setVisible(true);
-        this.score = new Score();
+        this.score = new Score(this.game);
         this.life = new Life(this.game);
 	}
 	
@@ -224,10 +229,33 @@ public class MoonRabbitGame extends JFrame {
 			            System.out.println("모든 적이 처치되었습니다. 스테이지 클리어.");
 			            stage.stopTimer();  // 타이머 종료
 			            //스테이지 클리어 화면 띄우기
+			            showGameClearScreen();
 			        }
 			    }
 			    
 	    }
+	    
+	    private void showGameClearScreen() {
+	        // 현재 JFrame 가져오기
+	        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(getCurrentStage());
+	        if (frame != null) {
+	            frame.getContentPane().removeAll(); // 기존 화면 제거
+	            frame.add(new GameClearPanel()); // GameClearPanel 추가
+	            frame.revalidate(); // 컴포넌트 갱신
+	            frame.repaint();    // 화면 다시 그리기
+	        }
+	    }
+	    public class GameClearPanel extends JPanel {
+	        public GameClearPanel() {
+	            this.setLayout(new BorderLayout());
+
+	            // 게임 클리어 이미지 표시
+	            JLabel imageLabel = new JLabel("img/stageclear.png");
+	            //imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
+	            this.add(imageLabel, BorderLayout.CENTER);
+	        }
+	    }
+
 	    
 	public Life getLife() {
 	    if (life == null) {
@@ -239,7 +267,7 @@ public class MoonRabbitGame extends JFrame {
 	
 	public Score getScore() {
 	    if (score == null) {
-	        score = new Score(); // null 상태라면 새로 생성
+	        score = new Score(this.game); // null 상태라면 새로 생성
 	        System.out.println("Score 생성");
 	    }
 	    return score;
