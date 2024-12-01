@@ -58,7 +58,7 @@ public class Stage1 extends JPanel {
         bgm.play(); // BGM 재생 시작
         // 배경 이미지 설정
         this.frontMap = new JLabel(new ImageIcon("image/stage1.png"));
-        this.frontMap.setBounds(0, 0, 1000, 630); // 배경 이미지 크기 설정
+        this.frontMap.setBounds(0, 0, 1000, 640); // 배경 이미지 크기 설정
         this.setLayout(null);
         this.add(this.frontMap); 
         this.setVisible(true);
@@ -80,7 +80,7 @@ public class Stage1 extends JPanel {
 
         // 남은 시간 표시 라벨
         this.timerLabel = new JLabel(timeRemaining + "S");
-        this.timerLabel.setBounds(870, 35, 150, 50); // 위치 조정
+        this.timerLabel.setBounds(210, 37, 150, 50); // 위치 조정
         this.timerLabel.setFont(new Font("Lexend", Font.BOLD, 25));
         this.timerLabel.setForeground(Color.WHITE);
         this.frontMap.add(this.timerLabel);
@@ -88,21 +88,17 @@ public class Stage1 extends JPanel {
         // 오브젝트 추가
         this.frontMap.add(this.player);
         
-        this.scoreLabel= new JLabel("score : 0");
-        this.scoreLabel.setBounds(900, 30, 150, 30);
-        this.frontMap.add(this.scoreLabel);
-        
      // Reverse 아이템 초기화
         this.reverseItem = new Reverse(200, 500); // 위치 초기화
         this.frontMap.add(this.reverseItem);
 	this.scoreLabel = new JLabel("score: "+ score.getCurrentScore());
-        this.scoreLabel.setBounds(350, 35, 150, 50); // 위치 조정
+        this.scoreLabel.setBounds(800, 37, 150, 50); // 위치 조정
         this.scoreLabel.setFont(new Font("Lexend", Font.BOLD, 25));
         this.scoreLabel.setForeground(Color.WHITE);
         this.frontMap.add(this.scoreLabel);
     }
     private void updateScoreDisplay() {
-        this.scoreLabel.setText("score : " + score.getScore());  // 점수 업데이트
+        this.scoreLabel.setText("score : " + score.getScore()));  // 점수 업데이트
     }
     
 
