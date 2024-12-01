@@ -108,14 +108,14 @@ public class Stage4 extends JPanel {
     
     private void initThread() {
        SwingUtilities.invokeLater(() -> {
-            this.turtle = new Turtle(750, 145, false, this.game, this.player);
-            this.wildboar1 = new WildBoar(750, 145, false, this.game, this.player);
+            this.turtle = new Turtle(750, 250, false, this.game, this.player);
+            this.wildboar1 = new WildBoar(350, 250, false, this.game, this.player);
             this.wildboar2 = new WildBoar(750, 145, false, this.game, this.player);
             this.monkey1 = new Monkey(350, 145, false, this.game, this.player);
-            this.monkey2 = new Monkey(750, 145, false, this.game, this.player);
-            this.monkey3 = new Monkey(750, 145, false, this.game, this.player);
-            this.monkey4 = new Monkey(750, 145, false, this.game, this.player);
-            this.monkey5 = new Monkey(750, 145, false, this.game, this.player);
+            this.monkey2 = new Monkey(270, 353, false, this.game, this.player);
+            this.monkey3 = new Monkey(750, 455, false, this.game, this.player);
+            this.monkey4 = new Monkey(750, 560, false, this.game, this.player);
+            this.monkey5 = new Monkey(750, 250, false, this.game, this.player);
             
             this.frontMap.add(this.turtle);
             this.frontMap.add(this.wildboar1);
